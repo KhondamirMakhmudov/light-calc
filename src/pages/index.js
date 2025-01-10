@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
+import Brand from "./components/brand";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,8 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
   return (
-    <div>
-      <h1 className={"text-[50px]"}>калькулятор освещенности </h1>
+    <div className="container">
+      <Brand />
     </div>
   );
 }

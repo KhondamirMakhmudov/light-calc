@@ -11,6 +11,14 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+
+      container: {
+        center: true,
+        padding: "50px",
+      },
+      screens: {
+        "2xl": "1440px",
+      },
     },
   },
   plugins: [],
