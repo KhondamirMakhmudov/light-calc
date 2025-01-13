@@ -187,7 +187,7 @@ export default function Home() {
                   <button
                     onClick={() => setSafetyFactor(1.4)}
                     className={`text-xl border py-1 px-2 ${
-                      workSurface === 0
+                      safety === 1.4
                         ? "bg-white text-black"
                         : "bg-black text-white"
                     } `}
@@ -198,7 +198,7 @@ export default function Home() {
                   <button
                     onClick={() => setSafetyFactor(1.6)}
                     className={`text-xl border py-1 px-2 ${
-                      workSurface === 0.8
+                      safety === 1.6
                         ? "bg-white text-black"
                         : "bg-black text-white"
                     } `}
@@ -207,14 +207,14 @@ export default function Home() {
                   </button>
 
                   <button
-                    onClick={() => setSafetyFactor(1.6)}
+                    onClick={() => setSafetyFactor(1.7)}
                     className={`text-xl border py-1 px-2 ${
-                      workSurface === 1.6
+                      safety === 1.7
                         ? "bg-white text-black"
                         : "bg-black text-white"
                     } `}
                   >
-                    <p>1.6</p>
+                    <p>1.7</p>
                   </button>
                 </div>
               </div>
