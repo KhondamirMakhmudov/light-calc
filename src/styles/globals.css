@@ -5,14 +5,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap");
 
 body {
-  color: #ededed;
-  background: rgb(168, 168, 175);
-  background: linear-gradient(
-    90deg,
-    rgba(168, 168, 175, 1) 0%,
-    rgba(4, 4, 13, 1) 12%,
-    rgba(11, 13, 21, 1) 85%,
-    rgba(153, 155, 156, 1) 100%
-  );
-  font-family: Mulish, sans-serif;
+  color: black;
+  background: white;
+}
+
+[data-theme="dark"] body {
+  background: black;
+  color: white;
 }
