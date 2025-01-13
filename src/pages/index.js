@@ -6,9 +6,14 @@ import { useState } from "react";
 
 export default function Home() {
   const [workSurface, setWorkSurface] = useState(0.8);
+  const [safety, setSafety] = useState(1.4);
 
   const setSurface = (work) => {
     setWorkSurface(work);
+  };
+
+  const setSafetyFactor = (safety) => {
+    setSafety(safety);
   };
   return (
     <div className="container my-[50px]">
@@ -152,45 +157,64 @@ export default function Home() {
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
-                    className={
-                      "text-xl border rounded-full p-1 hover:bg-[#272623]"
-                    }
+                    onClick={() => setSurface(0)}
+                    className={`text-xl border py-1 px-2 ${
+                      workSurface === 0
+                        ? "bg-white text-black"
+                        : "bg-black text-white"
+                    } `}
                   >
-                    <MinusIcon color={"white"} />
+                    <p>0 m</p>
                   </button>
 
-                  <p>5 m</p>
-
                   <button
-                    className={
-                      "text-xl border rounded-full p-1 hover:bg-[#272623]"
-                    }
+                    onClick={() => setSurface(0.8)}
+                    className={`text-xl border py-1 px-2 ${
+                      workSurface === 0.8
+                        ? "bg-white text-black"
+                        : "bg-black text-white"
+                    } `}
                   >
-                    <PlusIcon color={"white"} />
+                    <p>0.8 m</p>
                   </button>
                 </div>
               </div>
               {/* ship balandligi */}
               <div className={"mt-[15px]"}>
-                <h5>ship balandligi</h5>
+                <h5>xavfsizlik omili</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
-                    className={
-                      "text-xl border rounded-full p-1 hover:bg-[#272623]"
-                    }
+                    onClick={() => setSafetyFactor(1.4)}
+                    className={`text-xl border py-1 px-2 ${
+                      workSurface === 0
+                        ? "bg-white text-black"
+                        : "bg-black text-white"
+                    } `}
                   >
-                    <MinusIcon color={"white"} />
+                    <p>1.4</p>
                   </button>
 
-                  <p>5 m</p>
+                  <button
+                    onClick={() => setSafetyFactor(1.6)}
+                    className={`text-xl border py-1 px-2 ${
+                      workSurface === 0.8
+                        ? "bg-white text-black"
+                        : "bg-black text-white"
+                    } `}
+                  >
+                    <p>1.6</p>
+                  </button>
 
                   <button
-                    className={
-                      "text-xl border rounded-full p-1 hover:bg-[#272623]"
-                    }
+                    onClick={() => setSafetyFactor(1.6)}
+                    className={`text-xl border py-1 px-2 ${
+                      workSurface === 1.6
+                        ? "bg-white text-black"
+                        : "bg-black text-white"
+                    } `}
                   >
-                    <PlusIcon color={"white"} />
+                    <p>1.6</p>
                   </button>
                 </div>
               </div>
