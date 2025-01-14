@@ -49,7 +49,7 @@ export default function Home() {
             <div className={"flex justify-between"}>
               {/* uzunligi */}
               <div className={"mt-[15px]"}>
-                <h5>uzunligi</h5>
+                <h5>eni</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
@@ -73,7 +73,7 @@ export default function Home() {
               </div>
               {/* kengligi */}
               <div className={"mt-[15px]"}>
-                <h5>kengligi</h5>
+                <h5>bo&apos;yi</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
@@ -234,11 +234,11 @@ export default function Home() {
               width={485}
               height={485}
             />
-            <div className="absolute top-[185px] -left-[27px] text-center bg-white">
-              <p>5 m</p>
-              <p>balandligi</p>
+            <div className="absolute top-[295px] left-[157px] text-start text-white">
+              <p>{workSurface}</p>
+              <p className="text-sm">ish yuzasi</p>
             </div>
-            <div className="absolute top-[185px] -left-[27px] text-center bg-white">
+            <div className="absolute top-[185px] -left-[27px] text-center">
               <p>5 m</p>
               <p>balandligi</p>
             </div>
