@@ -4,6 +4,20 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap");
 
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ececec;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #28366d;
+}
+
 body {
   color: black;
   background: white;

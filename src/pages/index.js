@@ -12,7 +12,7 @@ export default function Home() {
   const [safety, setSafety] = useState(1.4);
   const [height, setHeight] = useState(5.0);
   const [width, setWidth] = useState(5.0);
-  const [lightType, setLightType] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   // for height
   const incrementHeight = () =>
     setHeight((prev) => parseFloat((prev + 1.0).toFixed(1)));
@@ -46,7 +46,7 @@ export default function Home() {
               <h5 className={"text-sm"}>Chiroq</h5>
 
               <button
-                onClick={() => setLightType(!lightType)}
+                onClick={() => setIsOpen(!isOpen)}
                 className={
                   "py-[10px] px-[50px] border border-black hover:bg-black hover:text-white rounded-[10px] my-[15px]  transition-all duration-300"
                 }
@@ -276,7 +276,30 @@ export default function Home() {
         </div>
       </div>
 
-      {!lightType && <LightType />}
+      {isOpen && (
+        <div
+          className="fixed inset-0  bg-black bg-opacity-30 backdrop-blur-sm  z-50"
+          onClick={() => setIsOpen(false)} // Close the modal when clicking outside
+        >
+          <div className="relative">
+            <div
+              className="bg-white absolute top-0 right-0 w-3/5 min-h-screen  p-6  "
+              onClick={(e) => e.stopPropagation()} // Prevent click propagation
+            >
+              <button
+                onClick={() => setIsOpen(false)}
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+              >
+                &times;
+              </button>
+              <h2 className="text-[28px] font-bold mb-[30px]">
+                Mahsulotni tanlang
+              </h2>
+              <LightType />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,29 +1,57 @@
+import LightCard from "../cards/light";
+
 const LightType = () => {
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-30  backdrop-blur-sm  z-50 hidden"
-      // Close the modal when clicking outside
-    >
-      <div className="absolute right-0 w-1/2 ">
-        <div className="bg-white rounded-lg p-6  relative right-0">
-          <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
-            &times;
-          </button>
-          <h2 className="text-xl font-semibold mb-4">Выбрать продукт</h2>
-          <div className="space-x-2">
-            <button className="px-4 py-2 bg-black text-white rounded-full">
-              все товары
-            </button>
-            <button className="px-4 py-2 bg-gray-100 rounded-full">
-              внутреннее освещение
-            </button>
-            <button className="px-4 py-2 bg-gray-100 rounded-full">
-              наружное освещение
-            </button>
-            <button className="px-4 py-2 bg-gray-100 rounded-full">
-              взрывозащищенное оборудование
-            </button>
-          </div>
+    <div className="space-x-2 ">
+      <button className="px-[20px] py-[8px] bg-black text-sm text-white rounded-full ">
+        barcha tovarlar
+      </button>
+      <button className="px-[20px] py-[8px] bg-gray-100 rounded-full">
+        ichki yoritish
+      </button>
+      <button className="px-[20px] py-[8px] bg-gray-100 rounded-full">
+        tashqi yoritish
+      </button>
+      <button className="px-[20px] py-[8px] bg-gray-100 rounded-full">
+        sanoatda yoritish
+      </button>
+
+      <button className="px-[20px] py-[8px] bg-gray-100 rounded-full">
+        portlashga qarshi uskunalar
+      </button>
+
+      <div className="mt-[30px]">
+        <input
+          type="text"
+          placeholder="Qidiruv"
+          className="w-full py-[14px] border-b"
+        />
+      </div>
+
+      <div className="overflow-y-scroll">
+        <div className="grid grid-cols-12 gap-x-[20px] gap-y-[30px] mt-[30px] mr-[10px]">
+          <LightCard />
+
+          <LightCard />
+
+          <LightCard />
+
+          <LightCard />
+          <LightCard />
+
+          <LightCard />
+
+          <LightCard />
+
+          <LightCard />
+
+          <LightCard />
+
+          <LightCard />
+
+          <LightCard />
+
+          <LightCard />
         </div>
       </div>
     </div>
