@@ -15,7 +15,7 @@
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #28366d;
+  background: black;
 }
 
 body {

@@ -6,6 +6,7 @@ import { useState } from "react";
 import DarkModeButton from "./components/darkmode-button";
 import Image from "next/image";
 import LightType from "./components/light-type";
+import RoomType from "./components/light-type/room-type";
 
 export default function Home() {
   const [workSurface, setWorkSurface] = useState(0.8);
@@ -48,12 +49,14 @@ export default function Home() {
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={
-                  "py-[10px] px-[50px] border border-black hover:bg-black hover:text-white rounded-[10px] my-[15px]  transition-all duration-300"
+                  "py-[10px] px-[50px] border border-black hover:bg-black hover:text-white rounded my-[15px]  transition-all duration-300"
                 }
               >
                 Chiroqning turini tanlang
               </button>
             </div>
+
+            <RoomType />
 
             <div>
               <h3 className={"text-[42px]"}>{area} m²</h3>
