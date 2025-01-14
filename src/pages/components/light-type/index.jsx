@@ -28,8 +28,8 @@ const LightType = () => {
         />
       </div>
 
-      <div className="overflow-y-scroll">
-        <div className="grid grid-cols-12 gap-x-[20px] gap-y-[30px] mt-[30px] mr-[10px]">
+      <div className="overflow-y-scroll h-[700px]">
+        <div className="grid grid-cols-12 gap-x-[20px] gap-y-[30px] mt-[30px] mr-[10px] ">
           <LightCard />
 
           <LightCard />
