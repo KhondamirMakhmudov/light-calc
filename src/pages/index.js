@@ -1,12 +1,11 @@
-import Brand from "./components/brand";
-import MinusIcon from "./components/icons/minus";
-import Title from "./components/title";
-import PlusIcon from "./components/icons/plus";
+import MinusIcon from "@/components/icons/minus";
+import Title from "@/components/title";
+import PlusIcon from "@/components/icons/plus";
 import { useState } from "react";
-import DarkModeButton from "./components/darkmode-button";
+import DarkModeButton from "@/components/darkmode-button";
 import Image from "next/image";
-import LightType from "./components/light-type";
-import RoomType from "./components/light-type/room-type";
+import LightType from "@/components/light-type";
+import RoomType from "@/components/light-type/room-type";
 
 export default function Home() {
   const [workSurface, setWorkSurface] = useState(0.8);

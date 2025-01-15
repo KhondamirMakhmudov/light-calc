@@ -1,4 +1,8 @@
+import { KEYS } from "@/constants/key";
+import { URLS } from "@/constants/url";
+import useGetQuery from "@/hooks/api/useGetQuery";
 import { useState } from "react";
+import { get } from "lodash";
 
 const roomTypes = [
   { id: 1, name: "Одноместный" }, // Single Room
@@ -15,6 +19,13 @@ const roomTypes = [
 const RoomType = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
+
+  const { data, isLoading, isFetching } = useGetQuery({
+    key: KEYS.listOfROoms,
+    url: URLS.listOfROoms,
+  });
+
+  console.log(data);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -33,19 +44,21 @@ const RoomType = () => {
         }
         onClick={toggleDropdown}
       >
-        <span>{selectedRoom ? selectedRoom.name : "Выберите тип комнаты"}</span>
+        <span>
+          {selectedRoom ? selectedRoom.title : "Выберите тип комнаты"}
+        </span>
       </div>
 
       {/* Dropdown List */}
       {isOpen && (
         <ul className="absolute mt-2 w-full bg-white border rounded shadow-md max-h-[200px] overflow-y-auto">
-          {roomTypes.map((room) => (
+          {get(data, "data").map((room) => (
             <li
               key={room.id}
               className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
               onClick={() => handleSelect(room)}
             >
-              {room.name}
+              {room.title}
             </li>
           ))}
         </ul>
