@@ -36,7 +36,7 @@ const RoomType = () => {
   };
   return (
     <div className="relative ">
-      <h5 className={"text-sm"}>Тип помещения</h5>
+      <h5 className={"text-lg font-semibold"}>Тип помещения</h5>
       {/* Dropdown Trigger */}
       <div
         className={

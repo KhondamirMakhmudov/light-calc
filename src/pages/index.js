@@ -6,6 +6,7 @@ import DarkModeButton from "@/components/darkmode-button";
 import Image from "next/image";
 import LightType from "@/components/light-type";
 import RoomType from "@/components/light-type/room-type";
+import ReflectionCoefficient from "@/components/light-type/reflection-coefficient";
 
 export default function Home() {
   const [workSurface, setWorkSurface] = useState(0.8);
@@ -43,7 +44,7 @@ export default function Home() {
         <div className={"col-span-7"}>
           <div className={"flex justify-between items-start"}>
             <div>
-              <h5 className={"text-sm"}>Chiroq</h5>
+              <h5 className={"text-lg font-semibold"}>светильник</h5>
 
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -51,7 +52,7 @@ export default function Home() {
                   "py-[10px] px-[50px] border border-black hover:bg-black hover:text-white rounded my-[15px]  transition-all duration-300"
                 }
               >
-                Chiroqning turini tanlang
+                выбрать светильник
               </button>
             </div>
 
@@ -65,11 +66,11 @@ export default function Home() {
           </div>
 
           <div className={"my-[50px] text-sm"}>
-            <h5 className={"text-sm"}>Xona parametrlari</h5>
+            <h5 className={"text-lg font-semibold"}>параметры помещения</h5>
             <div className={"flex justify-between"}>
               {/* uzunligi */}
               <div className={"mt-[15px]"}>
-                <h5>eni</h5>
+                <h5 className="text-lg font-normal">длина</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
@@ -81,7 +82,7 @@ export default function Home() {
                     <MinusIcon color={"white"} />
                   </button>
 
-                  <p>{width}.0 m</p>
+                  <p>{width}.0 м</p>
 
                   <button
                     onClick={incrementWidth}
@@ -95,7 +96,7 @@ export default function Home() {
               </div>
               {/* kengligi */}
               <div className={"mt-[15px]"}>
-                <h5>bo&apos;yi</h5>
+                <h5 className="text-lg">ширина</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
@@ -105,7 +106,7 @@ export default function Home() {
                     <MinusIcon color={"white"} />
                   </button>
 
-                  <p>{height}.0 m</p>
+                  <p>{height}.0 м</p>
 
                   <button
                     onClick={incrementHeight}
@@ -117,7 +118,7 @@ export default function Home() {
               </div>
               {/* ship balandligi */}
               <div className={"mt-[15px]"}>
-                <h5>ship balandligi</h5>
+                <h5 className="text-lg">высота потолка</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
@@ -126,7 +127,7 @@ export default function Home() {
                     <MinusIcon color={"white"} />
                   </button>
 
-                  <p>5 m</p>
+                  <p>5 м</p>
 
                   <button
                     className={"text-xl border rounded-full p-1 bg-black"}
@@ -138,17 +139,19 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={"my-[50px] text-sm"}>
-            <h5>Aks ettirish koeffitsientlari</h5>
+          <div className={"my-[50px]"}>
+            <h5 className="font-bold text-lg">коэффициенты отражения</h5>
+
+            <ReflectionCoefficient />
           </div>
 
-          <div className={"my-[50px] text-sm"}>
-            <h5>Yoritish parametrlari</h5>
+          <div className={"my-[50px] text-lg"}>
+            <h5 className="text-lg font-semibold">параметры освещения</h5>
 
             <div className={"flex justify-between"}>
               {/* yoritish */}
-              <div className={"mt-[15px]"}>
-                <h5>yoritish</h5>
+              <div className={"mt-[15px] "}>
+                <h5>освещенность</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
@@ -168,7 +171,7 @@ export default function Home() {
               </div>
               {/* ish yuzasi */}
               <div className={"mt-[15px]"}>
-                <h5>ish yuzasi</h5>
+                <h5>рабочая поверхность</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
@@ -196,7 +199,7 @@ export default function Home() {
               </div>
               {/* ship balandligi */}
               <div className={"mt-[15px]"}>
-                <h5>xavfsizlik omili</h5>
+                <h5>коэффициент запаса</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
