@@ -52,7 +52,7 @@ const RoomType = () => {
       {/* Dropdown List */}
       {isOpen && (
         <ul className="absolute mt-2 w-full bg-white border rounded shadow-md max-h-[200px] overflow-y-auto">
-          {get(data, "data").map((room) => (
+          {get(data, "data", []).map((room) => (
             <li
               key={room.id}
               className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
