@@ -4,18 +4,6 @@ import useGetQuery from "@/hooks/api/useGetQuery";
 import { useState } from "react";
 import { get } from "lodash";
 
-const roomTypes = [
-  { id: 1, name: "Одноместный" }, // Single Room
-  { id: 2, name: "Двухместный" }, // Double Room
-  { id: 3, name: "Трехместный" }, // Triple Room
-  { id: 4, name: "Люкс" }, // Suite
-  { id: 5, name: "Семейный" }, // Family Room
-  { id: 6, name: "Дормитория" }, // Dormitory
-  { id: 7, name: "Апартаменты" }, // Apartment
-  { id: 8, name: "Студия" }, // Studio
-  { id: 9, name: "Дуплекс" }, // Duplex
-];
-
 const RoomType = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);

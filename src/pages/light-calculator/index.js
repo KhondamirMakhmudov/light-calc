@@ -8,14 +8,19 @@ import LightType from "@/components/light-type";
 import RoomType from "@/components/light-type/room-type";
 import ReflectionCoefficient from "@/components/light-type/reflection-coefficient";
 import { useRouter } from "next/router";
+import House3D from "@/components/light-type/room";
+import usePostQuery from "@/hooks/api/usePostQuery";
+import { KEYS } from "@/constants/key";
+import { URLS } from "@/constants/url";
+import toast from "react-hot-toast";
 
 export default function Index() {
   const router = useRouter();
   const [workSurface, setWorkSurface] = useState(0.8);
   const [safety, setSafety] = useState(1.4);
-  const [height, setHeight] = useState(5.0);
+  const [height, setHeight] = useState(3.0);
   const [length, setLength] = useState(5.0);
-  const [width, setWidth] = useState(5.0);
+  const [width, setWidth] = useState(4.0);
   const [isOpen, setIsOpen] = useState(false);
   // for height
   const incrementHeight = () =>
@@ -46,6 +51,38 @@ export default function Index() {
 
   const setSafetyFactor = (safety) => {
     setSafety(safety);
+  };
+
+  const { mutate: calculateTheLightBulb, isLoading } = usePostQuery({
+    listKeyId: KEYS.calculateLight,
+    hideSuccessToast: true,
+  });
+
+  const onSubmit = () => {
+    calculateTheLightBulb(
+      {
+        url: URLS.calculateLight,
+        attributes: {
+          room_length: length,
+          room_width: width,
+          room_height: height,
+          reflection_factors: [80, 30, 30],
+          illumination: 300,
+          working_surface_height: workSurface,
+          reserve_factor: safety,
+          lamp_watt: 8,
+          lamp_lumen: 600,
+        },
+      },
+      {
+        onSuccess: () => {
+          toast.success("Siz ro'yxatdan muvaffaqiyatli o'tdingiz", {
+            position: "top-right",
+          });
+          router.push("/");
+        },
+      }
+    );
   };
   return (
     <div className="container my-[50px]">
@@ -261,11 +298,12 @@ export default function Index() {
           </div>
 
           <button
+            onClick={onSubmit}
             className={
               "py-[15px] px-[50px] text-lg w-1/2 bg-black text-white  border rounded-[10px]    transition-all duration-300"
             }
           >
-            Hisoblash
+            рассчитать
           </button>
           <p className="text-sm w-1/2 text-[#C4C4C4]">
             Onlayn kalkulyator yorug&apos;lik natijalariga ta&apos;sir qiluvchi
@@ -275,32 +313,12 @@ export default function Index() {
         </div>
 
         <div className="col-span-5">
-          <div className="relative">
-            <Image
-              src={"/images/calculator.webp"}
-              alt="calculator"
-              width={485}
-              height={485}
-            />
-            <div className="absolute top-[295px] left-[157px] text-start text-white">
-              <p>{workSurface}</p>
-              <p className="text-xs">
-                рабочая <br /> поверхность
-              </p>
-            </div>
-            <div className="absolute top-[185px] -left-[20px] text-center bg-white">
-              <p className="font-semibold">{height} m</p>
-              <p className="text-sm">высота</p>
-            </div>
-            <div className="absolute bottom-[25px] text-center left-[100px]">
-              <p className="font-semibold">{width} m</p>
-              <p>длина</p>
-            </div>
-            <div className="absolute bottom-[25px] text-center right-[100px]">
-              <p className="font-semibold">{length} m</p>
-              <p>bo&apos;yi</p>
-            </div>
-          </div>
+          <House3D
+            width={width}
+            height={height}
+            length={length}
+            workSurface={workSurface}
+          />
         </div>
       </div>
 
