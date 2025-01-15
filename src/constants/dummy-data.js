@@ -1,7 +1,7 @@
 export const allServices = [
   {
     id: 1,
-    title: "калькулятор освещенности",
+    title: "Калькулятор освещенности",
     desc: "Быстрый расчет количества светильников для вашего проекта.",
     url: "/light-calculator",
   },
@@ -13,7 +13,7 @@ export const allServices = [
   },
   {
     id: 3,
-    title: "калькулятор теплоизоляции",
+    title: "Калькулятор теплоизоляции",
     desc: "Расчет применяется для отапливаемых эксплуатируемых помещений",
     url: "/thermal-insulation-calculator",
   },
@@ -26,7 +26,7 @@ export const allServices = [
 
   {
     id: 5,
-    title: "Калькулятор  зелёного строительства.",
+    title: "Калькулятор  зелёного строительства",
     url: "/green-building-calculator",
   },
 ];

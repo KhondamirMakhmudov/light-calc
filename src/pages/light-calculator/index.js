@@ -7,8 +7,10 @@ import Image from "next/image";
 import LightType from "@/components/light-type";
 import RoomType from "@/components/light-type/room-type";
 import ReflectionCoefficient from "@/components/light-type/reflection-coefficient";
+import { useRouter } from "next/router";
 
-export default function Home() {
+export default function Index() {
+  const router = useRouter();
   const [workSurface, setWorkSurface] = useState(0.8);
   const [safety, setSafety] = useState(1.4);
   const [height, setHeight] = useState(5.0);
@@ -48,6 +50,13 @@ export default function Home() {
   return (
     <div className="container my-[50px]">
       <DarkModeButton />
+
+      <button
+        onClick={() => router.back()}
+        className="flex gap-x-[10px] items-center bg-[#e9e9e9] p-2 rounded-full"
+      >
+        <Image src={"/icons/back.svg"} alt="back" width={20} height={20} />
+      </button>
       <Title>калькулятор освещенности</Title>
 
       <div className={"grid grid-cols-12 gap-x-[70px] mt-[30px]"}>
