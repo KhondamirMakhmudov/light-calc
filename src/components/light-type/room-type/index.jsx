@@ -13,8 +13,6 @@ const RoomType = () => {
     url: URLS.listOfROoms,
   });
 
-  console.log(data);
-
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const handleSelect = (room) => {

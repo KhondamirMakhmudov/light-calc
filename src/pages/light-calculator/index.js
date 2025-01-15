@@ -13,8 +13,10 @@ import usePostQuery from "@/hooks/api/usePostQuery";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import toast from "react-hot-toast";
+import { useResponse } from "@/context/responseProvider";
 
 export default function Index() {
+  const { setResponse } = useResponse();
   const router = useRouter();
   const [workSurface, setWorkSurface] = useState(0.8);
   const [safety, setSafety] = useState(1.4);
@@ -75,11 +77,13 @@ export default function Index() {
         },
       },
       {
-        onSuccess: () => {
-          toast.success("Siz ro'yxatdan muvaffaqiyatli o'tdingiz", {
+        onSuccess: (response) => {
+          console.log(response);
+          setResponse(response);
+          router.push("/light-calculator/results");
+          toast.success("success", {
             position: "top-right",
           });
-          router.push("/");
         },
       }
     );
@@ -115,9 +119,9 @@ export default function Index() {
             <RoomType />
 
             <div>
-              <h3 className={"text-[42px]"}>{area} m²</h3>
+              <h3 className={"text-[42px]"}>{area} м²</h3>
 
-              <p className={"text-sm"}>umumiy maydoni</p>
+              <p className={"text-sm"}>общая площадь</p>
             </div>
           </div>
 
@@ -306,9 +310,9 @@ export default function Index() {
             рассчитать
           </button>
           <p className="text-sm w-1/2 text-[#C4C4C4]">
-            Onlayn kalkulyator yorug&apos;lik natijalariga ta&apos;sir qiluvchi
-            ko&apos;plab omillarni hisobga olmaydi. Olingan natijalar dastlabki
-            hisoblanadi
+            Онлайн-калькулятор не учитывает многих факторов, влияющих на
+            результаты освещенности. Полученные результаты являются
+            предварительными
           </p>
         </div>
 
