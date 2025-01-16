@@ -16,7 +16,6 @@ import toast from "react-hot-toast";
 import { useResponse } from "@/context/responseProvider";
 
 export default function Index() {
-  const { setResponse } = useResponse();
   const router = useRouter();
   const [workSurface, setWorkSurface] = useState(0.8);
   const [safety, setSafety] = useState(1.4);
@@ -79,8 +78,8 @@ export default function Index() {
       {
         onSuccess: (response) => {
           console.log(response);
-          setResponse(response);
           router.push("/light-calculator/results");
+          localStorage.setItem("calculationResponse", JSON.stringify(response));
           toast.success("success", {
             position: "top-right",
           });

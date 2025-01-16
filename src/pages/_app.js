@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Hydrate, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
-import { ResponseProvider } from "@/context/responseProvider";
+// import { ResponseProvider } from "@/context/responseProvider";
 
 import NextNProgress from "nextjs-progressbar";
 import reactQueryClient from "@/config/react-query";
@@ -16,9 +16,7 @@ export default function App({ Component, pageProps: { ...pageProps } }) {
       <Hydrate state={pageProps?.dehydratedState}>
         <NextNProgress />
 
-        <ResponseProvider>
-          <Component {...pageProps} />
-        </ResponseProvider>
+        <Component {...pageProps} />
 
         <ReactQueryDevtools initialIsOpen={false} />
         <Toaster />
