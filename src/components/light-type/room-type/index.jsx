@@ -24,7 +24,7 @@ const RoomType = () => {
     // Trigger callback with selected room
   };
   return (
-    <div className="relative ">
+    <div className="relative inline-block text-base">
       <h5 className={"text-lg font-semibold"}>Тип помещения</h5>
       {/* Dropdown Trigger */}
       <div

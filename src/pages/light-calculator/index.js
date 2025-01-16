@@ -15,16 +15,39 @@ import { URLS } from "@/constants/url";
 import toast from "react-hot-toast";
 import { useResponse } from "@/context/responseProvider";
 import { useRoomContext } from "@/context/roomTypeProvider";
+import SafetyFactorComponent from "@/components/light-type/reserve-factor";
+import { safetyFactorData } from "@/constants/dummy-data";
 
 export default function Index() {
   const router = useRouter();
   const [workSurface, setWorkSurface] = useState(0.8);
-  const [safety, setSafety] = useState(1.4);
+
   const [height, setHeight] = useState(3.0);
   const [length, setLength] = useState(5.0);
   const [width, setWidth] = useState(4.0);
   const [isOpen, setIsOpen] = useState(false);
   const { roomLK } = useRoomContext();
+
+  /////// SAFETY FACTOR /////////////////
+
+  const [isOpenSafetyFactor, setIsOpenSafetyFactor] = useState(false);
+
+  const [selectedCondition, setSelectedCondition] = useState(null);
+  const toggleDropdown = () => setIsOpenSafetyFactor(!isOpenSafetyFactor);
+  const setSafetyFactor = (safety) => {
+    setSafety(safety);
+  };
+
+  const handleSelect = (room) => {
+    setSelectedCondition(room);
+    setIsOpenSafetyFactor(false);
+  };
+
+  console.log(selectedCondition?.sf, "selectedCondition.sf");
+
+  ///////////////////////////////////////////////
+  ////// Giving parameters to the house /////////
+  ///////////////////////////////////////////////
   // for height
   const incrementHeight = () =>
     setHeight((prev) => parseFloat((prev + 1.0).toFixed(1)));
@@ -52,10 +75,6 @@ export default function Index() {
 
   const area = (length * width).toFixed(2);
 
-  const setSafetyFactor = (safety) => {
-    setSafety(safety);
-  };
-
   const { mutate: calculateTheLightBulb, isLoading } = usePostQuery({
     listKeyId: KEYS.calculateLight,
     hideSuccessToast: true,
@@ -72,7 +91,7 @@ export default function Index() {
           reflection_factors: [80, 30, 30],
           illumination: roomLK,
           working_surface_height: workSurface,
-          reserve_factor: safety,
+          reserve_factor: selectedCondition?.sf,
         },
       },
       {
@@ -114,8 +133,6 @@ export default function Index() {
                 выбрать светильник
               </button>
             </div>
-
-            <RoomType />
 
             <div>
               <h3 className={"text-[42px]"}>{area} м²</h3>
@@ -207,9 +224,10 @@ export default function Index() {
           </div>
 
           <div className={"my-[50px] text-lg"}>
+            <RoomType />
             <h5 className="text-lg font-semibold">параметры освещения</h5>
 
-            <div className={"flex justify-between"}>
+            <div className={"flex gap-x-[100px]"}>
               {/* yoritish */}
               <div className={"mt-[15px] "}>
                 <h5>освещенность</h5>
@@ -231,6 +249,9 @@ export default function Index() {
                 </div>
               </div>
               {/* ish yuzasi */}
+
+              {/* ship balandligi */}
+
               <div className={"mt-[15px]"}>
                 <h5>рабочая поверхность</h5>
 
@@ -258,42 +279,74 @@ export default function Index() {
                   </button>
                 </div>
               </div>
-              {/* ship balandligi */}
+            </div>
+
+            <div className="">
               <div className={"mt-[15px]"}>
                 <h5>коэффициент запаса</h5>
+
+                <div className="relative block">
+                  {/* Dropdown Trigger */}
+                  <div
+                    className={
+                      "py-[10px] px-[50px] border border-black  rounded my-[15px] text-center  transition-all duration-300 cursor-pointer w-full"
+                    }
+                    onClick={toggleDropdown}
+                  >
+                    <span>
+                      {selectedCondition ? selectedCondition.title : "Выберите"}
+                    </span>
+                  </div>
+
+                  {/* Dropdown List */}
+                  {isOpenSafetyFactor && (
+                    <ul className="absolute mt-2 w-full bg-white border rounded shadow-md max-h-[200px] overflow-y-auto">
+                      {safetyFactorData.map((room) => (
+                        <li
+                          key={room.id}
+                          className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                          onClick={() => handleSelect(room)}
+                        >
+                          <p>{room.title}</p>
+                          <p className="hidden">{room.sf}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
                     onClick={() => setSafetyFactor(1.4)}
                     className={`text-xl border py-1 px-2 ${
-                      safety === 1.4
+                      selectedCondition?.sf === 1.25
                         ? "bg-black text-white"
                         : "bg-white text-black"
                     } `}
                   >
-                    <p>1.4</p>
+                    <p>1.25</p>
                   </button>
 
                   <button
                     onClick={() => setSafetyFactor(1.6)}
                     className={`text-xl border py-1 px-2 ${
-                      safety === 1.6
+                      selectedCondition?.sf === 1.5
                         ? "bg-black text-white"
                         : "bg-white text-black"
                     } `}
                   >
-                    <p>1.6</p>
+                    <p>1.5</p>
                   </button>
 
                   <button
                     onClick={() => setSafetyFactor(1.7)}
                     className={`text-xl border py-1 px-2 ${
-                      safety === 1.7
+                      selectedCondition?.sf === 2.0
                         ? "bg-black text-white"
                         : "bg-white text-black"
                     } `}
                   >
-                    <p>1.7</p>
+                    <p>2.0</p>
                   </button>
                 </div>
               </div>

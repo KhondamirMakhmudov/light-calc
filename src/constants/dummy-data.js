@@ -65,3 +65,21 @@ export const colorOptions = {
     { value: "black", label: "чёрный (10)" },
   ],
 };
+
+export const safetyFactorData = [
+  {
+    id: 1,
+    title: "Очень чистое помещение",
+    sf: 1.25,
+  },
+  {
+    id: 2,
+    title: "Чистое помещение с трехгодичным циклом обслуживания",
+    sf: 1.5,
+  },
+  {
+    id: 3,
+    title: "Сильно загрязненное помещение",
+    sf: 2.0,
+  },
+];
