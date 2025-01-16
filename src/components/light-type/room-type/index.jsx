@@ -3,9 +3,11 @@ import { URLS } from "@/constants/url";
 import useGetQuery from "@/hooks/api/useGetQuery";
 import { useState } from "react";
 import { get } from "lodash";
+import { useRoomContext } from "@/context/roomTypeProvider";
 
 const RoomType = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { setRoomLK } = useRoomContext();
   const [selectedRoom, setSelectedRoom] = useState(null);
 
   const { data, isLoading, isFetching } = useGetQuery({
@@ -18,6 +20,7 @@ const RoomType = () => {
   const handleSelect = (room) => {
     setSelectedRoom(room);
     setIsOpen(false);
+    setRoomLK(room.lk);
     // Trigger callback with selected room
   };
   return (
@@ -44,7 +47,8 @@ const RoomType = () => {
               className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
               onClick={() => handleSelect(room)}
             >
-              {room.title}
+              <p>{room.title}</p>
+              <p className="hidden">{room.lk}</p>
             </li>
           ))}
         </ul>

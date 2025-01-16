@@ -14,6 +14,7 @@ import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import toast from "react-hot-toast";
 import { useResponse } from "@/context/responseProvider";
+import { useRoomContext } from "@/context/roomTypeProvider";
 
 export default function Index() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function Index() {
   const [length, setLength] = useState(5.0);
   const [width, setWidth] = useState(4.0);
   const [isOpen, setIsOpen] = useState(false);
+  const { roomLK } = useRoomContext();
   // for height
   const incrementHeight = () =>
     setHeight((prev) => parseFloat((prev + 1.0).toFixed(1)));
@@ -68,7 +70,7 @@ export default function Index() {
           room_width: width,
           room_height: height,
           reflection_factors: [80, 30, 30],
-          illumination: 300,
+          illumination: roomLK,
           working_surface_height: workSurface,
           reserve_factor: safety,
         },
@@ -219,7 +221,7 @@ export default function Index() {
                     <MinusIcon color={"white"} />
                   </button>
 
-                  <p>5 lk</p>
+                  <p>{roomLK} лк</p>
 
                   <button
                     className={"text-xl border rounded-full p-1 bg-[#272623]"}

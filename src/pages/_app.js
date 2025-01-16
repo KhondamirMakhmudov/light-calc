@@ -8,6 +8,7 @@ import NextNProgress from "nextjs-progressbar";
 import reactQueryClient from "@/config/react-query";
 
 import "@/styles/globals.css";
+import { RoomProvider } from "@/context/roomTypeProvider";
 
 export default function App({ Component, pageProps: { ...pageProps } }) {
   const [queryClient] = useState(() => reactQueryClient);
@@ -16,7 +17,9 @@ export default function App({ Component, pageProps: { ...pageProps } }) {
       <Hydrate state={pageProps?.dehydratedState}>
         <NextNProgress />
 
-        <Component {...pageProps} />
+        <RoomProvider>
+          <Component {...pageProps} />
+        </RoomProvider>
 
         <ReactQueryDevtools initialIsOpen={false} />
         <Toaster />
