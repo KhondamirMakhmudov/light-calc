@@ -17,24 +17,24 @@ const request = axios.create({
   },
 });
 
-request.interceptors.request.use(
-  (config) => {
-    const token = get(
-      JSON.parse(storage.get("settings")),
-      "state.token",
-      "delRJTOSaurm7hWTCwrGOOcHa4dUXopyNPC5MaDQ065kok0Ew58AoGpp0FUlgYe2"
-    );
+// request.interceptors.request.use(
+//   (config) => {
+//     const token = get(
+//       JSON.parse(storage.get("settings")),
+//       "state.token",
+//       "delRJTOSaurm7hWTCwrGOOcHa4dUXopyNPC5MaDQ065kok0Ew58AoGpp0FUlgYe2"
+//     );
 
-    if (token) {
-      config.headers["token"] = `${token}`;
-    }
+//     if (token) {
+//       config.headers["token"] = `${token}`;
+//     }
 
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
 
 request.interceptors.response.use(
   (response) => {
