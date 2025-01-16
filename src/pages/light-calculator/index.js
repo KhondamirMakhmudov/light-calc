@@ -50,19 +50,69 @@ export default function Index() {
   ///////////////////////////////////////////////
   // for height
   const incrementHeight = () =>
-    setHeight((prev) => parseFloat((prev + 1.0).toFixed(1)));
+    setHeight((prev) => (parseFloat(prev) + 1.0).toFixed(1));
   const decrementHeight = () =>
     setHeight((prev) => Math.max(0, parseFloat((prev - 1.0).toFixed(1))));
 
+  const handleInputChangeHeight = (e) => {
+    const value = e.target.value;
+    // Allow numbers, '.', and an empty string for user input
+    if (/^(\d+(\.\d*)?)?$/.test(value)) {
+      setHeight(value);
+    }
+  };
+
+  const handleBlurHeight = () => {
+    // Ensure a valid number is set when the input loses focus
+    setHeight((prev) =>
+      prev === "" || isNaN(parseFloat(prev))
+        ? "0.0"
+        : parseFloat(prev).toFixed(1)
+    );
+  };
+
   // for weight
   const incrementWidth = () =>
-    setWidth((prev) => parseFloat((prev + 1.0).toFixed(1)));
+    setWidth((prev) => (parseFloat(prev) + 1.0).toFixed(1));
   const decrementWidth = () =>
-    setWidth((prev) => Math.max(0, parseFloat((prev - 1.0).toFixed(1))));
+    setWidth((prev) => Math.max(0, parseFloat(prev) - 1.0).toFixed(1));
+
+  const handleInputChangeWidth = (e) => {
+    const value = e.target.value;
+    // Allow numbers, '.', and an empty string for user input
+    if (/^(\d+(\.\d*)?)?$/.test(value)) {
+      setWidth(value);
+    }
+  };
+
+  const handleBlurWidth = () => {
+    // Ensure a valid number is set when the input loses focus
+    setWidth((prev) =>
+      prev === "" || isNaN(parseFloat(prev))
+        ? "0.0"
+        : parseFloat(prev).toFixed(1)
+    );
+  };
 
   //   for length
-  const incrementLength = () => {
-    setLength((prev) => parseFloat((prev + 1.0).toFixed(1)));
+  const incrementLength = () =>
+    setLength((prev) => (parseFloat(prev) + 1.0).toFixed(1));
+
+  const handleInputChangeLength = (e) => {
+    const value = e.target.value;
+    // Allow numbers, '.', and an empty string for user input
+    if (/^(\d+(\.\d*)?)?$/.test(value)) {
+      setLength(value);
+    }
+  };
+
+  const handleBlurLength = () => {
+    // Ensure a valid number is set when the input loses focus
+    setLength((prev) =>
+      prev === "" || isNaN(parseFloat(prev))
+        ? "0.0"
+        : parseFloat(prev).toFixed(1)
+    );
   };
 
   const decrementLength = () => {
@@ -119,7 +169,7 @@ export default function Index() {
       <Title>калькулятор освещенности</Title>
 
       <div className={"grid grid-cols-12 gap-x-[70px] mt-[30px]"}>
-        <div className={"col-span-7"}>
+        <div className={"col-span-12"}>
           <div className={"flex justify-between items-start"}>
             <div>
               <h5 className={"text-lg font-semibold"}>светильник</h5>
@@ -142,11 +192,17 @@ export default function Index() {
           </div>
 
           <div className={"my-[50px] "}>
+            <House3D
+              width={width}
+              height={height}
+              length={length}
+              workSurface={workSurface}
+            />
             <h5 className={"text-lg font-semibold"}>параметры помещения</h5>
             <div className={"flex justify-between"}>
               {/* uzunligi */}
               <div className={"mt-[15px]"}>
-                <h5 className="text-lg font-normal">длина</h5>
+                <h5 className="text-lg font-normal">ширина</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
@@ -158,7 +214,17 @@ export default function Index() {
                     <MinusIcon color={"white"} />
                   </button>
 
-                  <p>{width}.0 м</p>
+                  <label>
+                    <input
+                      type="text"
+                      step="0.1"
+                      value={width}
+                      onChange={handleInputChangeWidth}
+                      onBlur={handleBlurWidth}
+                      className="text-center w-[30px]  rounded bg-transparent p-1"
+                    />
+                    м
+                  </label>
 
                   <button
                     onClick={incrementWidth}
@@ -172,7 +238,7 @@ export default function Index() {
               </div>
               {/* kengligi */}
               <div className={"mt-[15px]"}>
-                <h5 className="text-lg">ширина</h5>
+                <h5 className="text-lg">длина</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
@@ -182,7 +248,17 @@ export default function Index() {
                     <MinusIcon color={"white"} />
                   </button>
 
-                  <p>{length}.0 м</p>
+                  <label>
+                    <input
+                      type="text"
+                      step="0.1"
+                      value={length}
+                      onChange={handleInputChangeLength}
+                      onBlur={handleBlurLength}
+                      className="text-center w-[30px]  rounded bg-transparent "
+                    />
+                    м
+                  </label>
 
                   <button
                     onClick={incrementLength}
@@ -204,7 +280,16 @@ export default function Index() {
                     <MinusIcon color={"white"} />
                   </button>
 
-                  <p>{height}.0 м</p>
+                  <label>
+                    <input
+                      type="text"
+                      value={height}
+                      onChange={handleInputChangeHeight}
+                      onBlur={handleBlurHeight}
+                      className="text-center w-[30px]  rounded bg-transparent p-1"
+                    />
+                    м
+                  </label>
 
                   <button
                     onClick={incrementHeight}
@@ -368,14 +453,7 @@ export default function Index() {
           </p>
         </div>
 
-        <div className="col-span-5">
-          <House3D
-            width={width}
-            height={height}
-            length={length}
-            workSurface={workSurface}
-          />
-        </div>
+        <div className="col-span-5"></div>
       </div>
 
       {isOpen && (

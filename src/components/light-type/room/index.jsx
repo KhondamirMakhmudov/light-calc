@@ -99,7 +99,7 @@ const Chair = ({ position }) => (
 
 const House3D = ({ length = 5, width = 5, height = 3, workSurface = 0 }) => {
   return (
-    <Canvas style={{ height: "400px" }}>
+    <Canvas style={{ height: "700px" }}>
       <ambientLight intensity={4} />
       <directionalLight position={[3, 4, 1]} />
       <OrbitControls />
