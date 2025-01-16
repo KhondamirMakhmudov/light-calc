@@ -43,7 +43,7 @@ const Index = () => {
       </p>
 
       <div className="grid grid-cols-12 mt-[50px]">
-        <div className="col-span-6">
+        <div className="col-span-7">
           <h4 className="font-semibold text-lg mb-[15px]">светильник</h4>
           <div className="flex gap-x-[15px]">
             <div className="bg-[#F8F8F8] inline-block">
@@ -64,23 +64,64 @@ const Index = () => {
           <div className="mt-[30px]">
             <h4 className="font-semibold text-lg mb-[15px]">характеристики</h4>
 
-            <ul className="text-lg grid grid-cols-3">
+            <ul className=" grid grid-cols-3 gap-[20px] text-xl">
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">диаметр</h4>
+                <h4 className="text-[#a7a7a7]">длина помещения</h4>
+                <p className="font-medium">{get(data, "data.room_length")} м</p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">ширина помещения</h4>
+                <p className="font-medium">{get(data, "data.room_width")} м</p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">высота потолка</h4>
+                <p className="font-medium">{get(data, "data.room_height")} м</p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">общая площадь</h4>
                 <p className="font-medium">
-                  {get(data, "data.tavsiya_qilinadi.diameter")}
+                  {get(data, "data.room_width") * get(data, "data.room_length")}{" "}
+                  м²
                 </p>
               </li>
 
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">длина помещения</h4>
-                <p className="font-medium">5 м</p>
+                <h4 className="text-[#a7a7a7]">коэффициенты отражения</h4>
+                <p className="font-medium">
+                  {get(data, "data.reflection_factors[0]")}{" "}
+                  {get(data, "data.reflection_factors[1]")}{" "}
+                  {get(data, "data.reflection_factors[2]")}{" "}
+                </p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">освещенность</h4>
+                <p className="font-medium">
+                  {get(data, "data.illumination")} лк
+                </p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">рабочая поверхность</h4>
+                <p className="font-medium">
+                  {get(data, "data.working_surface_height")}
+                </p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">коэффициент запаса</h4>
+                <p className="font-medium">
+                  {get(data, "data.reserve_factor")} лк
+                </p>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="col-span-6">
+        <div className="col-span-5">
           <div className="">
             <h3 className="text-[70px] font-bold">
               {get(data, "data.tavsiya_qilinadi.number_of_lamps")}

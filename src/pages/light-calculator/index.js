@@ -71,8 +71,6 @@ export default function Index() {
           illumination: 300,
           working_surface_height: workSurface,
           reserve_factor: safety,
-          lamp_watt: 8,
-          lamp_lumen: 600,
         },
       },
       {
