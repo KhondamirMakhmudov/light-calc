@@ -21,10 +21,10 @@ import { safetyFactorData } from "@/constants/dummy-data";
 export default function Index() {
   const router = useRouter();
   const [workSurface, setWorkSurface] = useState(0.8);
-
+  const [selectedNumbersArray, setSelectedNumbersArray] = useState([]);
   const [height, setHeight] = useState(3.0);
-  const [length, setLength] = useState(5.0);
-  const [width, setWidth] = useState(4.0);
+  const [length, setLength] = useState(3.0);
+  const [width, setWidth] = useState(3.0);
   const [isOpen, setIsOpen] = useState(false);
   const { roomLK } = useRoomContext();
 
@@ -125,6 +125,12 @@ export default function Index() {
 
   const area = (length * width).toFixed(2);
 
+  const handleSelectionChange = (selectedNumbers) => {
+    const updatedArray = Object.values(selectedNumbers);
+    setSelectedNumbersArray(updatedArray);
+    // Use the selected numbers as needed
+  };
+
   const { mutate: calculateTheLightBulb, isLoading } = usePostQuery({
     listKeyId: KEYS.calculateLight,
     hideSuccessToast: true,
@@ -138,7 +144,7 @@ export default function Index() {
           room_length: length,
           room_width: width,
           room_height: height,
-          reflection_factors: [80, 30, 30],
+          reflection_factors: selectedNumbersArray,
           illumination: roomLK,
           working_surface_height: workSurface,
           reserve_factor: selectedCondition?.sf,
@@ -305,7 +311,7 @@ export default function Index() {
           <div className={"my-[50px]"}>
             <h5 className="font-bold text-lg">коэффициенты отражения</h5>
 
-            <ReflectionCoefficient />
+            <ReflectionCoefficient onSelectionChange={handleSelectionChange} />
           </div>
 
           <div className={"my-[50px] text-lg"}>
@@ -343,7 +349,7 @@ export default function Index() {
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
                     onClick={() => setSurface(0)}
-                    className={`text-xl border py-1 px-2 ${
+                    className={`text-xl border rounded py-1 px-2 ${
                       workSurface === 0
                         ? "bg-black text-white"
                         : "bg-white text-black"
@@ -354,7 +360,7 @@ export default function Index() {
 
                   <button
                     onClick={() => setSurface(0.8)}
-                    className={`text-xl border py-1 px-2 ${
+                    className={`text-xl border rounded py-1 px-2 ${
                       workSurface === 0.8
                         ? "bg-black text-white"
                         : "bg-white text-black"

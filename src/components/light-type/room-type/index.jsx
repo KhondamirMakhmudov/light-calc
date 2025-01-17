@@ -40,7 +40,7 @@ const RoomType = () => {
 
       {/* Dropdown List */}
       {isOpen && (
-        <ul className="absolute mt-2 w-full bg-white border rounded shadow-md max-h-[200px] overflow-y-auto">
+        <ul className="absolute mt-2 w-full bg-white z-50 border rounded shadow-md max-h-[200px] overflow-y-auto">
           {get(data, "data", []).map((room) => (
             <li
               key={room.id}

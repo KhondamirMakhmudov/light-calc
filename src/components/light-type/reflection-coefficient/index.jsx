@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { colorOptions } from "@/constants/dummy-data";
 
-const ReflectionCoefficient = () => {
+const ReflectionCoefficient = ({ onSelectionChange }) => {
   const [selected, setSelected] = useState({
     потолка: "white",
     стен: "white",
@@ -23,7 +23,28 @@ const ReflectionCoefficient = () => {
     }
 
     setSelected(updatedSelection);
+
+    // Extract numbers from selected options
+    const selectedNumbers = Object.entries(updatedSelection).reduce(
+      (acc, [key, value]) => {
+        const label = colorOptions[key].find(
+          (option) => option.value === value
+        )?.label;
+        const numberInBrackets = label.match(/\((\d+)\)/)?.[1];
+        if (numberInBrackets) {
+          acc[key] = parseInt(numberInBrackets, 10);
+        }
+        return acc;
+      },
+      {}
+    );
+
+    // Call the callback prop with selected numbers
+    if (onSelectionChange) {
+      onSelectionChange(selectedNumbers);
+    }
   };
+
   return (
     <div className="flex justify-between">
       {Object.entries(colorOptions).map(([group, options]) => (
