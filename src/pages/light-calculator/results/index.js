@@ -12,7 +12,7 @@ const Index = () => {
 
   const { result } = useContext(LightCalculatorContext);
 
-  console.log(result, "response state management");
+  // console.log(result, "response state management");
   useEffect(() => {
     if (result) {
       // Assuming `result` is an object, directly set it as the data
@@ -103,7 +103,7 @@ const Index = () => {
 
               <td>
                 <div className="text-xl">
-                  <p>{get(data, "data.data.tavsiya_qilinadi.lamp", "N/A")}</p>
+                  <p>{get(data, "data.tavsiya_qilinadi.lamp", "N/A")}</p>
                 </div>
               </td>
               <td className="text-center">
