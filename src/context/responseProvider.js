@@ -1,16 +1,15 @@
 // context/ResponseContext.js
-import { createContext, useState, useContext } from "react";
+// context/LightCalculatorContext.js
+import React, { createContext, useState } from "react";
 
-const ResponseContext = createContext();
+export const LightCalculatorContext = createContext();
 
-export const ResponseProvider = ({ children }) => {
-  const [response, setResponse] = useState(null);
+export const LightCalculatorProvider = ({ children }) => {
+  const [result, setResult] = useState(null);
 
   return (
-    <ResponseContext.Provider value={{ response, setResponse }}>
+    <LightCalculatorContext.Provider value={{ result, setResult }}>
       {children}
-    </ResponseContext.Provider>
+    </LightCalculatorContext.Provider>
   );
 };
-
-export const useResponse = () => useContext(ResponseContext);

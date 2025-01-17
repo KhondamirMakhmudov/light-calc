@@ -17,6 +17,8 @@ import { useResponse } from "@/context/responseProvider";
 import { useRoomContext } from "@/context/roomTypeProvider";
 import SafetyFactorComponent from "@/components/light-type/reserve-factor";
 import { safetyFactorData } from "@/constants/dummy-data";
+import { useContext } from "react";
+import { LightCalculatorContext } from "@/context/responseProvider";
 
 export default function Index() {
   const router = useRouter();
@@ -27,6 +29,7 @@ export default function Index() {
   const [width, setWidth] = useState(3.0);
   const [isOpen, setIsOpen] = useState(false);
   const { roomLK } = useRoomContext();
+  const { setResult } = useContext(LightCalculatorContext);
 
   /////// SAFETY FACTOR /////////////////
 
@@ -43,7 +46,7 @@ export default function Index() {
     setIsOpenSafetyFactor(false);
   };
 
-  console.log(selectedCondition?.sf, "selectedCondition.sf");
+  // console.log(selectedCondition?.sf, "selectedCondition.sf");
 
   ///////////////////////////////////////////////
   ////// Giving parameters to the house /////////
@@ -154,7 +157,8 @@ export default function Index() {
         onSuccess: (response) => {
           console.log(response);
           router.push("/light-calculator/results");
-          localStorage.setItem("calculationResponse", JSON.stringify(response));
+          setResult(response);
+          // localStorage.setItem("calculationResponse", JSON.stringify(response));
           toast.success("success", {
             position: "top-right",
           });

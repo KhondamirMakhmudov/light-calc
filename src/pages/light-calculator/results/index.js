@@ -3,31 +3,47 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { get } from "lodash";
 import { useRouter } from "next/router";
+import { useContext } from "react";
+import { LightCalculatorContext } from "@/context/responseProvider";
 
 const Index = () => {
   const [data, setData] = useState(null);
   const router = useRouter();
 
-  useEffect(() => {
-    // Get the string from localStorage
-    const storedResponse = localStorage.getItem("calculationResponse");
-    if (storedResponse) {
-      // Parse it into an object
-      const parsedResponse = JSON.parse(storedResponse);
-      setData(parsedResponse); // Save it to state
-    }
-  }, []);
-  console.log(data);
+  const { result } = useContext(LightCalculatorContext);
 
-  if (!data) {
-    return <div>No data available</div>;
+  console.log(result, "response state management");
+  useEffect(() => {
+    if (result) {
+      // Assuming `result` is an object, directly set it as the data
+      setData(result);
+    }
+  }, [result]);
+
+  if (!result) {
+    return <p>Loading...</p>;
   }
 
-  const handleNewCalculation = () => {
-    localStorage.removeItem("calculationResponse");
+  // useEffect(() => {
+  //   // Get the string from localStorage
+  //   const storedResponse = localStorage.getItem("calculationResponse");
+  //   if (storedResponse) {
+  //     // Parse it into an object
+  //     const parsedResponse = JSON.parse(storedResponse);
+  //     setData(parsedResponse); // Save it to state
+  //   }
+  // }, []);
+  // console.log(data);
 
-    router.push("/light-calculator");
-  };
+  // if (!data) {
+  //   return <div>No data available</div>;
+  // }
+
+  // const handleNewCalculation = () => {
+  //   localStorage.removeItem("calculationResponse");
+
+  //   router.push("/light-calculator");
+  // };
 
   return (
     <div className="container my-[50px]">
@@ -87,7 +103,7 @@ const Index = () => {
 
               <td>
                 <div className="text-xl">
-                  <p>{get(data, "data.tavsiya_qilinadi.lamp", "N/A")}</p>
+                  <p>{get(data, "data.data.tavsiya_qilinadi.lamp", "N/A")}</p>
                 </div>
               </td>
               <td className="text-center">
@@ -180,7 +196,6 @@ const Index = () => {
             <p className="text-[#a7a7a7]">требуемое количество светильников</p>
 
             <button
-              onClick={handleNewCalculation}
               className={
                 "py-[10px] w-1/2 px-[50px] border border-black hover:bg-black hover:text-white rounded-full my-[15px]  transition-all duration-300"
               }

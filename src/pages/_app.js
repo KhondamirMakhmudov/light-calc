@@ -9,6 +9,7 @@ import reactQueryClient from "@/config/react-query";
 
 import "@/styles/globals.css";
 import { RoomProvider } from "@/context/roomTypeProvider";
+import { LightCalculatorProvider } from "@/context/responseProvider";
 
 export default function App({ Component, pageProps: { ...pageProps } }) {
   const [queryClient] = useState(() => reactQueryClient);
@@ -17,9 +18,11 @@ export default function App({ Component, pageProps: { ...pageProps } }) {
       <Hydrate state={pageProps?.dehydratedState}>
         <NextNProgress />
 
-        <RoomProvider>
-          <Component {...pageProps} />
-        </RoomProvider>
+        <LightCalculatorProvider>
+          <RoomProvider>
+            <Component {...pageProps} />
+          </RoomProvider>
+        </LightCalculatorProvider>
 
         <ReactQueryDevtools initialIsOpen={false} />
         <Toaster />
