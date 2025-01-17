@@ -196,6 +196,7 @@ const Index = () => {
             <p className="text-[#a7a7a7]">требуемое количество светильников</p>
 
             <button
+              onClick={() => router.push("/light-calculator")}
               className={
                 "py-[10px] w-1/2 px-[50px] border border-black hover:bg-black hover:text-white rounded-full my-[15px]  transition-all duration-300"
               }

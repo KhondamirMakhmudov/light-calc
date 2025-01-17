@@ -59,8 +59,9 @@ const ReflectionCoefficient = ({ onSelectionChange }) => {
                   value={option.value}
                   checked={selected[group] === option.value}
                   onChange={() => handleSelection(group, option.value)}
-                  className="form-radio text-gray-600 h-4 w-4"
+                  className="hidden peer" // Hides the default radio button
                 />
+                <div className="w-5 h-5 border-2 border-gray-600 rounded-full peer-checked:bg-black peer-checked:border-white"></div>
                 <span className="ml-2 text-black text-lg">{option.label}</span>
               </label>
             </div>

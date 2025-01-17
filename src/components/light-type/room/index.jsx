@@ -99,10 +99,16 @@ const Chair = ({ position }) => (
 
 const House3D = ({ length = 5, width = 5, height = 3, workSurface = 0 }) => {
   return (
-    <Canvas style={{ height: "700px" }}>
+    <Canvas
+      camera={{
+        position: [20, 10, 10],
+        fov: 20,
+      }}
+      style={{ height: "400px" }}
+    >
       <ambientLight intensity={4} />
-      <directionalLight position={[3, 4, 1]} />
-      <OrbitControls />
+      <directionalLight position={[3, 5, 1]} />
+      <OrbitControls target={[0, 0, 0]} />
 
       {/* Base */}
       <mesh position={[0, -0.05, 0]}>

@@ -179,7 +179,7 @@ export default function Index() {
       <Title>калькулятор освещенности</Title>
 
       <div className={"grid grid-cols-12 gap-x-[70px] mt-[30px]"}>
-        <div className={"col-span-12"}>
+        <div className="col-span-5">
           <div className={"flex justify-between items-start"}>
             <div>
               <h5 className={"text-lg font-semibold"}>светильник</h5>
@@ -193,21 +193,8 @@ export default function Index() {
                 выбрать светильник
               </button>
             </div>
-
-            <div>
-              <h3 className={"text-[42px]"}>{area} м²</h3>
-
-              <p className={"text-sm"}>общая площадь</p>
-            </div>
           </div>
-
-          <div className={"my-[50px] "}>
-            <House3D
-              width={width}
-              height={height}
-              length={length}
-              workSurface={workSurface}
-            />
+          <div>
             <h5 className={"text-lg font-semibold"}>параметры помещения</h5>
             <div className={"flex justify-between"}>
               {/* uzunligi */}
@@ -218,7 +205,7 @@ export default function Index() {
                   <button
                     onClick={decrementWidth}
                     className={
-                      "text-xl border rounded-full p-1 bg-[#272623] hover:bg-[]"
+                      "text-xl border rounded-full p-1 bg-[#272623] hover:bg-[] active:scale-105 scale-100 transition-all duration-100"
                     }
                   >
                     <MinusIcon color={"white"} />
@@ -239,7 +226,7 @@ export default function Index() {
                   <button
                     onClick={incrementWidth}
                     className={
-                      "text-xl border rounded-full p-1 bg-[#272623] hover:bg-[]"
+                      "text-xl border rounded-full p-1 bg-[#272623] hover:bg-[] active:scale-105 scale-100 transition-all duration-100"
                     }
                   >
                     <PlusIcon color={"white"} />
@@ -253,7 +240,9 @@ export default function Index() {
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
                     onClick={decrementLength}
-                    className={"text-xl border rounded-full p-1 bg-black"}
+                    className={
+                      "text-xl border rounded-full p-1 bg-black active:scale-105 scale-100 transition-all duration-100"
+                    }
                   >
                     <MinusIcon color={"white"} />
                   </button>
@@ -272,7 +261,9 @@ export default function Index() {
 
                   <button
                     onClick={incrementLength}
-                    className={"text-xl border rounded-full p-1 bg-black"}
+                    className={
+                      "text-xl border rounded-full p-1 bg-black active:scale-105 scale-100 transition-all duration-100"
+                    }
                   >
                     <PlusIcon color={"white"} />
                   </button>
@@ -285,7 +276,9 @@ export default function Index() {
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
                     onClick={decrementHeight}
-                    className={"text-xl border rounded-full p-1 bg-black"}
+                    className={
+                      "text-xl border rounded-full p-1 bg-black active:scale-105 scale-100 transition-all duration-100"
+                    }
                   >
                     <MinusIcon color={"white"} />
                   </button>
@@ -303,7 +296,9 @@ export default function Index() {
 
                   <button
                     onClick={incrementHeight}
-                    className={"text-xl border rounded-full p-1 bg-black"}
+                    className={
+                      "text-xl border rounded-full p-1 bg-black active:scale-105 scale-100 transition-all duration-100"
+                    }
                   >
                     <PlusIcon color={"white"} />
                   </button>
@@ -312,138 +307,149 @@ export default function Index() {
             </div>
           </div>
 
+          <div className={"mt-[15px]"}>
+            <h5>рабочая поверхность</h5>
+
+            <div className={"my-[15px] flex gap-x-[20px] items-center"}>
+              <button
+                onClick={() => setSurface(0)}
+                className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
+                  workSurface === 0
+                    ? "bg-black text-white"
+                    : "bg-white text-black"
+                } `}
+              >
+                <p>0 m</p>
+              </button>
+
+              <button
+                onClick={() => setSurface(0.8)}
+                className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
+                  workSurface === 0.8
+                    ? "bg-black text-white"
+                    : "bg-white text-black"
+                } `}
+              >
+                <p>0.8 m</p>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="col-span-7">
+          <div className="border relative">
+            <House3D
+              width={width}
+              height={height}
+              length={length}
+              workSurface={workSurface}
+            />
+
+            <div className="absolute top-2 right-2">
+              <h3 className={"text-[42px]"}>{area} м²</h3>
+
+              <p className={"text-sm"}>общая площадь</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-span-8">
           <div className={"my-[50px]"}>
             <h5 className="font-bold text-lg">коэффициенты отражения</h5>
 
             <ReflectionCoefficient onSelectionChange={handleSelectionChange} />
           </div>
+        </div>
 
-          <div className={"my-[50px] text-lg"}>
-            <RoomType />
-            <h5 className="text-lg font-semibold">параметры освещения</h5>
+        <div className="col-span-4 my-[50px]">
+          <RoomType />
+          <h5 className="text-lg font-semibold">параметры освещения</h5>
+          <div className={"flex gap-x-[100px]"}>
+            {/* yoritish */}
+            <div className={"mt-[15px] "}>
+              <h5>освещенность</h5>
 
-            <div className={"flex gap-x-[100px]"}>
-              {/* yoritish */}
-              <div className={"mt-[15px] "}>
-                <h5>освещенность</h5>
+              <div className={"my-[15px] flex gap-x-[20px] items-center"}>
+                <button
+                  className={"text-xl border rounded-full p-1 bg-[#272623]"}
+                >
+                  <MinusIcon color={"white"} />
+                </button>
 
-                <div className={"my-[15px] flex gap-x-[20px] items-center"}>
-                  <button
-                    className={"text-xl border rounded-full p-1 bg-[#272623]"}
-                  >
-                    <MinusIcon color={"white"} />
-                  </button>
+                <p>{roomLK} лк</p>
 
-                  <p>{roomLK} лк</p>
-
-                  <button
-                    className={"text-xl border rounded-full p-1 bg-[#272623]"}
-                  >
-                    <PlusIcon color={"white"} />
-                  </button>
-                </div>
-              </div>
-              {/* ish yuzasi */}
-
-              {/* ship balandligi */}
-
-              <div className={"mt-[15px]"}>
-                <h5>рабочая поверхность</h5>
-
-                <div className={"my-[15px] flex gap-x-[20px] items-center"}>
-                  <button
-                    onClick={() => setSurface(0)}
-                    className={`text-xl border rounded py-1 px-2 ${
-                      workSurface === 0
-                        ? "bg-black text-white"
-                        : "bg-white text-black"
-                    } `}
-                  >
-                    <p>0 m</p>
-                  </button>
-
-                  <button
-                    onClick={() => setSurface(0.8)}
-                    className={`text-xl border rounded py-1 px-2 ${
-                      workSurface === 0.8
-                        ? "bg-black text-white"
-                        : "bg-white text-black"
-                    } `}
-                  >
-                    <p>0.8 m</p>
-                  </button>
-                </div>
+                <button
+                  className={"text-xl border rounded-full p-1 bg-[#272623]"}
+                >
+                  <PlusIcon color={"white"} />
+                </button>
               </div>
             </div>
+          </div>{" "}
+        </div>
+        <div className={"col-span-12"}>
+          <div className={"mb-[30px] text-lg"}>
+            <div className={"mt-[15px]"}>
+              <h5 className="font-bold">коэффициент запаса</h5>
 
-            <div className="">
-              <div className={"mt-[15px]"}>
-                <h5>коэффициент запаса</h5>
-
-                <div className="relative block">
-                  {/* Dropdown Trigger */}
-                  <div
-                    className={
-                      "py-[10px] px-[50px] border border-black  rounded my-[15px] text-center  transition-all duration-300 cursor-pointer w-full"
-                    }
-                    onClick={toggleDropdown}
-                  >
-                    <span>
-                      {selectedCondition ? selectedCondition.title : "Выберите"}
-                    </span>
-                  </div>
-
-                  {/* Dropdown List */}
-                  {isOpenSafetyFactor && (
-                    <ul className="absolute mt-2 w-full bg-white border rounded shadow-md max-h-[200px] overflow-y-auto">
-                      {safetyFactorData.map((room) => (
-                        <li
-                          key={room.id}
-                          className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                          onClick={() => handleSelect(room)}
-                        >
-                          <p>{room.title}</p>
-                          <p className="hidden">{room.sf}</p>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+              <div className="relative block">
+                {/* Dropdown Trigger */}
+                <div
+                  className={
+                    "py-[10px] px-[50px] border border-black  rounded my-[15px] text-center  transition-all duration-300 cursor-pointer w-1/3"
+                  }
+                  onClick={toggleDropdown}
+                >
+                  <span>
+                    {selectedCondition ? selectedCondition.title : "Выберите"}
+                  </span>
                 </div>
 
-                <div className={"my-[15px] flex gap-x-[20px] items-center"}>
-                  <button
-                    onClick={() => setSafetyFactor(1.4)}
-                    className={`text-xl border py-1 px-2 ${
-                      selectedCondition?.sf === 1.25
-                        ? "bg-black text-white"
-                        : "bg-white text-black"
-                    } `}
-                  >
-                    <p>1.25</p>
-                  </button>
+                {/* Dropdown List */}
+                {isOpenSafetyFactor && (
+                  <ul className="absolute mt-2 w-full bg-white border rounded shadow-md max-h-[200px] overflow-y-auto">
+                    {safetyFactorData.map((room) => (
+                      <li
+                        key={room.id}
+                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                        onClick={() => handleSelect(room)}
+                      >
+                        <p>{room.title}</p>
+                        <p className="hidden">{room.sf}</p>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
 
-                  <button
-                    onClick={() => setSafetyFactor(1.6)}
-                    className={`text-xl border py-1 px-2 ${
-                      selectedCondition?.sf === 1.5
-                        ? "bg-black text-white"
-                        : "bg-white text-black"
-                    } `}
-                  >
-                    <p>1.5</p>
-                  </button>
+              <div className={"my-[15px] flex gap-x-[20px] items-center"}>
+                <button
+                  className={`text-xl border py-1 px-2 ${
+                    selectedCondition?.sf === 1.25
+                      ? "bg-black text-white"
+                      : "bg-white text-black"
+                  } `}
+                >
+                  <p>1.25</p>
+                </button>
 
-                  <button
-                    onClick={() => setSafetyFactor(1.7)}
-                    className={`text-xl border py-1 px-2 ${
-                      selectedCondition?.sf === 2.0
-                        ? "bg-black text-white"
-                        : "bg-white text-black"
-                    } `}
-                  >
-                    <p>2.0</p>
-                  </button>
-                </div>
+                <button
+                  className={`text-xl border py-1 px-2 ${
+                    selectedCondition?.sf === 1.5
+                      ? "bg-black text-white"
+                      : "bg-white text-black"
+                  } `}
+                >
+                  <p>1.5</p>
+                </button>
+
+                <button
+                  className={`text-xl border py-1 px-2 ${
+                    selectedCondition?.sf === 2.0
+                      ? "bg-black text-white"
+                      : "bg-white text-black"
+                  } `}
+                >
+                  <p>2.0</p>
+                </button>
               </div>
             </div>
           </div>
@@ -451,7 +457,7 @@ export default function Index() {
           <button
             onClick={onSubmit}
             className={
-              "py-[15px] px-[50px] text-lg w-1/2 bg-black text-white  border rounded-[10px]    transition-all duration-300"
+              "py-[15px] px-[50px] text-lg w-1/3 bg-black text-white  border rounded-[10px]    transition-all duration-300"
             }
           >
             рассчитать
