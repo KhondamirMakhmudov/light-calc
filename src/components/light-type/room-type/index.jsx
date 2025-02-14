@@ -237,13 +237,13 @@ const RoomType = () => {
           {formFactor ? formFactor.name : "Выберите форму"}
         </div>
 
-        {formFactor.name === "Круглый" ? (
+        {formFactor?.name === "Круглый" ? (
           <input
             className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
             type="number"
             placeholder="диаметр"
           />
-        ) : formFactor.name === "Четырёхугольник" ? (
+        ) : formFactor?.name === "Четырёхугольник" ? (
           <div className="flex gap-x-[10px]">
             <input
               className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
@@ -256,7 +256,7 @@ const RoomType = () => {
               placeholder="ширина"
             />
           </div>
-        ) : formFactor.name === "Линейный" ? (
+        ) : formFactor?.name === "Линейный" ? (
           <input
             className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
             type="number"
