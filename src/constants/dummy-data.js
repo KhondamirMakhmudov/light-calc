@@ -89,3 +89,9 @@ export const safetyFactorData = [
     sf: "1.0",
   },
 ];
+
+export const themes = [
+  { id: "round", name: "Круглый" },
+  { id: "square", name: "Четырёхугольник" },
+  { id: "linear", name: "Линейный" },
+];
