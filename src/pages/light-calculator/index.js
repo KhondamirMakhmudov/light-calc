@@ -351,6 +351,10 @@ export default function Index() {
             </div>
           </div>
         </div>
+
+        <div className="col-span-12">
+          <RoomType />
+        </div>
         <div className="col-span-8">
           <div className={"my-[50px]"}>
             <h5 className="font-bold text-lg">коэффициенты отражения</h5>
@@ -360,10 +364,8 @@ export default function Index() {
         </div>
 
         <div className="col-span-4 my-[50px]">
-          <RoomType />
-          <h5 className="text-lg font-semibold">параметры освещения</h5>
-          <div className={"flex gap-x-[100px]"}>
-            {/* yoritish */}
+          {/* <h5 className="text-lg font-semibold">параметры освещения</h5> */}
+          {/* <div className={"flex gap-x-[100px]"}>
             <div className={"mt-[15px] "}>
               <h5>освещенность</h5>
 
@@ -383,7 +385,7 @@ export default function Index() {
                 </button>
               </div>
             </div>
-          </div>{" "}
+          </div>{" "} */}
         </div>
         <div className={"col-span-12"}>
           <div className={"mb-[30px] text-lg"}>
