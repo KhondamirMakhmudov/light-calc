@@ -3,4 +3,5 @@ export const URLS = {
   calculateLight: "lightbulb/calculate-lamps/",
   roomCategories: "lightbulb/room_categories/",
   roomCategoriesGroup: "lightbulb/room_categories/parent/",
+  roomInfo: "lightbulb/rooms/",
 };

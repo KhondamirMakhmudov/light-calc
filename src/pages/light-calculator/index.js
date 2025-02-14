@@ -53,9 +53,9 @@ export default function Index() {
   ///////////////////////////////////////////////
   // for height
   const incrementHeight = () =>
-    setHeight((prev) => (parseFloat(prev) + 1.0).toFixed(1));
+    setHeight((prev) => (parseFloat(prev) + 0.1).toFixed(1));
   const decrementHeight = () =>
-    setHeight((prev) => Math.max(0, parseFloat((prev - 1.0).toFixed(1))));
+    setHeight((prev) => Math.max(0, parseFloat((prev - 0.1).toFixed(1))));
 
   const handleInputChangeHeight = (e) => {
     const value = e.target.value;
@@ -76,9 +76,9 @@ export default function Index() {
 
   // for weight
   const incrementWidth = () =>
-    setWidth((prev) => (parseFloat(prev) + 1.0).toFixed(1));
+    setWidth((prev) => (parseFloat(prev) + 0.1).toFixed(1));
   const decrementWidth = () =>
-    setWidth((prev) => Math.max(0, parseFloat(prev) - 1.0).toFixed(1));
+    setWidth((prev) => Math.max(0, parseFloat(prev) - 0.1).toFixed(1));
 
   const handleInputChangeWidth = (e) => {
     const value = e.target.value;
@@ -99,7 +99,7 @@ export default function Index() {
 
   //   for length
   const incrementLength = () =>
-    setLength((prev) => (parseFloat(prev) + 1.0).toFixed(1));
+    setLength((prev) => (parseFloat(prev) + 0.1).toFixed(1));
 
   const handleInputChangeLength = (e) => {
     const value = e.target.value;
@@ -119,7 +119,7 @@ export default function Index() {
   };
 
   const decrementLength = () => {
-    setLength((prev) => Math.max(0, parseFloat((prev - 1.0).toFixed(1))));
+    setLength((prev) => Math.max(0, parseFloat((prev - 0.1).toFixed(1))));
   };
 
   const setSurface = (work) => {
@@ -306,34 +306,6 @@ export default function Index() {
               </div>
             </div>
           </div>
-
-          <div className={"mt-[15px]"}>
-            <h5>рабочая поверхность</h5>
-
-            <div className={"my-[15px] flex gap-x-[20px] items-center"}>
-              <button
-                onClick={() => setSurface(0)}
-                className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
-                  workSurface === 0
-                    ? "bg-black text-white"
-                    : "bg-white text-black"
-                } `}
-              >
-                <p>0 m</p>
-              </button>
-
-              <button
-                onClick={() => setSurface(0.8)}
-                className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
-                  workSurface === 0.8
-                    ? "bg-black text-white"
-                    : "bg-white text-black"
-                } `}
-              >
-                <p>0.8 m</p>
-              </button>
-            </div>
-          </div>
         </div>
         <div className="col-span-7">
           <div className="border relative">
@@ -363,30 +335,7 @@ export default function Index() {
           </div>
         </div>
 
-        <div className="col-span-4 my-[50px]">
-          {/* <h5 className="text-lg font-semibold">параметры освещения</h5> */}
-          {/* <div className={"flex gap-x-[100px]"}>
-            <div className={"mt-[15px] "}>
-              <h5>освещенность</h5>
-
-              <div className={"my-[15px] flex gap-x-[20px] items-center"}>
-                <button
-                  className={"text-xl border rounded-full p-1 bg-[#272623]"}
-                >
-                  <MinusIcon color={"white"} />
-                </button>
-
-                <p>{roomLK} лк</p>
-
-                <button
-                  className={"text-xl border rounded-full p-1 bg-[#272623]"}
-                >
-                  <PlusIcon color={"white"} />
-                </button>
-              </div>
-            </div>
-          </div>{" "} */}
-        </div>
+        <div className="col-span-4 my-[50px]"></div>
         <div className={"col-span-12"}>
           <div className={"mb-[30px] text-lg"}>
             <div className={"mt-[15px]"}>
