@@ -8,6 +8,8 @@ import MinusIcon from "@/components/icons/minus";
 import PlusIcon from "@/components/icons/plus";
 import { themes } from "@/constants/dummy-data";
 
+const angles = ["К30", "Г60", "Д120", "Л140", "Ш160", "М180"];
+
 const RoomType = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -16,6 +18,8 @@ const RoomType = () => {
   const [treeId, setTreeId] = useState(null);
   const [formFactor, setFormFactor] = useState(null);
   const [isOpenFormFactor, setIsOpenFormFactor] = useState(false);
+  const [selectedAngle, setSelectedAngle] = useState(null);
+  const [isOpenAngle, setIsOpenAngle] = useState(false);
 
   // Fetch first dropdown data
   const { data: roomCategories, isLoading } = useGetQuery({
@@ -68,6 +72,12 @@ const RoomType = () => {
   const handleSelectFormFactor = (theme) => {
     setFormFactor(theme);
     setIsOpenFormFactor(false);
+  };
+
+  const toggleDropdownAngle = () => setIsOpenAngle(!isOpenAngle);
+  const handleSelectAngle = (angle) => {
+    setSelectedAngle(angle);
+    setIsOpenAngle(false);
   };
 
   if (isLoading) return <SimpleLoader />;
@@ -226,59 +236,104 @@ const RoomType = () => {
 
       <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
 
-      <div className="relative w-1/2">
-        <h5 className={"text-lg font-semibold mb-[20px]"}>
-          Вводите параметры лампочки в зависимости от её формы.
-        </h5>
-        <div
-          className="py-2 px-4 border border-gray-400 rounded cursor-pointer bg-white mb-[15px]"
-          onClick={toggleDropdownFormFactor}
-        >
-          {formFactor ? formFactor.name : "Выберите форму"}
-        </div>
+      <div className="flex justify-between gap-x-[20px]">
+        <div className="relative  flex flex-col">
+          <h5 className={"text-lg flex-grow-1 font-semibold mb-[20px]"}>
+            Вводите параметры лампочки в зависимости от её формы.
+          </h5>
+          <div
+            className="py-2 px-4 border border-gray-400 rounded cursor-pointer bg-white mb-[15px]"
+            onClick={toggleDropdownFormFactor}
+          >
+            {formFactor ? formFactor.name : "Выберите форму"}
+          </div>
 
-        {formFactor?.name === "Круглый" ? (
-          <input
-            className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
-            type="number"
-            placeholder="диаметр"
-          />
-        ) : formFactor?.name === "Четырёхугольник" ? (
-          <div className="flex gap-x-[10px]">
+          {formFactor?.name === "Круглый" ? (
             <input
-              className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
+              className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
+              type="number"
+              placeholder="диаметр"
+            />
+          ) : formFactor?.name === "Четырёхугольник" ? (
+            <div className="flex gap-x-[10px]">
+              <input
+                className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
+                type="number"
+                placeholder="длина"
+              />
+              <input
+                className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
+                type="number"
+                placeholder="ширина"
+              />
+            </div>
+          ) : formFactor?.name === "Линейный" ? (
+            <input
+              className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
               type="number"
               placeholder="длина"
             />
-            <input
-              className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
-              type="number"
-              placeholder="ширина"
-            />
+          ) : (
+            ""
+          )}
+
+          {isOpenFormFactor && (
+            <ul className="absolute w-full bg-white border border-gray-400 rounded shadow-md mt-1 z-50">
+              {themes.map((theme) => (
+                <li
+                  key={theme.id}
+                  className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                  onClick={() => handleSelectFormFactor(theme)}
+                >
+                  {theme.name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div className="w-[1px] h-[100px] bg-gray-200"></div>
+
+        <div className="relative  flex flex-col">
+          <h5 className="font-semibold text-lg mb-[20px] flex-grow-1">
+            Угол рассеивания
+          </h5>
+          <div className="relative ">
+            <div
+              className="py-2 px-4 border border-gray-400 rounded cursor-pointer bg-white"
+              onClick={toggleDropdownAngle}
+            >
+              {selectedAngle || "Выберите угол"}
+            </div>
+
+            {isOpenAngle && (
+              <ul className="absolute w-full bg-white border border-gray-400 rounded shadow-md mt-1 z-50">
+                {angles.map((angle) => (
+                  <li
+                    key={angle}
+                    className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                    onClick={() => handleSelectAngle(angle)}
+                  >
+                    {angle}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-        ) : formFactor?.name === "Линейный" ? (
+        </div>
+
+        <div className="w-[1px] h-[100px] bg-gray-200"></div>
+
+        <div>
+          <h5 className={"text-lg flex-grow-1 font-semibold mb-[20px]"}>
+            Вводите параметры лампочки в зависимости от её формы.
+          </h5>
+
           <input
             className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
-            type="number"
-            placeholder="длина"
+            placeholder="0.0001"
           />
-        ) : (
-          ""
-        )}
-
-        {isOpenFormFactor && (
-          <ul className="absolute w-full bg-white border border-gray-400 rounded shadow-md mt-1 z-50">
-            {themes.map((theme) => (
-              <li
-                key={theme.id}
-                className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                onClick={() => handleSelectFormFactor(theme)}
-              >
-                {theme.name}
-              </li>
-            ))}
-          </ul>
-        )}
+        </div>
       </div>
     </div>
   );
