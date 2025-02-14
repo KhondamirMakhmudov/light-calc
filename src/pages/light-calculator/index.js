@@ -373,18 +373,8 @@ export default function Index() {
 
               <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                 <button
-                  className={`text-xl border py-1 px-2 ${
-                    selectedCondition?.sf === 1.25
-                      ? "bg-black text-white"
-                      : "bg-white text-black"
-                  } `}
-                >
-                  <p>1.25</p>
-                </button>
-
-                <button
-                  className={`text-xl border py-1 px-2 ${
-                    selectedCondition?.sf === 1.5
+                  className={`text-xl border py-1 px-3 rounded-md ${
+                    selectedCondition?.sf === "1.5"
                       ? "bg-black text-white"
                       : "bg-white text-black"
                   } `}
@@ -393,13 +383,33 @@ export default function Index() {
                 </button>
 
                 <button
-                  className={`text-xl border py-1 px-2 ${
-                    selectedCondition?.sf === 2.0
+                  className={`text-xl border py-1 px-3 rounded-md ${
+                    selectedCondition?.sf === "1.3"
                       ? "bg-black text-white"
                       : "bg-white text-black"
                   } `}
                 >
-                  <p>2.0</p>
+                  <p>1.3</p>
+                </button>
+
+                <button
+                  className={`text-xl border py-1 px-3 rounded-md ${
+                    selectedCondition?.sf === "1,1-1,5"
+                      ? "bg-black text-white"
+                      : "bg-white text-black"
+                  } `}
+                >
+                  <p>1.1-1.5</p>
+                </button>
+
+                <button
+                  className={`text-xl border py-1 px-3 rounded-md ${
+                    selectedCondition?.sf === "1.0"
+                      ? "bg-black text-white"
+                      : "bg-white text-black"
+                  } `}
+                >
+                  <p>1.0</p>
                 </button>
               </div>
             </div>
