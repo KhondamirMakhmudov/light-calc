@@ -38,7 +38,8 @@ export default function Index() {
   const [diameter, setDiameter] = useState("");
   const [rectLength, setRectLength] = useState("");
   const [rectWidth, setRectWidth] = useState("");
-
+  const [distanceFromCeilingLength, setDistanceFromCeilingLength] =
+    useState("");
   const [distanceFromCeiling, setDistanceFromCeiling] = useState("");
   const [selectedNumbersArray, setSelectedNumbersArray] = useState([]);
   const [height, setHeight] = useState(3.0);
@@ -216,20 +217,23 @@ export default function Index() {
         onSuccess: (response) => {
           console.log(response);
           router.push("/light-calculator/results");
+
+          let formFactorValues = {};
+          if (formFactor?.name === "Круглый") {
+            formFactorValues = { diameter };
+          } else if (formFactor?.name === "Четырёхугольник") {
+            formFactorValues = { length: rectLength, width: rectWidth };
+          } else if (formFactor?.name === "Линейный") {
+            formFactorValues = { length: distanceFromCeilingLength };
+          }
           setResult({
             response,
             inputValues: {
-              formFactor: formFactor?.name, // Selected form factor
-              formFactorValues: {
-                diameter: formFactor?.name === "Круглый" ? diameter : null,
-                length:
-                  formFactor?.name === "Четырёхугольник" ||
-                  formFactor?.name === "Линейный"
-                    ? rectLength
-                    : null,
-                width:
-                  formFactor?.name === "Четырёхугольник" ? rectWidth : null,
-              },
+              formFactor: formFactor?.name,
+              diameter,
+              rectLength, // Selected form factor
+              rectWidth,
+              distanceFromCeilingLength,
               selectedAngle,
               distanceFromCeiling,
             },
@@ -590,6 +594,7 @@ export default function Index() {
                     <input
                       className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
                       type="number"
+                      value={rectWidth}
                       placeholder="ширина"
                       onChange={(e) => setRectWidth(e.target.value)}
                     />
@@ -598,8 +603,11 @@ export default function Index() {
                   <input
                     className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
                     type="number"
-                    value={rectWidth}
+                    value={distanceFromCeilingLength}
                     placeholder="длина"
+                    onChange={(e) =>
+                      setDistanceFromCeilingLength(e.target.value)
+                    }
                   />
                 ) : (
                   ""
