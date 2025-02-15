@@ -19,9 +19,21 @@ import SafetyFactorComponent from "@/components/light-type/reserve-factor";
 import { safetyFactorData } from "@/constants/dummy-data";
 import { useContext } from "react";
 import { LightCalculatorContext } from "@/context/responseProvider";
+import useGetQuery from "@/hooks/api/useGetQuery";
+import { get } from "lodash";
 
 export default function Index() {
   const router = useRouter();
+  const [isOpenRoom, setIsOpenRoom] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [isOpenGroup, setIsOpenGroup] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [treeId, setTreeId] = useState(null);
+  const [formFactor, setFormFactor] = useState(null);
+  const [isOpenFormFactor, setIsOpenFormFactor] = useState(false);
+  const [selectedAngle, setSelectedAngle] = useState(null);
+  const [isOpenAngle, setIsOpenAngle] = useState(false);
+
   const [workSurface, setWorkSurface] = useState(0.8);
   const [selectedNumbersArray, setSelectedNumbersArray] = useState([]);
   const [height, setHeight] = useState(3.0);
@@ -37,16 +49,70 @@ export default function Index() {
 
   const [selectedCondition, setSelectedCondition] = useState(null);
   const toggleDropdown = () => setIsOpenSafetyFactor(!isOpenSafetyFactor);
-  const setSafetyFactor = (safety) => {
-    setSafety(safety);
-  };
 
   const handleSelect = (room) => {
     setSelectedCondition(room);
     setIsOpenSafetyFactor(false);
   };
 
-  // console.log(selectedCondition?.sf, "selectedCondition.sf");
+  // Fetch first dropdown data
+  const { data: roomCategories, isLoading } = useGetQuery({
+    key: KEYS.roomCategories,
+    url: URLS.roomCategories,
+  });
+
+  // Fetch second dropdown data (depends on first selection)
+  const { data: roomCategoriesGroup, isLoading: isLoadingGroup } = useGetQuery({
+    key: [KEYS.roomCategoriesGroup, treeId],
+    url: treeId ? `${URLS.roomCategoriesGroup}${treeId}/` : null,
+    enabled: !!treeId,
+  });
+
+  // third api
+  const secondGroupId = roomCategoriesGroup?.data?.[1]?.id || null;
+
+  const {
+    data: roomInfo,
+    isLoading: isLoadingInfo,
+    isFetching: isFetchingInfo,
+  } = useGetQuery({
+    key: [KEYS.roomInfo, secondGroupId], // Har safar 2-API yangilansa, 3-API ham yangilanadi
+    url: secondGroupId ? `${URLS.roomInfo}${secondGroupId}` : null, // Faqat mavjud bo‘lsa chaqiriladi
+    enabled: !!secondGroupId, // Ikkinchi selectdan hech narsa tanlanmasa, API ishlamaydi
+  });
+
+  console.log(roomInfo);
+
+  const toggleDropdownRoom = () => setIsOpenRoom(!isOpenRoom);
+
+  const handleSelectRoom = (room) => {
+    setSelectedRoom(room);
+    setTreeId(room.tree_id);
+    setSelectedGroup(null); // Reset second selection on change
+    setIsOpenRoom(false);
+  };
+
+  const toggleDropdownGroup = () => {
+    if (!selectedRoom) return; // Prevent opening if the first is not selected
+    setIsOpenGroup(!isOpenGroup);
+  };
+
+  const handleSelectGroup = (room) => {
+    setSelectedGroup(room);
+    setIsOpenGroup(false);
+  };
+
+  const toggleDropdownFormFactor = () => setIsOpenFormFactor(!isOpenFormFactor);
+  const handleSelectFormFactor = (theme) => {
+    setFormFactor(theme);
+    setIsOpenFormFactor(false);
+  };
+
+  const toggleDropdownAngle = () => setIsOpenAngle(!isOpenAngle);
+  const handleSelectAngle = (angle) => {
+    setSelectedAngle(angle);
+    setIsOpenAngle(false);
+  };
 
   ///////////////////////////////////////////////
   ////// Giving parameters to the house /////////
@@ -59,14 +125,12 @@ export default function Index() {
 
   const handleInputChangeHeight = (e) => {
     const value = e.target.value;
-    // Allow numbers, '.', and an empty string for user input
     if (/^(\d+(\.\d*)?)?$/.test(value)) {
       setHeight(value);
     }
   };
 
   const handleBlurHeight = () => {
-    // Ensure a valid number is set when the input loses focus
     setHeight((prev) =>
       prev === "" || isNaN(parseFloat(prev))
         ? "0.0"
@@ -82,14 +146,13 @@ export default function Index() {
 
   const handleInputChangeWidth = (e) => {
     const value = e.target.value;
-    // Allow numbers, '.', and an empty string for user input
+
     if (/^(\d+(\.\d*)?)?$/.test(value)) {
       setWidth(value);
     }
   };
 
   const handleBlurWidth = () => {
-    // Ensure a valid number is set when the input loses focus
     setWidth((prev) =>
       prev === "" || isNaN(parseFloat(prev))
         ? "0.0"
@@ -103,7 +166,7 @@ export default function Index() {
 
   const handleInputChangeLength = (e) => {
     const value = e.target.value;
-    // Allow numbers, '.', and an empty string for user input
+
     if (/^(\d+(\.\d*)?)?$/.test(value)) {
       setLength(value);
     }
@@ -122,10 +185,6 @@ export default function Index() {
     setLength((prev) => Math.max(0, parseFloat((prev - 0.1).toFixed(1))));
   };
 
-  const setSurface = (work) => {
-    setWorkSurface(work);
-  };
-
   const area = (length * width).toFixed(2);
 
   const handleSelectionChange = (selectedNumbers) => {
@@ -134,10 +193,11 @@ export default function Index() {
     // Use the selected numbers as needed
   };
 
-  const { mutate: calculateTheLightBulb, isLoading } = usePostQuery({
-    listKeyId: KEYS.calculateLight,
-    hideSuccessToast: true,
-  });
+  const { mutate: calculateTheLightBulb, isLoading: isLoadingLightBulb } =
+    usePostQuery({
+      listKeyId: KEYS.calculateLight,
+      hideSuccessToast: true,
+    });
 
   const onSubmit = () => {
     calculateTheLightBulb(
@@ -148,9 +208,9 @@ export default function Index() {
           room_width: width,
           room_height: height,
           reflection_factors: selectedNumbersArray,
-          illumination: roomLK,
-          working_surface_height: workSurface,
-          reserve_factor: selectedCondition?.sf,
+          illumination: get(roomInfo, "data[0].lk"),
+          working_surface_height: get(roomInfo, "data[0].table_height"),
+          reserve_factor: String(selectedCondition?.sf),
         },
       },
       {
@@ -313,7 +373,7 @@ export default function Index() {
               width={width}
               height={height}
               length={length}
-              workSurface={workSurface}
+              workSurface={get(roomInfo, "data[0].table_height")}
             />
 
             <div className="absolute top-2 right-2">
@@ -325,7 +385,263 @@ export default function Index() {
         </div>
 
         <div className="col-span-12">
-          <RoomType />
+          <div>
+            <div className="grid grid-cols-12 my-8 gap-x-5 flex-wrap">
+              {/* First Dropdown */}
+              <div className="relative flex-col flex flex-wrap col-span-6 text-base">
+                <h5 className="text-lg flex-1 font-semibold">Тип помещения</h5>
+                <div
+                  className="py-2 px-6 border border-black rounded my-4 cursor-pointer"
+                  onClick={toggleDropdownRoom}
+                >
+                  <span>
+                    {selectedRoom ? selectedRoom.name : "Выберите тип комнаты"}
+                  </span>
+                </div>
+
+                {isOpenRoom && (
+                  <ul className="absolute mt-0 w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
+                    {get(roomCategories, "data", []).map((room) => (
+                      <li
+                        key={room.id}
+                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                        onClick={() => handleSelectRoom(room)}
+                      >
+                        {room.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              {/* Second Dropdown (Disabled if First Not Selected) */}
+              <div className="relative flex-col flex flex-wrap col-span-6 text-base">
+                <h5 className="text-lg flex-1 font-semibold">
+                  Наименование зрительной работы и вида деятельности
+                </h5>
+                <div
+                  className={`py-2 px-6 border rounded my-4 transition-all duration-300 cursor-pointer ${
+                    !selectedRoom
+                      ? "border-gray-400 bg-gray-200 text-gray-500 cursor-not-allowed"
+                      : "border-black"
+                  }`}
+                  onClick={toggleDropdownGroup}
+                >
+                  <span>
+                    {selectedGroup ? selectedGroup.name : "Выберите категорию"}
+                  </span>
+                </div>
+
+                {isOpenGroup && selectedRoom && (
+                  <ul className="absolute mt-0 w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
+                    {get(roomCategoriesGroup, "data", []).map((room) => (
+                      <li
+                        key={room.id}
+                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                        onClick={() => handleSelectGroup(room)}
+                      >
+                        {room.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+            <div className="flex justify-between gap-x-[40px] items-center">
+              <div>
+                <h5 className="text-lg font-semibold">параметры освещения</h5>
+                <div className={"flex"}>
+                  <div className={"mt-[15px] "}>
+                    <h5>освещенность</h5>
+
+                    <div className={"my-[15px] flex gap-x-[20px] items-center"}>
+                      <button
+                        className={
+                          "text-xl border rounded-full p-1 bg-[#272623]"
+                        }
+                      >
+                        <MinusIcon color={"white"} />
+                      </button>
+
+                      <p>{get(roomInfo, "data[0].lk")} лк</p>
+
+                      <button
+                        className={
+                          "text-xl border rounded-full p-1 bg-[#272623]"
+                        }
+                      >
+                        <PlusIcon color={"white"} />
+                      </button>
+                    </div>
+                  </div>
+                </div>{" "}
+              </div>
+
+              <div className="w-[1px] h-[100px] bg-gray-200"></div>
+
+              <div>
+                <h5 className="text-lg font-semibold">
+                  Ra(Индекса цвето передачи), не менее
+                </h5>
+                <div className={"flex items-center justify-center mt-[15px]"}>
+                  <div
+                    className={
+                      "my-[15px]  bg-black text-white text-center py-[10px] px-[20px] rounded-md inline-block"
+                    }
+                  >
+                    <p>{get(roomInfo, "data[0].ra")}</p>
+                  </div>
+                </div>{" "}
+              </div>
+
+              <div className="w-[1px] h-[100px] bg-gray-200"></div>
+
+              <div>
+                <h5 className="text-lg font-semibold">
+                  {"К(Пульсации)<= %, не более"}
+                </h5>
+                <div className={"flex items-center justify-center mt-[15px]"}>
+                  <div
+                    className={
+                      "my-[15px]  bg-black text-white text-center py-[10px] px-[20px] rounded-md inline-block"
+                    }
+                  >
+                    <p>{get(roomInfo, "data[0].k")}</p>
+                  </div>
+                </div>{" "}
+              </div>
+            </div>
+
+            <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
+
+            <div className={""}>
+              <h5 className={"text-lg font-semibold"}>Рабочая поверхность</h5>
+
+              <div className={"my-[15px] flex gap-x-[20px] items-center"}>
+                <button
+                  className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
+                    get(roomInfo, "data[0].table_height") === 0
+                      ? "bg-black text-white"
+                      : "bg-white text-black"
+                  } `}
+                >
+                  <p>0 m</p>
+                </button>
+
+                <button
+                  className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
+                    get(roomInfo, "data[0].table_height") === 0.8
+                      ? "bg-black text-white"
+                      : "bg-white text-black"
+                  } `}
+                >
+                  <p>0.8 m</p>
+                </button>
+              </div>
+            </div>
+
+            <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
+
+            <div className="flex justify-between gap-x-[20px]">
+              <div className="relative  flex flex-col">
+                <h5 className={"text-lg flex-grow-1 font-semibold mb-[20px]"}>
+                  Вводите параметры лампочки в зависимости от её формы.
+                </h5>
+                <div
+                  className="py-2 px-4 border border-gray-400 rounded cursor-pointer bg-white mb-[15px]"
+                  onClick={toggleDropdownFormFactor}
+                >
+                  {formFactor ? formFactor.name : "Выберите форму"}
+                </div>
+
+                {formFactor?.name === "Круглый" ? (
+                  <input
+                    className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
+                    type="number"
+                    placeholder="диаметр"
+                  />
+                ) : formFactor?.name === "Четырёхугольник" ? (
+                  <div className="flex gap-x-[10px]">
+                    <input
+                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
+                      type="number"
+                      placeholder="длина"
+                    />
+                    <input
+                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
+                      type="number"
+                      placeholder="ширина"
+                    />
+                  </div>
+                ) : formFactor?.name === "Линейный" ? (
+                  <input
+                    className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
+                    type="number"
+                    placeholder="длина"
+                  />
+                ) : (
+                  ""
+                )}
+
+                {isOpenFormFactor && (
+                  <ul className="absolute w-full bg-white border border-gray-400 rounded shadow-md mt-1 z-50">
+                    {themes.map((theme) => (
+                      <li
+                        key={theme.id}
+                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                        onClick={() => handleSelectFormFactor(theme)}
+                      >
+                        {theme.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              <div className="w-[1px] h-[100px] bg-gray-200"></div>
+
+              <div className="relative  flex flex-col">
+                <h5 className="font-semibold text-lg mb-[20px] flex-grow-1">
+                  Угол рассеивания
+                </h5>
+                <div className="relative ">
+                  <div
+                    className="py-2 px-4 border border-gray-400 rounded cursor-pointer bg-white"
+                    onClick={toggleDropdownAngle}
+                  >
+                    {selectedAngle || "Выберите угол"}
+                  </div>
+
+                  {isOpenAngle && (
+                    <ul className="absolute w-full bg-white border border-gray-400 rounded shadow-md mt-1 z-50">
+                      {angles.map((angle) => (
+                        <li
+                          key={angle}
+                          className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                          onClick={() => handleSelectAngle(angle)}
+                        >
+                          {angle}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+
+              <div className="w-[1px] h-[100px] bg-gray-200"></div>
+
+              <div>
+                <h5 className={"text-lg flex-grow-1 font-semibold mb-[20px]"}>
+                  Расстояние светильника от потолка
+                </h5>
+
+                <input
+                  className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
+                  placeholder="0.0001"
+                />
+              </div>
+            </div>
+          </div>
         </div>
         <div className="col-span-8">
           <div className={"my-[50px]"}>

@@ -11,7 +11,7 @@ import { themes } from "@/constants/dummy-data";
 const angles = ["К30", "Г60", "Д120", "Л140", "Ш160", "М180"];
 
 const RoomType = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenRoom, setIsOpenRoom] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [isOpenGroup, setIsOpenGroup] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
@@ -49,13 +49,13 @@ const RoomType = () => {
 
   console.log(roomInfo);
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const toggleDropdown = () => setIsOpenRoom(!isOpenRoom);
 
   const handleSelect = (room) => {
     setSelectedRoom(room);
     setTreeId(room.tree_id);
     setSelectedGroup(null); // Reset second selection on change
-    setIsOpen(false);
+    setIsOpenRoom(false);
   };
 
   const toggleDropdownGroup = () => {
@@ -97,7 +97,7 @@ const RoomType = () => {
             </span>
           </div>
 
-          {isOpen && (
+          {isOpenRoom && (
             <ul className="absolute mt-0 w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
               {get(roomCategories, "data", []).map((room) => (
                 <li
@@ -326,7 +326,7 @@ const RoomType = () => {
 
         <div>
           <h5 className={"text-lg flex-grow-1 font-semibold mb-[20px]"}>
-            Вводите параметры лампочки в зависимости от её формы.
+            Расстояние светильника от потолка
           </h5>
 
           <input
