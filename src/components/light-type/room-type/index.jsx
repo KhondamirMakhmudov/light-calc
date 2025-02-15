@@ -28,29 +28,36 @@ const RoomType = () => {
   });
 
   // Fetch second dropdown data (depends on first selection)
-  const { data: roomCategoriesGroup, isLoading: isLoadingGroup } = useGetQuery({
+  const {
+    data: roomCategoriesGroup,
+    isLoading: isLoadingGroup,
+    isFetching: isFetchingGroup,
+  } = useGetQuery({
     key: [KEYS.roomCategoriesGroup, treeId],
     url: treeId ? `${URLS.roomCategoriesGroup}${treeId}/` : null,
     enabled: !!treeId,
   });
 
-  // third api
-  const secondGroupId = roomCategoriesGroup?.data?.[1]?.id || null;
+  console.log("1️⃣ Birinchi API dan kelgan data:", roomCategories?.data);
 
+  const secondGroupId = selectedGroup?.id || null;
+  console.log("Selected Group ID (for 3rd API):", secondGroupId); // Debugging
+
+  // Fetch third API based on selectedGroup
   const {
     data: roomInfo,
     isLoading: isLoadingInfo,
     isFetching: isFetchingInfo,
   } = useGetQuery({
-    key: [KEYS.roomInfo, secondGroupId], // Har safar 2-API yangilansa, 3-API ham yangilanadi
-    url: secondGroupId ? `${URLS.roomInfo}${secondGroupId}` : null, // Faqat mavjud bo‘lsa chaqiriladi
-    enabled: !!secondGroupId, // Ikkinchi selectdan hech narsa tanlanmasa, API ishlamaydi
+    key: [KEYS.roomInfo, secondGroupId],
+    url: secondGroupId ? `${URLS.roomInfo}${secondGroupId}` : null,
+    enabled: !!secondGroupId,
   });
 
-  console.log(roomInfo);
+  // Debugging roomInfo response
+  console.log("Room Info Data:", roomInfo);
 
-  const toggleDropdown = () => setIsOpenRoom(!isOpenRoom);
-
+  // First dropdown selection
   const handleSelect = (room) => {
     setSelectedRoom(room);
     setTreeId(room.tree_id);
@@ -58,12 +65,9 @@ const RoomType = () => {
     setIsOpenRoom(false);
   };
 
-  const toggleDropdownGroup = () => {
-    if (!selectedRoom) return; // Prevent opening if the first is not selected
-    setIsOpenGroup(!isOpenGroup);
-  };
-
+  // Second dropdown selection
   const handleSelectGroup = (room) => {
+    console.log("Selected Group Changed:", room);
     setSelectedGroup(room);
     setIsOpenGroup(false);
   };
@@ -130,81 +134,85 @@ const RoomType = () => {
             </span>
           </div>
 
-          {isOpenGroup && selectedRoom && (
-            <ul className="absolute mt-0 w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
-              {get(roomCategoriesGroup, "data", []).map((room) => (
-                <li
-                  key={room.id}
-                  className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                  onClick={() => handleSelectGroup(room)}
-                >
-                  {room.name}
-                </li>
-              ))}
-            </ul>
-          )}
+          {isOpenGroup &&
+            selectedRoom &&
+            (isFetchingGroup || isLoadingGroup) && (
+              <ul className="absolute mt-0 w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
+                {get(roomCategoriesGroup, "data", []).map((room) => (
+                  <li
+                    key={room.id}
+                    className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                    onClick={() => handleSelectGroup(room)}
+                  >
+                    {room.name}
+                  </li>
+                ))}
+              </ul>
+            )}
         </div>
       </div>
-      <div className="flex justify-between gap-x-[40px] items-center">
-        <div>
-          <h5 className="text-lg font-semibold">параметры освещения</h5>
-          <div className={"flex"}>
-            <div className={"mt-[15px] "}>
-              <h5>освещенность</h5>
+      {(isLoadingInfo || isFetchingInfo) && (
+        <div className="flex justify-between gap-x-[40px] items-center">
+          <div>
+            <h5 className="text-lg font-semibold">параметры освещения</h5>
+            <div className={"flex"}>
+              <div className={"mt-[15px] "}>
+                <h5>освещенность</h5>
 
-              <div className={"my-[15px] flex gap-x-[20px] items-center"}>
-                <button
-                  className={"text-xl border rounded-full p-1 bg-[#272623]"}
-                >
-                  <MinusIcon color={"white"} />
-                </button>
+                <div className={"my-[15px] flex gap-x-[20px] items-center"}>
+                  <button
+                    className={"text-xl border rounded-full p-1 bg-[#272623]"}
+                  >
+                    <MinusIcon color={"white"} />
+                  </button>
 
-                <p>{get(roomInfo, "data[0].lk")} лк</p>
+                  <p>{get(roomInfo, "data[0].lk")} лк</p>
 
-                <button
-                  className={"text-xl border rounded-full p-1 bg-[#272623]"}
-                >
-                  <PlusIcon color={"white"} />
-                </button>
+                  <button
+                    className={"text-xl border rounded-full p-1 bg-[#272623]"}
+                  >
+                    <PlusIcon color={"white"} />
+                  </button>
+                </div>
               </div>
-            </div>
-          </div>{" "}
+            </div>{" "}
+          </div>
+
+          <div className="w-[1px] h-[100px] bg-gray-200"></div>
+
+          <div>
+            <h5 className="text-lg font-semibold">
+              Ra(Индекса цвето передачи), не менее
+            </h5>
+            <div className={"flex items-center justify-center mt-[15px]"}>
+              <div
+                className={
+                  "my-[15px]  bg-black text-white text-center py-[10px] px-[20px] rounded-md inline-block"
+                }
+              >
+                <p>{get(roomInfo, "data[0].ra")}</p>
+              </div>
+            </div>{" "}
+          </div>
+
+          <div className="w-[1px] h-[100px] bg-gray-200"></div>
+
+          <div>
+            <h5 className="text-lg font-semibold">
+              {"К(Пульсации)<= %, не более"}
+            </h5>
+            <div className={"flex items-center justify-center mt-[15px]"}>
+              <div
+                className={
+                  "my-[15px]  bg-black text-white text-center py-[10px] px-[20px] rounded-md inline-block"
+                }
+              >
+                <p>{get(roomInfo, "data[0].k") || "0"}</p>
+              </div>
+            </div>{" "}
+          </div>
         </div>
-
-        <div className="w-[1px] h-[100px] bg-gray-200"></div>
-
-        <div>
-          <h5 className="text-lg font-semibold">
-            Ra(Индекса цвето передачи), не менее
-          </h5>
-          <div className={"flex items-center justify-center mt-[15px]"}>
-            <div
-              className={
-                "my-[15px]  bg-black text-white text-center py-[10px] px-[20px] rounded-md inline-block"
-              }
-            >
-              <p>{get(roomInfo, "data[0].ra")}</p>
-            </div>
-          </div>{" "}
-        </div>
-
-        <div className="w-[1px] h-[100px] bg-gray-200"></div>
-
-        <div>
-          <h5 className="text-lg font-semibold">
-            {"К(Пульсации)<= %, не более"}
-          </h5>
-          <div className={"flex items-center justify-center mt-[15px]"}>
-            <div
-              className={
-                "my-[15px]  bg-black text-white text-center py-[10px] px-[20px] rounded-md inline-block"
-              }
-            >
-              <p>{get(roomInfo, "data[0].k")}</p>
-            </div>
-          </div>{" "}
-        </div>
-      </div>
+      )}
 
       <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
 

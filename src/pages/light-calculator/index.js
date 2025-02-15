@@ -69,17 +69,16 @@ export default function Index() {
   });
 
   // third api
-  const secondGroupId = roomCategoriesGroup?.data?.[1]?.id || null;
+  const secondGroupId = selectedGroup?.id || null;
+  console.log("🌍 3️⃣ Uchinchi API uchun ID:", secondGroupId);
 
-  const {
-    data: roomInfo,
-    isLoading: isLoadingInfo,
-    isFetching: isFetchingInfo,
-  } = useGetQuery({
-    key: [KEYS.roomInfo, secondGroupId], // Har safar 2-API yangilansa, 3-API ham yangilanadi
-    url: secondGroupId ? `${URLS.roomInfo}${secondGroupId}` : null, // Faqat mavjud bo‘lsa chaqiriladi
-    enabled: !!secondGroupId, // Ikkinchi selectdan hech narsa tanlanmasa, API ishlamaydi
+  const { data: roomInfo } = useGetQuery({
+    key: [KEYS.roomInfo, secondGroupId],
+    url: secondGroupId ? `${URLS.roomInfo}${secondGroupId}` : null,
+    enabled: !!secondGroupId,
   });
+
+  console.log("3️⃣ Uchinchi API dan qaytgan data:", roomInfo);
 
   console.log(roomInfo);
 
