@@ -21,6 +21,8 @@ import { useContext } from "react";
 import { LightCalculatorContext } from "@/context/responseProvider";
 import useGetQuery from "@/hooks/api/useGetQuery";
 import { get } from "lodash";
+import { themes } from "@/constants/dummy-data";
+const angles = ["К30", "Г60", "Д120", "Л140", "Ш160", "М180"];
 
 export default function Index() {
   const router = useRouter();
