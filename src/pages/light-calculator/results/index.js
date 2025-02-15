@@ -196,12 +196,26 @@ const Index = () => {
                 </h4>
                 <p className="font-medium">{get(inputValue, "formFactor")}</p>
 
-                <p className="font-medium">{get(inputValue, "diameter")}</p>
-                <p className="font-medium">{get(inputValue, "rectWidth")}</p>
-                <p className="font-medium">{get(inputValue, "rectLength")}</p>
-                <p className="font-medium">
-                  {get(inputValue, "distanceFromCeilingLength")}
-                </p>
+                {get(inputValue, "formFactor") === "Круглый" ? (
+                  <p className="font-medium">
+                    Диаметер: {get(inputValue, "diameter", "")}
+                  </p>
+                ) : get(inputValue, "formFactor") === "Четырёхугольник" ? (
+                  <div>
+                    <p className="font-medium">
+                      Ширина: {get(inputValue, "rectWidth", "")}
+                    </p>
+                    <p className="font-medium">
+                      Длина: {get(inputValue, "rectLength", "")}
+                    </p>
+                  </div>
+                ) : get(inputValue, "formFactor") === "Четырёхугольник" ? (
+                  <p className="font-medium">
+                    {get(inputValue, "distanceFromCeilingLength", "")}
+                  </p>
+                ) : (
+                  ""
+                )}
               </li>
 
               <li className="col-span-1">
