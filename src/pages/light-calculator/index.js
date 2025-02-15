@@ -5,7 +5,7 @@ import { useState } from "react";
 import DarkModeButton from "@/components/darkmode-button";
 import Image from "next/image";
 import LightType from "@/components/light-type";
-import RoomType from "@/components/light-type/room-type";
+
 import ReflectionCoefficient from "@/components/light-type/reflection-coefficient";
 import { useRouter } from "next/router";
 import House3D from "@/components/light-type/room";
@@ -13,9 +13,9 @@ import usePostQuery from "@/hooks/api/usePostQuery";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import toast from "react-hot-toast";
-import { useResponse } from "@/context/responseProvider";
+
 import { useRoomContext } from "@/context/roomTypeProvider";
-import SafetyFactorComponent from "@/components/light-type/reserve-factor";
+
 import { safetyFactorData } from "@/constants/dummy-data";
 import { useContext } from "react";
 import { LightCalculatorContext } from "@/context/responseProvider";
@@ -35,8 +35,11 @@ export default function Index() {
   const [isOpenFormFactor, setIsOpenFormFactor] = useState(false);
   const [selectedAngle, setSelectedAngle] = useState(null);
   const [isOpenAngle, setIsOpenAngle] = useState(false);
+  const [diameter, setDiameter] = useState("");
+  const [rectLength, setRectLength] = useState("");
+  const [rectWidth, setRectWidth] = useState("");
 
-  const [workSurface, setWorkSurface] = useState(0.8);
+  const [distanceFromCeiling, setDistanceFromCeiling] = useState("");
   const [selectedNumbersArray, setSelectedNumbersArray] = useState([]);
   const [height, setHeight] = useState(3.0);
   const [length, setLength] = useState(3.0);
@@ -72,17 +75,12 @@ export default function Index() {
 
   // third api
   const secondGroupId = selectedGroup?.id || null;
-  console.log("🌍 3️⃣ Uchinchi API uchun ID:", secondGroupId);
 
   const { data: roomInfo } = useGetQuery({
     key: [KEYS.roomInfo, secondGroupId],
     url: secondGroupId ? `${URLS.roomInfo}${secondGroupId}` : null,
     enabled: !!secondGroupId,
   });
-
-  console.log("3️⃣ Uchinchi API dan qaytgan data:", roomInfo);
-
-  console.log(roomInfo);
 
   const toggleDropdownRoom = () => setIsOpenRoom(!isOpenRoom);
 
@@ -218,7 +216,24 @@ export default function Index() {
         onSuccess: (response) => {
           console.log(response);
           router.push("/light-calculator/results");
-          setResult(response);
+          setResult({
+            response,
+            inputValues: {
+              formFactor: formFactor?.name, // Selected form factor
+              formFactorValues: {
+                diameter: formFactor?.name === "Круглый" ? diameter : null,
+                length:
+                  formFactor?.name === "Четырёхугольник" ||
+                  formFactor?.name === "Линейный"
+                    ? rectLength
+                    : null,
+                width:
+                  formFactor?.name === "Четырёхугольник" ? rectWidth : null,
+              },
+              selectedAngle,
+              distanceFromCeiling,
+            },
+          });
           // localStorage.setItem("calculationResponse", JSON.stringify(response));
           toast.success("success", {
             position: "top-right",
@@ -401,7 +416,7 @@ export default function Index() {
                 </div>
 
                 {isOpenRoom && (
-                  <ul className="absolute mt-0 w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
+                  <ul className="absolute mt-[90px] w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
                     {get(roomCategories, "data", []).map((room) => (
                       <li
                         key={room.id}
@@ -434,7 +449,7 @@ export default function Index() {
                 </div>
 
                 {isOpenGroup && selectedRoom && (
-                  <ul className="absolute mt-0 w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
+                  <ul className="absolute mt-[90px] w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
                     {get(roomCategoriesGroup, "data", []).map((room) => (
                       <li
                         key={room.id}
@@ -560,6 +575,8 @@ export default function Index() {
                     className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
                     type="number"
                     placeholder="диаметр"
+                    value={diameter}
+                    onChange={(e) => setDiameter(e.target.value)}
                   />
                 ) : formFactor?.name === "Четырёхугольник" ? (
                   <div className="flex gap-x-[10px]">
@@ -567,17 +584,21 @@ export default function Index() {
                       className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
                       type="number"
                       placeholder="длина"
+                      value={rectLength}
+                      onChange={(e) => setRectLength(e.target.value)}
                     />
                     <input
                       className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
                       type="number"
                       placeholder="ширина"
+                      onChange={(e) => setRectWidth(e.target.value)}
                     />
                   </div>
                 ) : formFactor?.name === "Линейный" ? (
                   <input
                     className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
                     type="number"
+                    value={rectWidth}
                     placeholder="длина"
                   />
                 ) : (
@@ -585,7 +606,7 @@ export default function Index() {
                 )}
 
                 {isOpenFormFactor && (
-                  <ul className="absolute w-full bg-white border border-gray-400 rounded shadow-md mt-1 z-50">
+                  <ul className="absolute w-full bg-white border border-gray-400 rounded shadow-md mt-[95px] z-50">
                     {themes.map((theme) => (
                       <li
                         key={theme.id}
@@ -639,6 +660,8 @@ export default function Index() {
                 <input
                   className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
                   placeholder="0.0001"
+                  value={distanceFromCeiling}
+                  onChange={(e) => setDistanceFromCeiling(e.target.value)}
                 />
               </div>
             </div>
@@ -674,9 +697,9 @@ export default function Index() {
                 {/* Dropdown List */}
                 {isOpenSafetyFactor && (
                   <ul className="absolute mt-2 w-full bg-white border rounded shadow-md max-h-[200px] overflow-y-auto">
-                    {safetyFactorData.map((room) => (
+                    {safetyFactorData.map((room, index) => (
                       <li
-                        key={room.id}
+                        key={index}
                         className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
                         onClick={() => handleSelect(room)}
                       >
@@ -691,7 +714,7 @@ export default function Index() {
               <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                 <button
                   className={`text-xl border py-1 px-3 rounded-md ${
-                    selectedCondition?.sf === "1.5"
+                    selectedCondition?.sf === 1.5
                       ? "bg-black text-white"
                       : "bg-white text-black"
                   } `}
@@ -701,7 +724,7 @@ export default function Index() {
 
                 <button
                   className={`text-xl border py-1 px-3 rounded-md ${
-                    selectedCondition?.sf === "1.3"
+                    selectedCondition?.sf === 1.3
                       ? "bg-black text-white"
                       : "bg-white text-black"
                   } `}
@@ -711,17 +734,17 @@ export default function Index() {
 
                 <button
                   className={`text-xl border py-1 px-3 rounded-md ${
-                    selectedCondition?.sf === "1,1-1,5"
+                    selectedCondition?.sf === 1.1
                       ? "bg-black text-white"
                       : "bg-white text-black"
                   } `}
                 >
-                  <p>1.1-1.5</p>
+                  <p>1.1</p>
                 </button>
 
                 <button
                   className={`text-xl border py-1 px-3 rounded-md ${
-                    selectedCondition?.sf === "1.0"
+                    selectedCondition?.sf === 1.0
                       ? "bg-black text-white"
                       : "bg-white text-black"
                   } `}
@@ -746,8 +769,6 @@ export default function Index() {
             предварительными
           </p>
         </div>
-
-        <div className="col-span-5"></div>
       </div>
 
       {isOpen && (

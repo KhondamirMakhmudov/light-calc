@@ -8,15 +8,17 @@ import { LightCalculatorContext } from "@/context/responseProvider";
 
 const Index = () => {
   const [data, setData] = useState(null);
+  const [inputValue, setInputValue] = useState(null);
   const router = useRouter();
 
   const { result } = useContext(LightCalculatorContext);
 
-  // console.log(result, "response state management");
+  console.log(result, "response state management");
   useEffect(() => {
     if (result) {
       // Assuming `result` is an object, directly set it as the data
-      setData(result);
+      setData(result.response);
+      setInputValue(result.inputValues);
     }
   }, [result]);
 
@@ -181,6 +183,33 @@ const Index = () => {
                 <h4 className="text-[#a7a7a7]">коэффициент запаса</h4>
                 <p className="font-medium">
                   {get(data, "data.reserve_factor")} лк
+                </p>
+              </li>
+            </ul>
+
+            <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
+
+            <ul className="grid grid-cols-2 gap-[20px] text-lg">
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">
+                  Параметры выбранной вами лампочки
+                </h4>
+                <p className="font-medium">{get(inputValue, "formFactor")}</p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">Угол рассеивания</h4>
+                <p className="font-medium">
+                  {get(inputValue, "selectedAngle")}
+                </p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">
+                  Расстояние светильника от потолка
+                </h4>
+                <p className="font-medium">
+                  {get(inputValue, "distanceFromCeiling")}
                 </p>
               </li>
             </ul>
