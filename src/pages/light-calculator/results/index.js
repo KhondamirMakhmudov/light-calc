@@ -217,7 +217,7 @@ const Index = () => {
             <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
 
             <ul className="grid grid-cols-2 gap-[20px] text-lg">
-              <li className="col-span-1">
+              {/* <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">
                   Параметры выбранной вами лампочки
                 </h4>
@@ -243,7 +243,7 @@ const Index = () => {
                 ) : (
                   ""
                 )}
-              </li>
+              </li> */}
 
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">Угол рассеивания</h4>
