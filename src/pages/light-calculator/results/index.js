@@ -60,7 +60,7 @@ const Index = () => {
         энергоэффективность.
       </p>
 
-      <div className="font-gilroy bg-white  border border-[#E0E2F0] rounded-[12px] mt-[12px]">
+      {/* <div className="font-gilroy bg-white  border border-[#E0E2F0] rounded-[12px] mt-[12px]">
         <table className="w-full border-collapse border-[#D7D9E7]">
           <thead className="text-black text-start rounded-[10px]">
             <tr className="rounded-[10px]">
@@ -123,16 +123,43 @@ const Index = () => {
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> */}
 
       <div className="grid grid-cols-12 mt-[50px]">
         <div className="col-span-7">
-          <h4 className="font-semibold text-lg mb-[15px]">светильник</h4>
+          {/* <h4 className="font-semibold text-lg mb-[15px]">светильник</h4> */}
 
           <div className="mt-[30px]">
             <h4 className="font-semibold text-lg mb-[15px]">характеристики</h4>
 
             <ul className=" grid grid-cols-3 gap-[20px] text-xl">
+              <li className="col-span-3">
+                <h4 className="text-[#a7a7a7]">
+                  Параметры выбранной вами лампочки
+                </h4>
+                <p className="font-medium">{get(inputValue, "formFactor")}</p>
+
+                {get(inputValue, "formFactor") === "Круглый" ? (
+                  <p className="font-medium">
+                    Диаметер: {get(inputValue, "diameter", "")}
+                  </p>
+                ) : get(inputValue, "formFactor") === "Четырёхугольник" ? (
+                  <div>
+                    <p className="font-medium">
+                      Ширина: {get(inputValue, "rectWidth", "")}
+                    </p>
+                    <p className="font-medium">
+                      Длина: {get(inputValue, "rectLength", "")}
+                    </p>
+                  </div>
+                ) : get(inputValue, "formFactor") === "Четырёхугольник" ? (
+                  <p className="font-medium">
+                    {get(inputValue, "distanceFromCeilingLength", "")}
+                  </p>
+                ) : (
+                  ""
+                )}
+              </li>
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">длина помещения</h4>
                 <p className="font-medium">{get(data, "data.room_length")} м</p>
