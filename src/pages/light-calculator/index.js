@@ -247,7 +247,7 @@ export default function Index() {
     );
   };
   return (
-    <div className="container my-[50px]">
+    <div className="container px-[20px] my-[50px]">
       <DarkModeButton />
 
       <button
@@ -258,9 +258,9 @@ export default function Index() {
       </button>
       <Title>калькулятор освещенности</Title>
 
-      <div className={"grid grid-cols-12 gap-x-[70px] mt-[30px]"}>
-        <div className="col-span-5">
-          <div className={"flex justify-between items-start"}>
+      <div className={"grid grid-cols-12 gap-x-[70px] mt-[30px] px-[10px]"}>
+        <div className="col-span-12 lg:col-span-5">
+          {/* <div className={"flex justify-between items-start"}>
             <div>
               <h5 className={"text-lg font-semibold"}>светильник</h5>
 
@@ -273,7 +273,7 @@ export default function Index() {
                 выбрать светильник
               </button>
             </div>
-          </div>
+          </div> */}
           <div>
             <h5 className={"text-lg font-semibold"}>параметры помещения</h5>
             <div className={"flex justify-between"}>
@@ -387,7 +387,7 @@ export default function Index() {
             </div>
           </div>
         </div>
-        <div className="col-span-7">
+        <div className="col-span-12 lg:col-span-7 max-w-lg md:max-w-full">
           <div className="border relative">
             <House3D
               width={width}
@@ -408,7 +408,7 @@ export default function Index() {
           <div>
             <div className="grid grid-cols-12 my-8 gap-x-5 flex-wrap">
               {/* First Dropdown */}
-              <div className="relative flex-col flex flex-wrap col-span-6 text-base">
+              <div className="relative flex-col flex flex-wrap col-span-12 md:col-span-6 text-base">
                 <h5 className="text-lg flex-1 font-semibold">Тип помещения</h5>
                 <div
                   className="py-2 px-6 border border-black rounded my-4 cursor-pointer"

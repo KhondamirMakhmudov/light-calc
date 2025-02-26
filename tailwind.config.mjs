@@ -15,7 +15,7 @@ export default {
 
       container: {
         center: true,
-        padding: "50px",
+        padding: "20px",
       },
       screens: {
         "2xl": "1440px",
