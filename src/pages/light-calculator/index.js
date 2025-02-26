@@ -387,7 +387,7 @@ export default function Index() {
             </div>
           </div>
         </div>
-        <div className="col-span-12 lg:col-span-7 max-w-lg md:max-w-full">
+        {/* <div className="col-span-12 lg:col-span-7 max-w-lg md:max-w-full">
           <div className="border relative">
             <House3D
               width={width}
@@ -401,6 +401,30 @@ export default function Index() {
 
               <p className={"text-sm"}>общая площадь</p>
             </div>
+          </div>
+        </div> */}
+        <div className="col-span-12 lg:col-span-7 flex justify-between max-w-lg md:max-w-full">
+          <div className="relative">
+            <Image
+              src={"/images/calculator.webp"}
+              alt="calculator"
+              width={485}
+              height={485}
+            />
+            <p className="absolute left-[70px] bottom-[50px] text-lg font-medium">
+              {width} м
+            </p>
+            <p className="absolute right-[50px] bottom-[50px] text-lg font-medium">
+              {length} м
+            </p>
+            <p className="absolute -left-[40px] top-[200px] text-lg font-medium">
+              {height} м
+            </p>
+          </div>
+          <div className="">
+            <h3 className={"text-[42px]"}>{area} м²</h3>
+
+            <p className={"text-sm"}>общая площадь</p>
           </div>
         </div>
 
