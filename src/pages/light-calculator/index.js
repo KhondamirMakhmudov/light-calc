@@ -420,6 +420,10 @@ export default function Index() {
             <p className="absolute -left-[40px] top-[200px] text-lg font-medium">
               {height} м
             </p>
+
+            <p className="absolute text-white left-[90px] top-[300px] text-lg font-medium">
+              {get(roomInfo, "data[0].table_height")} м
+            </p>
           </div>
           <div className="">
             <h3 className={"text-[42px]"}>{area} м²</h3>
