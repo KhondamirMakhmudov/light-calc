@@ -141,20 +141,20 @@ const Index = () => {
 
                 {get(inputValue, "formFactor") === "Круглый" ? (
                   <p className="font-medium">
-                    Диаметер: {get(inputValue, "diameter", "")}
+                    Диаметер: {get(inputValue, "diameter", "")} см
                   </p>
                 ) : get(inputValue, "formFactor") === "Четырёхугольник" ? (
                   <div>
                     <p className="font-medium">
-                      Ширина: {get(inputValue, "rectWidth", "")}
+                      Ширина: {get(inputValue, "rectWidth", "")} см
                     </p>
                     <p className="font-medium">
-                      Длина: {get(inputValue, "rectLength", "")}
+                      Длина: {get(inputValue, "rectLength", "")} см
                     </p>
                   </div>
                 ) : get(inputValue, "formFactor") === "Четырёхугольник" ? (
                   <p className="font-medium">
-                    {get(inputValue, "distanceFromCeilingLength", "")}
+                    {get(inputValue, "distanceFromCeilingLength", "")} см
                   </p>
                 ) : (
                   ""

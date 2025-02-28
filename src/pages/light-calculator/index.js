@@ -33,14 +33,14 @@ export default function Index() {
   const [treeId, setTreeId] = useState(null);
   const [formFactor, setFormFactor] = useState(null);
   const [isOpenFormFactor, setIsOpenFormFactor] = useState(false);
-  const [selectedAngle, setSelectedAngle] = useState(null);
+  const [selectedAngle, setSelectedAngle] = useState("Д120");
   const [isOpenAngle, setIsOpenAngle] = useState(false);
   const [diameter, setDiameter] = useState("");
   const [rectLength, setRectLength] = useState("");
   const [rectWidth, setRectWidth] = useState("");
   const [distanceFromCeilingLength, setDistanceFromCeilingLength] =
     useState("");
-  const [distanceFromCeiling, setDistanceFromCeiling] = useState("");
+  const [distanceFromCeiling, setDistanceFromCeiling] = useState(0);
   const [selectedNumbersArray, setSelectedNumbersArray] = useState([]);
   const [height, setHeight] = useState(3.0);
   const [length, setLength] = useState(3.0);
@@ -603,40 +603,90 @@ export default function Index() {
                 </div>
 
                 {formFactor?.name === "Круглый" ? (
-                  <input
-                    className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
-                    type="number"
-                    placeholder="диаметр"
-                    value={diameter}
-                    onChange={(e) => setDiameter(e.target.value)}
-                  />
+                  <div className="flex gap-x-[10px] items-center">
+                    <input
+                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/5 px-[8px] py-[8px]"
+                      type="number"
+                      placeholder="диаметр"
+                      value={diameter}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*\.?\d*$/.test(value) || value === "") {
+                          setDiameter(value);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "-" || e.key === "e") {
+                          e.preventDefault(); // Manfiy sonlar va eksponent ("e") oldini oladi
+                        }
+                      }}
+                    />
+                    <p>см</p>
+                  </div>
                 ) : formFactor?.name === "Четырёхугольник" ? (
                   <div className="flex gap-x-[10px]">
-                    <input
-                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
-                      type="number"
-                      placeholder="длина"
-                      value={rectLength}
-                      onChange={(e) => setRectLength(e.target.value)}
-                    />
-                    <input
-                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-full px-[8px] py-[8px]"
-                      type="number"
-                      value={rectWidth}
-                      placeholder="ширина"
-                      onChange={(e) => setRectWidth(e.target.value)}
-                    />
+                    <div className="flex items-center gap-x-[10px]">
+                      <input
+                        className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
+                        type="number"
+                        placeholder="длина"
+                        value={rectLength}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/^\d*\.?\d*$/.test(value) || value === "") {
+                            setRectLength(value);
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "e") {
+                            e.preventDefault(); // Manfiy sonlar va eksponent ("e") oldini oladi
+                          }
+                        }}
+                      />
+                      <p>см</p>
+                    </div>
+                    <div className="flex items-center gap-x-[10px]">
+                      <input
+                        className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
+                        type="number"
+                        value={rectWidth}
+                        placeholder="ширина"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/^\d*\.?\d*$/.test(value) || value === "") {
+                            setRectWidth(value);
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "e") {
+                            e.preventDefault(); // Manfiy sonlar va eksponent ("e") oldini oladi
+                          }
+                        }}
+                      />
+                      <p>см</p>
+                    </div>
                   </div>
                 ) : formFactor?.name === "Линейный" ? (
-                  <input
-                    className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
-                    type="number"
-                    value={distanceFromCeilingLength}
-                    placeholder="длина"
-                    onChange={(e) =>
-                      setDistanceFromCeilingLength(e.target.value)
-                    }
-                  />
+                  <div className="flex items-center gap-x-[10px]">
+                    <input
+                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/5 px-[8px] py-[8px]"
+                      type="number"
+                      value={distanceFromCeilingLength}
+                      placeholder="длина"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*\.?\d*$/.test(value) || value === "") {
+                          setDistanceFromCeilingLength(value);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "-" || e.key === "e") {
+                          e.preventDefault(); // Manfiy sonlar va eksponent ("e") oldini oladi
+                        }
+                      }}
+                    />
+                    <p>см</p>
+                  </div>
                 ) : (
                   ""
                 )}
@@ -694,8 +744,9 @@ export default function Index() {
                 </h5>
 
                 <input
+                  type="number"
                   className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
-                  placeholder="0.0001"
+                  placeholder="введите"
                   value={distanceFromCeiling}
                   onChange={(e) => setDistanceFromCeiling(e.target.value)}
                 />
