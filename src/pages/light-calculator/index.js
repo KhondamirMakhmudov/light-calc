@@ -95,9 +95,9 @@ export default function Index() {
   // third api
 
   const thirdGroupId =
-    selectedGroup?.id ||
     selectedMicroGroup?.id ||
     selectedMiniGroup?.id ||
+    selectedGroup?.id ||
     null;
 
   const { data: roomInfo } = useGetQuery({
