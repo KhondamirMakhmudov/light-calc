@@ -4,4 +4,5 @@ export const URLS = {
   roomCategories: "lightbulb/room_categories/",
   roomCategoriesGroup: "lightbulb/room_categories/parent/",
   roomInfo: "lightbulb/rooms/",
+  roomCategoryGroup: "/lightbulb/api/room-categories/",
 };

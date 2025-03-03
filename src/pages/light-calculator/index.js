@@ -30,6 +30,10 @@ export default function Index() {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [isOpenGroup, setIsOpenGroup] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
+  const [isOpenMiniGroup, setIsOpenMiniGroup] = useState(false);
+  const [selectedMiniGroup, setSelectedMiniGroup] = useState(null);
+  const [selectedMicroGroup, setSelectedMicroGroup] = useState(null);
+  const [isOpenMicroGroup, setIsOpenMicroGroup] = useState(false);
   const [treeId, setTreeId] = useState(null);
   const [formFactor, setFormFactor] = useState(null);
   const [isOpenFormFactor, setIsOpenFormFactor] = useState(false);
@@ -67,20 +71,39 @@ export default function Index() {
     url: URLS.roomCategories,
   });
 
-  // Fetch second dropdown data (depends on first selection)
-  const { data: roomCategoriesGroup, isLoading: isLoadingGroup } = useGetQuery({
-    key: [KEYS.roomCategoriesGroup, treeId],
-    url: treeId ? `${URLS.roomCategoriesGroup}${treeId}/` : null,
-    enabled: !!treeId,
+  const secondGroupId = selectedRoom?.id || null;
+
+  const {
+    data: roomCategoryGroup,
+    isLoading: isLoadingCategoryGroup,
+    isFetching: isFetchingCategoryGroup,
+  } = useGetQuery({
+    key: [KEYS.roomCategoryGroup, secondGroupId],
+    url: secondGroupId ? `${URLS.roomCategoryGroup}${secondGroupId}/` : null,
+    enabled: !!secondGroupId,
   });
 
+  // console.log(roomCategoryGroup);
+
+  // // Fetch second dropdown data (depends on first selection)
+  // const { data: roomCategoriesGroup, isLoading: isLoadingGroup } = useGetQuery({
+  //   key: [KEYS.roomCategoriesGroup, treeId],
+  //   url: treeId ? `${URLS.roomCategoriesGroup}${treeId}/` : null,
+  //   enabled: !!treeId,
+  // });
+
   // third api
-  const secondGroupId = selectedGroup?.id || null;
+
+  const thirdGroupId =
+    selectedGroup?.id ||
+    selectedMicroGroup?.id ||
+    selectedMiniGroup?.id ||
+    null;
 
   const { data: roomInfo } = useGetQuery({
-    key: [KEYS.roomInfo, secondGroupId],
-    url: secondGroupId ? `${URLS.roomInfo}${secondGroupId}` : null,
-    enabled: !!secondGroupId,
+    key: [KEYS.roomInfo, thirdGroupId],
+    url: thirdGroupId ? `${URLS.roomInfo}${thirdGroupId}` : null,
+    enabled: !!thirdGroupId,
   });
 
   const toggleDropdownRoom = () => setIsOpenRoom(!isOpenRoom);
@@ -97,8 +120,13 @@ export default function Index() {
     setIsOpenGroup(!isOpenGroup);
   };
 
+  const toggleDropdownMiniGroup = () => setIsOpenMiniGroup((prev) => !prev);
+  const toggleDropdownMicroGroup = () => setIsOpenMicroGroup((prev) => !prev);
+
   const handleSelectGroup = (room) => {
     setSelectedGroup(room);
+    setSelectedMiniGroup(null);
+    setSelectedMicroGroup(null);
     setIsOpenGroup(false);
   };
 
@@ -112,6 +140,17 @@ export default function Index() {
   const handleSelectAngle = (angle) => {
     setSelectedAngle(angle);
     setIsOpenAngle(false);
+  };
+
+  const handleSelectMiniGroup = (mini) => {
+    setSelectedMiniGroup(mini);
+    setSelectedMicroGroup(null); // Microcategories ni tozalash
+    setIsOpenMiniGroup(false);
+  };
+
+  const handleSelectMicroGroup = (micro) => {
+    setSelectedMicroGroup(micro);
+    setIsOpenMicroGroup(false);
   };
 
   ///////////////////////////////////////////////
@@ -482,18 +521,86 @@ export default function Index() {
 
                 {isOpenGroup && selectedRoom && (
                   <ul className="absolute mt-[90px] w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
-                    {get(roomCategoriesGroup, "data", []).map((room) => (
-                      <li
-                        key={room.id}
-                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                        onClick={() => handleSelectGroup(room)}
-                      >
-                        {room.name}
-                      </li>
-                    ))}
+                    {get(roomCategoryGroup, "data.subcategories", []).map(
+                      (room) => (
+                        <li
+                          key={room.id}
+                          className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                          onClick={() => handleSelectGroup(room)}
+                        >
+                          {room.name}
+                        </li>
+                      )
+                    )}
                   </ul>
                 )}
               </div>
+
+              {/* ThirdDropdown miniCategories */}
+              {selectedGroup && selectedGroup?.minicategories?.length > 0 && (
+                <div className="relative flex-col flex flex-wrap col-span-6 text-base">
+                  <h5 className="text-lg flex-1 font-semibold mt-4">
+                    Подкатегория
+                  </h5>
+                  <div
+                    className="py-2 px-6 border rounded my-4 transition-all duration-300 cursor-pointer border-black"
+                    onClick={toggleDropdownMiniGroup}
+                  >
+                    <span>
+                      {selectedMiniGroup
+                        ? selectedMiniGroup.name
+                        : "Выберите подкатегорию"}
+                    </span>
+                  </div>
+
+                  {isOpenMiniGroup && (
+                    <ul className="absolute top-[120px] w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
+                      {selectedGroup?.minicategories.map((mini) => (
+                        <li
+                          key={mini.id}
+                          className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                          onClick={() => handleSelectMiniGroup(mini)}
+                        >
+                          {mini.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+              {/* Fourth Dropdown miniCategories */}
+              {selectedMiniGroup &&
+                selectedMiniGroup.microcategories?.length > 0 && (
+                  <div className="relative flex-col flex flex-wrap col-span-6 text-base">
+                    <h5 className="text-lg flex-1 font-semibold mt-4">
+                      Микро категория
+                    </h5>
+                    <div
+                      className="py-2 px-6 border rounded my-4 transition-all duration-300 cursor-pointer border-black"
+                      onClick={toggleDropdownMicroGroup}
+                    >
+                      <span>
+                        {selectedMicroGroup
+                          ? selectedMicroGroup.name
+                          : "Выберите микро категорию"}
+                      </span>
+                    </div>
+
+                    {isOpenMicroGroup && (
+                      <ul className="absolute mt-[90px] w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
+                        {selectedMiniGroup.microcategories.map((micro) => (
+                          <li
+                            key={micro.id}
+                            className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                            onClick={() => handleSelectMicroGroup(micro)}
+                          >
+                            {micro.name}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                )}
             </div>
             <div className="flex justify-between gap-x-[40px] items-center">
               <div>
