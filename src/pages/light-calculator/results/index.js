@@ -184,6 +184,48 @@ const Index = () => {
               </li>
 
               <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">световой поток</h4>
+                <p className="font-medium">
+                  {get(data, "data.tavsiya_qilinadi.lumen")} лумен
+                </p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">эффективность</h4>
+                <p className="font-medium">
+                  {get(data, "data.tavsiya_qilinadi.watt")} w
+                </p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">пульсация</h4>
+                <p className="font-medium">{get(inputValue, "ripple")}</p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">Индекс цветопередачи</h4>
+                <p className="font-medium">
+                  {get(inputValue, "colorRendering")}
+                </p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">Угол рассеивания</h4>
+                <p className="font-medium">
+                  {get(inputValue, "selectedAngle")}
+                </p>
+              </li>
+
+              <li className="col-span-1">
+                <h4 className="text-[#a7a7a7]">
+                  Расстояние светильника от потолка
+                </h4>
+                <p className="font-medium">
+                  {get(inputValue, "distanceFromCeiling")}
+                </p>
+              </li>
+
+              <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">коэффициенты отражения</h4>
                 <p className="font-medium">
                   {get(data, "data.reflection_factors[0]")}{" "}
@@ -244,22 +286,6 @@ const Index = () => {
                   ""
                 )}
               </li> */}
-
-              <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">Угол рассеивания</h4>
-                <p className="font-medium">
-                  {get(inputValue, "selectedAngle")}
-                </p>
-              </li>
-
-              <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">
-                  Расстояние светильника от потолка
-                </h4>
-                <p className="font-medium">
-                  {get(inputValue, "distanceFromCeiling")}
-                </p>
-              </li>
             </ul>
           </div>
         </div>
@@ -267,7 +293,7 @@ const Index = () => {
         <div className="col-span-5">
           <div className="">
             <h3 className="text-[70px] font-bold">
-              {get(data, "data.tavsiya_qilinadi.number_of_lamps")}
+              {get(data, "data.tavsiya_qilinadi.number_of_lamps")} шт
             </h3>
 
             <p className="text-[#a7a7a7]">требуемое количество светильников</p>

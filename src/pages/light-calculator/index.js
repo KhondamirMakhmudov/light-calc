@@ -1,7 +1,7 @@
 import MinusIcon from "@/components/icons/minus";
 import Title from "@/components/title";
 import PlusIcon from "@/components/icons/plus";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DarkModeButton from "@/components/darkmode-button";
 import Image from "next/image";
 import LightType from "@/components/light-type";
@@ -27,6 +27,7 @@ const angles = ["К30", "Г60", "Д120", "Л140", "Ш160", "М180"];
 export default function Index() {
   const router = useRouter();
   const [isOpenRoom, setIsOpenRoom] = useState(false);
+
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [isOpenGroup, setIsOpenGroup] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
@@ -51,6 +52,9 @@ export default function Index() {
   const [width, setWidth] = useState(3.0);
   const [isOpen, setIsOpen] = useState(false);
   const { roomLK } = useRoomContext();
+  const [ripple, setRipple] = useState("");
+  const [colorRendering, setColorRendering] = useState("");
+
   const { setResult } = useContext(LightCalculatorContext);
 
   /////// SAFETY FACTOR /////////////////
@@ -226,6 +230,13 @@ export default function Index() {
 
   const area = (length * width).toFixed(2);
 
+  useEffect(() => {
+    if (roomInfo) {
+      setRipple(get(roomInfo, "data[0].k", ""));
+      setColorRendering(get(roomInfo, "data[0].ra")); // Default bo'sh string
+    }
+  }, [roomInfo]);
+
   const handleSelectionChange = (selectedNumbers) => {
     const updatedArray = Object.values(selectedNumbers);
     setSelectedNumbersArray(updatedArray);
@@ -275,6 +286,8 @@ export default function Index() {
               distanceFromCeilingLength,
               selectedAngle,
               distanceFromCeiling,
+              ripple,
+              colorRendering,
             },
           });
           // localStorage.setItem("calculationResponse", JSON.stringify(response));
@@ -644,7 +657,7 @@ export default function Index() {
                       "my-[15px]  bg-black text-white text-center py-[10px] px-[20px] rounded-md inline-block"
                     }
                   >
-                    <p>{get(roomInfo, "data[0].ra")}</p>
+                    <p>{colorRendering}</p>
                   </div>
                 </div>{" "}
               </div>
@@ -661,7 +674,7 @@ export default function Index() {
                       "my-[15px]  bg-black text-white text-center py-[10px] px-[20px] rounded-md inline-block"
                     }
                   >
-                    <p>{get(roomInfo, "data[0].k")}</p>
+                    <p>{ripple}</p>
                   </div>
                 </div>{" "}
               </div>
