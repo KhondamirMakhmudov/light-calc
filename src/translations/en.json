@@ -59,8 +59,12 @@
   "pcs": "pcs",
   "Required number of lamps": "Required number of lamps",
   "New calculation": "New calculation",
-
   "square": "Square",
   "linear": "Linear",
-  "round": "Round"
+  "round": "Round",
+  "diameter": "diameter",
+  "select_room_type": "Select room type",
+  "select_category": "Select category",
+  "select_shape": "Select shape",
+  "select": "Select"
 }

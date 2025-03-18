@@ -61,5 +61,10 @@
   "New calculation": "Yangi hisob",
   "square": "To'rtburchak",
   "linear": "Chiziqli",
-  "round": "Dumaloq"
+  "round": "Dumaloq",
+  "diameter": "diameter",
+  "select_room_type": "Xona turini tanlang",
+  "select_category": "Kategoriyani tanlang",
+  "select_shape": "Shaklni tanlang",
+  "select": "Tanlang"
 }

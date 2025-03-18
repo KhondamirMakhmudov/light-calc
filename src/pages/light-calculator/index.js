@@ -505,7 +505,9 @@ export default function Index() {
                   onClick={toggleDropdownRoom}
                 >
                   <span>
-                    {selectedRoom ? selectedRoom.name : "Выберите тип комнаты"}
+                    {selectedRoom
+                      ? selectedRoom.name
+                      : `${t("select_room_type")}`}
                   </span>
                 </div>
 
@@ -538,7 +540,9 @@ export default function Index() {
                   onClick={toggleDropdownGroup}
                 >
                   <span>
-                    {selectedGroup ? selectedGroup.name : "Выберите категорию"}
+                    {selectedGroup
+                      ? selectedGroup.name
+                      : `${t("select_category")}`}
                   </span>
                 </div>
 
@@ -731,7 +735,7 @@ export default function Index() {
                   className="py-2 px-4 border border-gray-400 rounded cursor-pointer bg-white mb-[15px]"
                   onClick={toggleDropdownFormFactor}
                 >
-                  {formFactor ? formFactor.name : "Выберите форму"}
+                  {formFactor ? formFactor.name : `${t("select_shape")}`}
                 </div>
 
                 {formFactor?.name === `${t("round")}` ? (
@@ -739,7 +743,7 @@ export default function Index() {
                     <input
                       className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/5 px-[8px] py-[8px]"
                       type="number"
-                      placeholder="диаметр"
+                      placeholder={`${t("diameter")}`}
                       value={diameter}
                       onChange={(e) => {
                         const value = e.target.value;
@@ -782,7 +786,7 @@ export default function Index() {
                         className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
                         type="number"
                         value={rectWidth}
-                        placeholder="ширина"
+                        placeholder={`${t("width")}`}
                         onChange={(e) => {
                           const value = e.target.value;
                           if (/^\d*\.?\d*$/.test(value) || value === "") {
@@ -804,7 +808,7 @@ export default function Index() {
                       className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/5 px-[8px] py-[8px]"
                       type="number"
                       value={distanceFromCeilingLength}
-                      placeholder="длина"
+                      placeholder={`${t("length")}`}
                       onChange={(e) => {
                         const value = e.target.value;
                         if (/^\d*\.?\d*$/.test(value) || value === "") {
@@ -931,7 +935,9 @@ export default function Index() {
                   onClick={toggleDropdown}
                 >
                   <span>
-                    {selectedCondition ? selectedCondition.title : "Выберите"}
+                    {selectedCondition
+                      ? selectedCondition.title
+                      : `${t("select")}`}
                   </span>
                 </div>
 

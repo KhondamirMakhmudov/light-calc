@@ -61,5 +61,10 @@
   "New calculation": "новый расчет",
   "square": "Четырёхугольник",
   "linear": "Линейный",
-  "round": "Круглый"
+  "round": "Круглый",
+  "diameter": "диаметер",
+  "select_room_type": "Выберите тип комнаты",
+  "select_category": "Выберите категорию",
+  "select_shape": "Выберите форму",
+  "select": "Выберите"
 }
