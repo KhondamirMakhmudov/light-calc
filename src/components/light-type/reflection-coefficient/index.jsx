@@ -46,7 +46,7 @@ const ReflectionCoefficient = ({ onSelectionChange }) => {
   };
 
   return (
-    <div className="flex justify-between">
+    <div className="flex gap-[20px] lg:justify-between flex-wrap">
       {Object.entries(colorOptions).map(([group, options]) => (
         <div key={group} className="mt-3">
           <h4 className="text-lg font-semibold">{`цвет ${group}`}</h4>
