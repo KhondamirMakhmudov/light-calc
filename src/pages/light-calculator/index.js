@@ -299,8 +299,8 @@ export default function Index() {
     );
   };
   return (
-    <div className="container  my-[50px]">
-      {/* <DarkModeButton /> */}
+    <div className="container px-[20px] my-[50px]">
+      <DarkModeButton />
 
       <button
         onClick={() => router.back()}
@@ -310,7 +310,7 @@ export default function Index() {
       </button>
       <Title>калькулятор освещенности</Title>
 
-      <div className={"grid grid-cols-12 gap-[70px] mt-[30px]"}>
+      <div className={"grid grid-cols-12 gap-x-[70px] mt-[30px] px-[10px]"}>
         <div className="col-span-12 lg:col-span-5">
           {/* <div className={"flex justify-between items-start"}>
             <div>
@@ -328,11 +328,7 @@ export default function Index() {
           </div> */}
           <div>
             <h5 className={"text-lg font-semibold"}>параметры помещения</h5>
-            <div
-              className={
-                "flex lg:justify-between lg:flex-row flex-col flex-wrap"
-              }
-            >
+            <div className={"flex justify-between"}>
               {/* uzunligi */}
               <div className={"mt-[15px]"}>
                 <h5 className="text-lg font-normal">ширина</h5>
@@ -459,14 +455,13 @@ export default function Index() {
             </div>
           </div>
         </div> */}
-        {/* <div className="col-span-12 lg:col-span-7 flex justify-between max-w-lg md:max-w-full">
+        <div className="col-span-12 lg:col-span-7 flex justify-between max-w-lg md:max-w-full">
           <div className="relative">
             <Image
               src={"/images/calculator.webp"}
               alt="calculator"
               width={485}
               height={485}
-              className="lg:w-[485px] lg:h-[485px] md:w-[400px] md:h-[400px]"
             />
             <p className="absolute left-[70px] bottom-[50px] text-lg font-medium">
               {width} м
@@ -487,44 +482,29 @@ export default function Index() {
 
             <p className={"text-sm"}>общая площадь</p>
           </div>
-        </div> */}
+        </div>
 
         <div className="col-span-12">
           <div>
-            <div className=" flex-wrap">
+            <div className="grid grid-cols-12 my-8 gap-x-5 flex-wrap">
               {/* First Dropdown */}
-              <div className="relative flex flex-col w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-sm sm:text-base">
-                <h5 className="text-lg font-semibold">Тип помещения</h5>
-
+              <div className="relative flex-col flex flex-wrap col-span-12 md:col-span-6 text-base">
+                <h5 className="text-lg flex-1 font-semibold">Тип помещения</h5>
                 <div
-                  className="py-2 px-6 border border-black rounded my-3 cursor-pointer bg-white flex justify-between items-center"
+                  className="py-2 px-6 border border-black rounded my-4 cursor-pointer"
                   onClick={toggleDropdownRoom}
                 >
                   <span>
                     {selectedRoom ? selectedRoom.name : "Выберите тип комнаты"}
                   </span>
-                  <svg
-                    className={`w-5 h-5 transition-transform duration-200 ${
-                      isOpenRoom ? "rotate-180" : "rotate-0"
-                    }`}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
                 </div>
 
                 {isOpenRoom && (
-                  <ul className="absolute left-0 right-0 mt-1 w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto transition-opacity duration-200">
+                  <ul className="absolute mt-[90px] w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
                     {get(roomCategories, "data", []).map((room) => (
                       <li
                         key={room.id}
-                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer transition-colors"
+                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
                         onClick={() => handleSelectRoom(room)}
                       >
                         {room.name}
@@ -535,45 +515,30 @@ export default function Index() {
               </div>
 
               {/* Second Dropdown (Disabled if First Not Selected) */}
-              <div className="relative flex flex-col w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-sm sm:text-base">
-                <h5 className="text-lg font-semibold">
+              <div className="relative flex-col flex flex-wrap col-span-6 text-base">
+                <h5 className="text-lg flex-1 font-semibold">
                   Наименование зрительной работы и вида деятельности
                 </h5>
-
                 <div
-                  className={`py-2 px-6 border rounded my-3 transition-all duration-300 flex justify-between items-center ${
+                  className={`py-2 px-6 border rounded my-4 transition-all duration-300 cursor-pointer ${
                     !selectedRoom
                       ? "border-gray-400 bg-gray-200 text-gray-500 cursor-not-allowed"
-                      : "border-black cursor-pointer bg-white"
+                      : "border-black"
                   }`}
-                  onClick={selectedRoom ? toggleDropdownGroup : undefined}
+                  onClick={toggleDropdownGroup}
                 >
                   <span>
                     {selectedGroup ? selectedGroup.name : "Выберите категорию"}
                   </span>
-                  <svg
-                    className={`w-5 h-5 transition-transform duration-200 ${
-                      isOpenGroup ? "rotate-180" : "rotate-0"
-                    }`}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
                 </div>
 
                 {isOpenGroup && selectedRoom && (
-                  <ul className="absolute left-0 right-0 mt-1 w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto transition-all duration-300">
+                  <ul className="absolute mt-[90px] w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
                     {get(roomCategoryGroup, "data.subcategories", []).map(
                       (room) => (
                         <li
                           key={room.id}
-                          className="px-4 py-2 hover:bg-gray-200 cursor-pointer transition-colors"
+                          className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
                           onClick={() => handleSelectGroup(room)}
                         >
                           {room.name}
@@ -586,11 +551,12 @@ export default function Index() {
 
               {/* ThirdDropdown miniCategories */}
               {selectedGroup && selectedGroup?.minicategories?.length > 0 && (
-                <div className="relative flex flex-col w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-sm sm:text-base">
-                  <h5 className="text-lg font-semibold mt-4">Подкатегория</h5>
-
+                <div className="relative flex-col flex flex-wrap col-span-6 text-base">
+                  <h5 className="text-lg flex-1 font-semibold mt-4">
+                    Подкатегория
+                  </h5>
                   <div
-                    className="py-2 px-6 border rounded my-3 transition-all duration-300 flex justify-between items-center border-black cursor-pointer bg-white"
+                    className="py-2 px-6 border rounded my-4 transition-all duration-300 cursor-pointer border-black"
                     onClick={toggleDropdownMiniGroup}
                   >
                     <span>
@@ -598,28 +564,14 @@ export default function Index() {
                         ? selectedMiniGroup.name
                         : "Выберите подкатегорию"}
                     </span>
-                    <svg
-                      className={`w-5 h-5 transition-transform duration-200 ${
-                        isOpenMiniGroup ? "rotate-180" : "rotate-0"
-                      }`}
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
                   </div>
 
                   {isOpenMiniGroup && (
-                    <ul className="absolute left-0 right-0 mt-1 w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto transition-all duration-300">
+                    <ul className="absolute top-[120px] w-full bg-white z-50 border rounded shadow-md max-h-52 overflow-y-auto">
                       {selectedGroup?.minicategories.map((mini) => (
                         <li
                           key={mini.id}
-                          className="px-4 py-2 hover:bg-gray-200 cursor-pointer transition-colors"
+                          className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
                           onClick={() => handleSelectMiniGroup(mini)}
                         >
                           {mini.name}
@@ -663,56 +615,72 @@ export default function Index() {
                   </div>
                 )}
             </div>
-            <div className="flex flex-col md:flex-row justify-between gap-6 items-center w-full">
-              {/* 1. Освещенность */}
-              <div className="w-full md:w-auto">
-                <h5 className="text-lg font-semibold">Параметры освещения</h5>
-                <div className="mt-4 flex flex-col ">
-                  <h5>Освещенность</h5>
-                  <div className="my-4 flex items-center gap-4">
-                    <button className="text-xl border rounded-full p-2 bg-[#272623]">
-                      <MinusIcon color="white" />
-                    </button>
-                    <p>{get(roomInfo, "data[0].lk")} лк</p>
-                    <button className="text-xl border rounded-full p-2 bg-[#272623]">
-                      <PlusIcon color="white" />
-                    </button>
+            <div className="flex justify-between gap-x-[40px] items-center">
+              <div>
+                <h5 className="text-lg font-semibold">параметры освещения</h5>
+                <div className={"flex"}>
+                  <div className={"mt-[15px] "}>
+                    <h5>освещенность</h5>
+
+                    <div className={"my-[15px] flex gap-x-[20px] items-center"}>
+                      <button
+                        className={
+                          "text-xl border rounded-full p-1 bg-[#272623]"
+                        }
+                      >
+                        <MinusIcon color={"white"} />
+                      </button>
+
+                      <p>{get(roomInfo, "data[0].lk")} лк</p>
+
+                      <button
+                        className={
+                          "text-xl border rounded-full p-1 bg-[#272623]"
+                        }
+                      >
+                        <PlusIcon color={"white"} />
+                      </button>
+                    </div>
                   </div>
-                </div>
+                </div>{" "}
               </div>
 
-              {/* Ajratuvchi chiziq (faqat katta ekranda) */}
-              <div className="hidden md:block w-[1px] h-[100px] bg-gray-300"></div>
+              <div className="w-[1px] h-[100px] bg-gray-200"></div>
 
-              {/* 2. Индекса цвето передачи */}
-              <div className="w-full md:w-auto ">
+              <div>
                 <h5 className="text-lg font-semibold">
-                  Ra (Индекса цвето передачи), не менее
+                  Ra(Индекса цвето передачи), не менее
                 </h5>
-                <div className="mt-4 flex ">
-                  <div className="my-4 bg-black text-white text-center py-2 px-4 rounded-md">
+                <div className={"flex items-center justify-center mt-[15px]"}>
+                  <div
+                    className={
+                      "my-[15px]  bg-black text-white text-center py-[10px] px-[20px] rounded-md inline-block"
+                    }
+                  >
                     <p>{colorRendering}</p>
                   </div>
-                </div>
+                </div>{" "}
               </div>
 
-              {/* Ajratuvchi chiziq (faqat katta ekranda) */}
-              <div className="hidden md:block w-[1px] h-[100px] bg-gray-300"></div>
+              <div className="w-[1px] h-[100px] bg-gray-200"></div>
 
-              {/* 3. К (Пульсации) */}
-              <div className="w-full md:w-auto ">
+              <div>
                 <h5 className="text-lg font-semibold">
-                  К (Пульсации) ≤ %, не более
+                  {"К(Пульсации)<= %, не более"}
                 </h5>
-                <div className="mt-4 flex ">
-                  <div className="my-4 bg-black text-white text-center py-2 px-4 rounded-md">
+                <div className={"flex items-center justify-center mt-[15px]"}>
+                  <div
+                    className={
+                      "my-[15px]  bg-black text-white text-center py-[10px] px-[20px] rounded-md inline-block"
+                    }
+                  >
                     <p>{ripple}</p>
                   </div>
-                </div>
+                </div>{" "}
               </div>
             </div>
 
-            {/* <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div> */}
+            <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
 
             <div className={""}>
               <h5 className={"text-lg font-semibold"}>Рабочая поверхность</h5>
@@ -740,11 +708,11 @@ export default function Index() {
               </div>
             </div>
 
-            {/* <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div> */}
+            <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
 
-            <div className="flex flex-col md:flex-row md:justify-between gap-x-[20px] gap-y-6">
-              <div className="flex flex-col w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-sm sm:text-base">
-                <h5 className="text-lg font-semibold mb-[20px]">
+            <div className="flex justify-between gap-x-[20px]">
+              <div className="relative  flex flex-col">
+                <h5 className={"text-lg flex-grow-1 font-semibold mb-[20px]"}>
                   Вводите параметры лампочки в зависимости от её формы.
                 </h5>
                 <div
@@ -754,21 +722,97 @@ export default function Index() {
                   {formFactor ? formFactor.name : "Выберите форму"}
                 </div>
 
-                {formFactor?.name === "Круглый" && (
+                {formFactor?.name === "Круглый" ? (
                   <div className="flex gap-x-[10px] items-center">
                     <input
-                      className="border border-gray-300 bg-white text-gray-900 rounded-md w-1/2 px-[8px] py-[8px]"
+                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/5 px-[8px] py-[8px]"
                       type="number"
                       placeholder="диаметр"
                       value={diameter}
-                      onChange={(e) => setDiameter(e.target.value)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*\.?\d*$/.test(value) || value === "") {
+                          setDiameter(value);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "-" || e.key === "e") {
+                          e.preventDefault(); // Manfiy sonlar va eksponent ("e") oldini oladi
+                        }
+                      }}
                     />
                     <p>см</p>
                   </div>
+                ) : formFactor?.name === "Четырёхугольник" ? (
+                  <div className="flex gap-x-[10px]">
+                    <div className="flex items-center gap-x-[10px]">
+                      <input
+                        className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
+                        type="number"
+                        placeholder="длина"
+                        value={rectLength}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/^\d*\.?\d*$/.test(value) || value === "") {
+                            setRectLength(value);
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "e") {
+                            e.preventDefault(); // Manfiy sonlar va eksponent ("e") oldini oladi
+                          }
+                        }}
+                      />
+                      <p>см</p>
+                    </div>
+                    <div className="flex items-center gap-x-[10px]">
+                      <input
+                        className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
+                        type="number"
+                        value={rectWidth}
+                        placeholder="ширина"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/^\d*\.?\d*$/.test(value) || value === "") {
+                            setRectWidth(value);
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "e") {
+                            e.preventDefault(); // Manfiy sonlar va eksponent ("e") oldini oladi
+                          }
+                        }}
+                      />
+                      <p>см</p>
+                    </div>
+                  </div>
+                ) : formFactor?.name === "Линейный" ? (
+                  <div className="flex items-center gap-x-[10px]">
+                    <input
+                      className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/5 px-[8px] py-[8px]"
+                      type="number"
+                      value={distanceFromCeilingLength}
+                      placeholder="длина"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*\.?\d*$/.test(value) || value === "") {
+                          setDistanceFromCeilingLength(value);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "-" || e.key === "e") {
+                          e.preventDefault(); // Manfiy sonlar va eksponent ("e") oldini oladi
+                        }
+                      }}
+                    />
+                    <p>см</p>
+                  </div>
+                ) : (
+                  ""
                 )}
 
                 {isOpenFormFactor && (
-                  <ul className="absolute w-full bg-white border border-gray-400 rounded shadow-md mt-2 z-50">
+                  <ul className="absolute w-full bg-white border border-gray-400 rounded shadow-md mt-[95px] z-50">
                     {themes.map((theme) => (
                       <li
                         key={theme.id}
@@ -782,21 +826,22 @@ export default function Index() {
                 )}
               </div>
 
-              <div className="hidden md:block w-[1px] h-[100px] bg-gray-200"></div>
+              <div className="w-[1px] h-[100px] bg-gray-200"></div>
 
-              <div className="relative flex flex-col w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-sm sm:text-base">
-                <h5 className="font-semibold text-lg mb-[20px]">
+              <div className="relative  flex flex-col">
+                <h5 className="font-semibold text-lg mb-[20px] flex-grow-1">
                   Угол рассеивания
                 </h5>
-                <div className="relative">
+                <div className="relative ">
                   <div
                     className="py-2 px-4 border border-gray-400 rounded cursor-pointer bg-white"
                     onClick={toggleDropdownAngle}
                   >
                     {selectedAngle || "Выберите угол"}
                   </div>
+
                   {isOpenAngle && (
-                    <ul className="absolute w-full bg-white border border-gray-400 rounded shadow-md mt-2 z-50">
+                    <ul className="absolute w-full bg-white border border-gray-400 rounded shadow-md mt-1 z-50">
                       {angles.map((angle) => (
                         <li
                           key={angle}
@@ -811,15 +856,16 @@ export default function Index() {
                 </div>
               </div>
 
-              <div className="hidden md:block w-[1px] h-[100px] bg-gray-200"></div>
+              <div className="w-[1px] h-[100px] bg-gray-200"></div>
 
-              <div className="flex flex-col w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-sm sm:text-base">
-                <h5 className="text-lg font-semibold mb-[20px]">
+              <div>
+                <h5 className={"text-lg flex-grow-1 font-semibold mb-[20px]"}>
                   Расстояние светильника от потолка
                 </h5>
+
                 <input
                   type="number"
-                  className="border border-gray-300 bg-white text-gray-900 rounded-md w-full px-[8px] py-[8px]"
+                  className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
                   placeholder="введите"
                   value={distanceFromCeiling}
                   onChange={(e) => setDistanceFromCeiling(e.target.value)}
@@ -828,7 +874,7 @@ export default function Index() {
             </div>
           </div>
         </div>
-        <div className="col-span-12 lg:col-span-8">
+        <div className="col-span-8">
           <div className={"my-[50px]"}>
             <h5 className="font-bold text-lg">коэффициенты отражения</h5>
 
