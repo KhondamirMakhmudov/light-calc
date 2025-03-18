@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Hydrate, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import i18 from "@/services/i18n";
 // import { ResponseProvider } from "@/context/responseProvider";
 
 import NextNProgress from "nextjs-progressbar";

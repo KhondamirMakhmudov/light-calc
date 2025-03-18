@@ -15,7 +15,7 @@ const DarkModeButton = () => {
 
   if (!mounted) return null;
   return (
-    <div className="float-right">
+    <div className="">
       <motion.button
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         initial={{ scale: 0.8, opacity: 0 }}

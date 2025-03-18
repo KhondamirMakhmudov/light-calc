@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { colorOptions } from "@/constants/dummy-data";
+import { colorOptionsUz } from "@/constants/dummy-data";
+import { colorOptionsEn } from "@/constants/dummy-data";
+import { useTranslation } from "react-i18next";
 
 const ReflectionCoefficient = ({ onSelectionChange }) => {
+  const { t, i18n } = useTranslation();
   const [selected, setSelected] = useState({
     потолка: "white",
     стен: "white",
@@ -47,27 +51,77 @@ const ReflectionCoefficient = ({ onSelectionChange }) => {
 
   return (
     <div className="flex justify-between">
-      {Object.entries(colorOptions).map(([group, options]) => (
-        <div key={group} className="mt-3">
-          <h4 className="text-lg font-semibold">{`цвет ${group}`}</h4>
-          {options.map((option) => (
-            <div key={option.value} className="flex items-center mb-2 mt-2">
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  name={group}
-                  value={option.value}
-                  checked={selected[group] === option.value}
-                  onChange={() => handleSelection(group, option.value)}
-                  className="hidden peer" // Hides the default radio button
-                />
-                <div className="w-5 h-5 border-2 border-gray-600 rounded-full peer-checked:bg-black peer-checked:border-white"></div>
-                <span className="ml-2 text-black text-lg">{option.label}</span>
-              </label>
+      {i18n.language === "uz"
+        ? Object.entries(colorOptionsUz).map(([group, options]) => (
+            <div key={group} className="mt-3">
+              <h4 className="text-lg font-semibold">{`цвет ${group}`}</h4>
+              {options.map((option) => (
+                <div key={option.value} className="flex items-center mb-2 mt-2">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name={group}
+                      value={option.value}
+                      checked={selected[group] === option.value}
+                      onChange={() => handleSelection(group, option.value)}
+                      className="hidden peer" // Hides the default radio button
+                    />
+                    <div className="w-5 h-5 border-2 border-gray-600 rounded-full peer-checked:bg-black peer-checked:border-white"></div>
+                    <span className="ml-2 text-black text-lg">
+                      {t(option.label)}
+                    </span>
+                  </label>
+                </div>
+              ))}
+            </div>
+          ))
+        : i18n.language === "ru"
+        ? Object.entries(colorOptions).map(([group, options]) => (
+            <div key={group} className="mt-3">
+              <h4 className="text-lg font-semibold">{`цвет ${group}`}</h4>
+              {options.map((option) => (
+                <div key={option.value} className="flex items-center mb-2 mt-2">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name={group}
+                      value={option.value}
+                      checked={selected[group] === option.value}
+                      onChange={() => handleSelection(group, option.value)}
+                      className="hidden peer" // Hides the default radio button
+                    />
+                    <div className="w-5 h-5 border-2 border-gray-600 rounded-full peer-checked:bg-black peer-checked:border-white"></div>
+                    <span className="ml-2 text-black text-lg">
+                      {t(option.label)}
+                    </span>
+                  </label>
+                </div>
+              ))}
+            </div>
+          ))
+        : Object.entries(colorOptionsEn).map(([group, options]) => (
+            <div key={group} className="mt-3">
+              <h4 className="text-lg font-semibold">{`цвет ${group}`}</h4>
+              {options.map((option) => (
+                <div key={option.value} className="flex items-center mb-2 mt-2">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name={group}
+                      value={option.value}
+                      checked={selected[group] === option.value}
+                      onChange={() => handleSelection(group, option.value)}
+                      className="hidden peer" // Hides the default radio button
+                    />
+                    <div className="w-5 h-5 border-2 border-gray-600 rounded-full peer-checked:bg-black peer-checked:border-white"></div>
+                    <span className="ml-2 text-black text-lg">
+                      {t(option.label)}
+                    </span>
+                  </label>
+                </div>
+              ))}
             </div>
           ))}
-        </div>
-      ))}
     </div>
   );
 };

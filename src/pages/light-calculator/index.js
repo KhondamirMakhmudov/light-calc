@@ -22,9 +22,15 @@ import { LightCalculatorContext } from "@/context/responseProvider";
 import useGetQuery from "@/hooks/api/useGetQuery";
 import { get } from "lodash";
 import { themes } from "@/constants/dummy-data";
+import { themesUz } from "@/constants/dummy-data";
+import { themesRu } from "@/constants/dummy-data";
+import { themesEn } from "@/constants/dummy-data";
+import LanguageDropdown from "@/components/language";
+import { useTranslation } from "react-i18next";
 const angles = ["К30", "Г60", "Д120", "Л140", "Ш160", "М180"];
 
 export default function Index() {
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const [isOpenRoom, setIsOpenRoom] = useState(false);
 
@@ -300,15 +306,17 @@ export default function Index() {
   };
   return (
     <div className="container px-[20px] my-[50px]">
-      <DarkModeButton />
-
+      <div className="flex items-center justify-end">
+        <LanguageDropdown />
+        <DarkModeButton />
+      </div>
       <button
         onClick={() => router.back()}
         className="flex gap-x-[10px] items-center bg-[#e9e9e9] p-2 rounded-full"
       >
         <Image src={"/icons/back.svg"} alt="back" width={20} height={20} />
       </button>
-      <Title>калькулятор освещенности</Title>
+      <Title>{t("lighting calculator")}</Title>
 
       <div className={"grid grid-cols-12 gap-x-[70px] mt-[30px] px-[10px]"}>
         <div className="col-span-12 lg:col-span-5">
@@ -327,11 +335,11 @@ export default function Index() {
             </div>
           </div> */}
           <div>
-            <h5 className={"text-lg font-semibold"}>параметры помещения</h5>
+            <h5 className={"text-lg font-semibold"}>{t("room parameters")}</h5>
             <div className={"flex justify-between"}>
               {/* uzunligi */}
               <div className={"mt-[15px]"}>
-                <h5 className="text-lg font-normal">ширина</h5>
+                <h5 className="text-lg font-normal">{t("width")}</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
@@ -367,7 +375,7 @@ export default function Index() {
               </div>
               {/* kengligi */}
               <div className={"mt-[15px]"}>
-                <h5 className="text-lg">длина</h5>
+                <h5 className="text-lg">{t("length")}</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
@@ -403,7 +411,7 @@ export default function Index() {
               </div>
               {/* ship balandligi */}
               <div className={"mt-[15px]"}>
-                <h5 className="text-lg">высота потолка</h5>
+                <h5 className="text-lg">{t("ceiling height")}</h5>
 
                 <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                   <button
@@ -480,7 +488,7 @@ export default function Index() {
           <div className="">
             <h3 className={"text-[42px]"}>{area} м²</h3>
 
-            <p className={"text-sm"}>общая площадь</p>
+            <p className={"text-sm"}>{t("total area")}</p>
           </div>
         </div>
 
@@ -489,7 +497,9 @@ export default function Index() {
             <div className="grid grid-cols-12 my-8 gap-x-5 flex-wrap">
               {/* First Dropdown */}
               <div className="relative flex-col flex flex-wrap col-span-12 md:col-span-6 text-base">
-                <h5 className="text-lg flex-1 font-semibold">Тип помещения</h5>
+                <h5 className="text-lg flex-1 font-semibold">
+                  {t("room type")}
+                </h5>
                 <div
                   className="py-2 px-6 border border-black rounded my-4 cursor-pointer"
                   onClick={toggleDropdownRoom}
@@ -517,7 +527,7 @@ export default function Index() {
               {/* Second Dropdown (Disabled if First Not Selected) */}
               <div className="relative flex-col flex flex-wrap col-span-6 text-base">
                 <h5 className="text-lg flex-1 font-semibold">
-                  Наименование зрительной работы и вида деятельности
+                  {t("Name of visual work and type of activity")}
                 </h5>
                 <div
                   className={`py-2 px-6 border rounded my-4 transition-all duration-300 cursor-pointer ${
@@ -617,10 +627,12 @@ export default function Index() {
             </div>
             <div className="flex justify-between gap-x-[40px] items-center">
               <div>
-                <h5 className="text-lg font-semibold">параметры освещения</h5>
+                <h5 className="text-lg font-semibold">
+                  {t("lighting parameters")}
+                </h5>
                 <div className={"flex"}>
                   <div className={"mt-[15px] "}>
-                    <h5>освещенность</h5>
+                    <h5>{t("illumination")}</h5>
 
                     <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                       <button
@@ -649,7 +661,7 @@ export default function Index() {
 
               <div>
                 <h5 className="text-lg font-semibold">
-                  Ra(Индекса цвето передачи), не менее
+                  {t("Ra (Color rendering index), at least")}
                 </h5>
                 <div className={"flex items-center justify-center mt-[15px]"}>
                   <div
@@ -666,7 +678,7 @@ export default function Index() {
 
               <div>
                 <h5 className="text-lg font-semibold">
-                  {"К(Пульсации)<= %, не более"}
+                  {t("K (Flicker) <= %, no more than")}
                 </h5>
                 <div className={"flex items-center justify-center mt-[15px]"}>
                   <div
@@ -683,7 +695,7 @@ export default function Index() {
             <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
 
             <div className={""}>
-              <h5 className={"text-lg font-semibold"}>Рабочая поверхность</h5>
+              <h5 className={"text-lg font-semibold"}>{t("Work surface")}</h5>
 
               <div className={"my-[15px] flex gap-x-[20px] items-center"}>
                 <button
@@ -713,7 +725,7 @@ export default function Index() {
             <div className="flex justify-between gap-x-[20px]">
               <div className="relative  flex flex-col">
                 <h5 className={"text-lg flex-grow-1 font-semibold mb-[20px]"}>
-                  Вводите параметры лампочки в зависимости от её формы.
+                  {t("Enter lamp parameters depending on its shape.")}
                 </h5>
                 <div
                   className="py-2 px-4 border border-gray-400 rounded cursor-pointer bg-white mb-[15px]"
@@ -722,7 +734,7 @@ export default function Index() {
                   {formFactor ? formFactor.name : "Выберите форму"}
                 </div>
 
-                {formFactor?.name === "Круглый" ? (
+                {formFactor?.name === `${t("round")}` ? (
                   <div className="flex gap-x-[10px] items-center">
                     <input
                       className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/5 px-[8px] py-[8px]"
@@ -743,7 +755,7 @@ export default function Index() {
                     />
                     <p>см</p>
                   </div>
-                ) : formFactor?.name === "Четырёхугольник" ? (
+                ) : formFactor?.name === `${t("square")}` ? (
                   <div className="flex gap-x-[10px]">
                     <div className="flex items-center gap-x-[10px]">
                       <input
@@ -786,7 +798,7 @@ export default function Index() {
                       <p>см</p>
                     </div>
                   </div>
-                ) : formFactor?.name === "Линейный" ? (
+                ) : formFactor?.name === `${t("linear")}` ? (
                   <div className="flex items-center gap-x-[10px]">
                     <input
                       className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/5 px-[8px] py-[8px]"
@@ -813,15 +825,35 @@ export default function Index() {
 
                 {isOpenFormFactor && (
                   <ul className="absolute w-full bg-white border border-gray-400 rounded shadow-md mt-[95px] z-50">
-                    {themes.map((theme) => (
-                      <li
-                        key={theme.id}
-                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                        onClick={() => handleSelectFormFactor(theme)}
-                      >
-                        {theme.name}
-                      </li>
-                    ))}
+                    {i18n.language === "uz"
+                      ? themesUz.map((theme) => (
+                          <li
+                            key={theme.id}
+                            className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                            onClick={() => handleSelectFormFactor(theme)}
+                          >
+                            {theme.name}
+                          </li>
+                        ))
+                      : i18n.language === "ru"
+                      ? themesRu.map((theme) => (
+                          <li
+                            key={theme.id}
+                            className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                            onClick={() => handleSelectFormFactor(theme)}
+                          >
+                            {theme.name}
+                          </li>
+                        ))
+                      : themesEn.map((theme) => (
+                          <li
+                            key={theme.id}
+                            className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                            onClick={() => handleSelectFormFactor(theme)}
+                          >
+                            {theme.name}
+                          </li>
+                        ))}
                   </ul>
                 )}
               </div>
@@ -830,7 +862,7 @@ export default function Index() {
 
               <div className="relative  flex flex-col">
                 <h5 className="font-semibold text-lg mb-[20px] flex-grow-1">
-                  Угол рассеивания
+                  {t("Beam angle")}
                 </h5>
                 <div className="relative ">
                   <div
@@ -860,7 +892,7 @@ export default function Index() {
 
               <div>
                 <h5 className={"text-lg flex-grow-1 font-semibold mb-[20px]"}>
-                  Расстояние светильника от потолка
+                  {t("Distance of the lamp from the ceiling")}
                 </h5>
 
                 <input
@@ -876,7 +908,9 @@ export default function Index() {
         </div>
         <div className="col-span-8">
           <div className={"my-[50px]"}>
-            <h5 className="font-bold text-lg">коэффициенты отражения</h5>
+            <h5 className="font-bold text-lg">
+              {t("Reflection coefficients")}
+            </h5>
 
             <ReflectionCoefficient onSelectionChange={handleSelectionChange} />
           </div>
@@ -886,7 +920,7 @@ export default function Index() {
         <div className={"col-span-12"}>
           <div className={"mb-[30px] text-lg"}>
             <div className={"mt-[15px]"}>
-              <h5 className="font-bold">коэффициент запаса</h5>
+              <h5 className="font-bold">{t("Reserve coefficient")}</h5>
 
               <div className="relative block">
                 {/* Dropdown Trigger */}
@@ -968,7 +1002,7 @@ export default function Index() {
               "py-[15px] px-[50px] text-lg w-1/3 bg-black text-white  border rounded-[10px]    transition-all duration-300"
             }
           >
-            рассчитать
+            {t("Calculate")}
           </button>
           <p className="text-sm w-1/2 text-[#C4C4C4]">
             Онлайн-калькулятор не учитывает многих факторов, влияющих на

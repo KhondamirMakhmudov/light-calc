@@ -66,6 +66,76 @@ export const colorOptions = {
   ],
 };
 
+export const colorOptionsUz = {
+  shift: [
+    {
+      value: "oq",
+      label: "Oq (80)",
+      related: { devor: "oq", pol: "qorong'i" },
+    },
+    {
+      value: "juda-yorug'",
+      label: "Juda yorug' (70)",
+      related: { devor: "yorug'", pol: "juda-qorong'i" },
+    },
+    {
+      value: "yorug'",
+      label: "Yorug' (50)",
+      related: { devor: "yorug'", pol: "qora" },
+    },
+    {
+      value: "qorong'i",
+      label: "Qorong'i (30)",
+      related: { devor: "qorong'i", pol: "qora" },
+    },
+  ],
+  devor: [
+    { value: "oq", label: "Oq (80)" },
+    { value: "yorug'", label: "Yorug' (50)" },
+    { value: "qorong'i", label: "Qorong'i (30)" },
+  ],
+  pol: [
+    { value: "qorong'i", label: "Qorong'i (30)" },
+    { value: "juda-qorong'i", label: "Juda qorong'i (20)" },
+    { value: "qora", label: "Qora (10)" },
+  ],
+};
+
+export const colorOptionsEn = {
+  ceiling: [
+    {
+      value: "white",
+      label: "White (80)",
+      related: { wall: "white", floor: "dark" },
+    },
+    {
+      value: "very-light",
+      label: "Very light (70)",
+      related: { wall: "light", floor: "very-dark" },
+    },
+    {
+      value: "light",
+      label: "Light (50)",
+      related: { wall: "light", floor: "black" },
+    },
+    {
+      value: "dark",
+      label: "Dark (30)",
+      related: { wall: "dark", floor: "black" },
+    },
+  ],
+  wall: [
+    { value: "white", label: "White (80)" },
+    { value: "light", label: "Light (50)" },
+    { value: "dark", label: "Dark (30)" },
+  ],
+  floor: [
+    { value: "dark", label: "Dark (30)" },
+    { value: "very-dark", label: "Very dark (20)" },
+    { value: "black", label: "Black (10)" },
+  ],
+};
+
 export const safetyFactorData = [
   {
     id: 1,
@@ -90,8 +160,20 @@ export const safetyFactorData = [
   },
 ];
 
-export const themes = [
+export const themesUz = [
+  { id: "round", name: "Dumaloq" },
+  { id: "square", name: "To'rtburchak" },
+  { id: "linear", name: "Chiziqli" },
+];
+
+export const themesRu = [
   { id: "round", name: "Круглый" },
   { id: "square", name: "Четырёхугольник" },
   { id: "linear", name: "Линейный" },
+];
+
+export const themesEn = [
+  { id: "round", name: "Round" },
+  { id: "square", name: "Square" },
+  { id: "linear", name: "Linear" },
 ];
