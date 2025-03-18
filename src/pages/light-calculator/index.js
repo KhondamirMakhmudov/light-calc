@@ -310,7 +310,7 @@ export default function Index() {
       </button>
       <Title>калькулятор освещенности</Title>
 
-      <div className={"grid grid-cols-12 gap-[70px] mt-[30px] px-[10px]"}>
+      <div className={"grid grid-cols-12 gap-[70px] mt-[30px]"}>
         <div className="col-span-12 lg:col-span-5">
           {/* <div className={"flex justify-between items-start"}>
             <div>
@@ -328,7 +328,11 @@ export default function Index() {
           </div> */}
           <div>
             <h5 className={"text-lg font-semibold"}>параметры помещения</h5>
-            <div className={"flex lg:justify-between flex-wrap"}>
+            <div
+              className={
+                "flex lg:justify-between lg:flex-row flex-col flex-wrap"
+              }
+            >
               {/* uzunligi */}
               <div className={"mt-[15px]"}>
                 <h5 className="text-lg font-normal">ширина</h5>
@@ -455,7 +459,7 @@ export default function Index() {
             </div>
           </div>
         </div> */}
-        <div className="col-span-12 lg:col-span-7 flex justify-between max-w-lg md:max-w-full">
+        {/* <div className="col-span-12 lg:col-span-7 flex justify-between max-w-lg md:max-w-full">
           <div className="relative">
             <Image
               src={"/images/calculator.webp"}
@@ -483,7 +487,7 @@ export default function Index() {
 
             <p className={"text-sm"}>общая площадь</p>
           </div>
-        </div>
+        </div> */}
 
         <div className="col-span-12">
           <div>
@@ -708,7 +712,7 @@ export default function Index() {
               </div>
             </div>
 
-            <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
+            {/* <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div> */}
 
             <div className={""}>
               <h5 className={"text-lg font-semibold"}>Рабочая поверхность</h5>
@@ -736,10 +740,10 @@ export default function Index() {
               </div>
             </div>
 
-            <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
+            {/* <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div> */}
 
             <div className="flex flex-col md:flex-row md:justify-between gap-x-[20px] gap-y-6">
-              <div className="relative flex flex-col w-full md:w-1/3">
+              <div className="flex flex-col w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-sm sm:text-base">
                 <h5 className="text-lg font-semibold mb-[20px]">
                   Вводите параметры лампочки в зависимости от её формы.
                 </h5>
@@ -780,7 +784,7 @@ export default function Index() {
 
               <div className="hidden md:block w-[1px] h-[100px] bg-gray-200"></div>
 
-              <div className="relative flex flex-col w-full md:w-1/3">
+              <div className="relative flex flex-col w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-sm sm:text-base">
                 <h5 className="font-semibold text-lg mb-[20px]">
                   Угол рассеивания
                 </h5>
@@ -809,7 +813,7 @@ export default function Index() {
 
               <div className="hidden md:block w-[1px] h-[100px] bg-gray-200"></div>
 
-              <div className="w-full md:w-1/3">
+              <div className="flex flex-col w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-sm sm:text-base">
                 <h5 className="text-lg font-semibold mb-[20px]">
                   Расстояние светильника от потолка
                 </h5>
