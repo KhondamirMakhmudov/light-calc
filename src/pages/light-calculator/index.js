@@ -263,7 +263,7 @@ export default function Index() {
           room_length: length,
           room_width: width,
           room_height: height,
-          reflection_factors: selectedNumbersArray,
+          // reflection_factors: selectedNumbersArray,
           illumination: get(roomInfo, "data[0].lk"),
           working_surface_height: get(roomInfo, "data[0].table_height"),
           reserve_factor: String(selectedCondition?.sf),
@@ -910,7 +910,7 @@ export default function Index() {
             </div>
           </div>
         </div>
-        <div className="col-span-8">
+        {/* <div className="col-span-8">
           <div className={"my-[50px]"}>
             <h5 className="font-bold text-lg">
               {t("Reflection coefficients")}
@@ -918,7 +918,7 @@ export default function Index() {
 
             <ReflectionCoefficient onSelectionChange={handleSelectionChange} />
           </div>
-        </div>
+        </div> */}
 
         <div className="col-span-4 my-[50px]"></div>
         <div className={"col-span-12"}>
