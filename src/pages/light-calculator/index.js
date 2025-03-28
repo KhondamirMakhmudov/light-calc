@@ -263,10 +263,9 @@ export default function Index() {
           room_length: length,
           room_width: width,
           room_height: height,
-          // reflection_factors: selectedNumbersArray,
           illumination: get(roomInfo, "data[0].lk"),
-          working_surface_height: get(roomInfo, "data[0].table_height"),
-          reserve_factor: String(selectedCondition?.sf),
+          table_height: get(roomInfo, "data[0].table_height"),
+          lamp_height: distanceFromCeiling,
         },
       },
       {
@@ -663,6 +662,34 @@ export default function Index() {
 
               <div className="w-[1px] h-[100px] bg-gray-200"></div>
 
+              <div className={""}>
+                <h5 className={"text-lg font-semibold"}>{t("Work surface")}</h5>
+
+                <div className={"my-[15px] flex gap-x-[20px] items-center"}>
+                  <button
+                    className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
+                      get(roomInfo, "data[0].table_height") === 0
+                        ? "bg-black text-white"
+                        : "bg-white text-black"
+                    } `}
+                  >
+                    <p>0 {t("sm")}</p>
+                  </button>
+
+                  <button
+                    className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
+                      get(roomInfo, "data[0].table_height") === 0.8
+                        ? "bg-black text-white"
+                        : "bg-white text-black"
+                    } `}
+                  >
+                    <p>80 {t("sm")}</p>
+                  </button>
+                </div>
+              </div>
+
+              <div className="w-[1px] h-[100px] bg-gray-200"></div>
+
               <div>
                 <h5 className="text-lg font-semibold">
                   {t("Ra (Color rendering index), at least")}
@@ -696,33 +723,7 @@ export default function Index() {
               </div>
             </div>
 
-            <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
-
-            <div className={""}>
-              <h5 className={"text-lg font-semibold"}>{t("Work surface")}</h5>
-
-              <div className={"my-[15px] flex gap-x-[20px] items-center"}>
-                <button
-                  className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
-                    get(roomInfo, "data[0].table_height") === 0
-                      ? "bg-black text-white"
-                      : "bg-white text-black"
-                  } `}
-                >
-                  <p>0 m</p>
-                </button>
-
-                <button
-                  className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
-                    get(roomInfo, "data[0].table_height") === 0.8
-                      ? "bg-black text-white"
-                      : "bg-white text-black"
-                  } `}
-                >
-                  <p>0.8 m</p>
-                </button>
-              </div>
-            </div>
+            {/* <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div> */}
 
             <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
 
@@ -757,7 +758,7 @@ export default function Index() {
                         }
                       }}
                     />
-                    <p>см</p>
+                    <p>{t("sm")}</p>
                   </div>
                 ) : formFactor?.name === `${t("square")}` ? (
                   <div className="flex gap-x-[10px]">
@@ -779,7 +780,7 @@ export default function Index() {
                           }
                         }}
                       />
-                      <p>см</p>
+                      <p>{t("sm")}</p>
                     </div>
                     <div className="flex items-center gap-x-[10px]">
                       <input
@@ -799,7 +800,7 @@ export default function Index() {
                           }
                         }}
                       />
-                      <p>см</p>
+                      <p>{t("sm")}</p>
                     </div>
                   </div>
                 ) : formFactor?.name === `${t("linear")}` ? (
@@ -821,7 +822,7 @@ export default function Index() {
                         }
                       }}
                     />
-                    <p>см</p>
+                    <p>{t("sm")}</p>
                   </div>
                 ) : (
                   ""
@@ -899,13 +900,16 @@ export default function Index() {
                   {t("Distance of the lamp from the ceiling")}
                 </h5>
 
-                <input
-                  type="number"
-                  className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
-                  placeholder="введите"
-                  value={distanceFromCeiling}
-                  onChange={(e) => setDistanceFromCeiling(e.target.value)}
-                />
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[8px] w-1/2 px-[8px] py-[8px]"
+                    placeholder="введите"
+                    value={distanceFromCeiling}
+                    onChange={(e) => setDistanceFromCeiling(e.target.value)}
+                  />
+                  <p>{t("sm")}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -922,12 +926,12 @@ export default function Index() {
 
         <div className="col-span-4 my-[50px]"></div>
         <div className={"col-span-12"}>
-          <div className={"mb-[30px] text-lg"}>
+          {/* <div className={"mb-[30px] text-lg"}>
             <div className={"mt-[15px]"}>
               <h5 className="font-bold">{t("Reserve coefficient")}</h5>
 
               <div className="relative block">
-                {/* Dropdown Trigger */}
+
                 <div
                   className={
                     "py-[10px] px-[50px] border border-black  rounded my-[15px] text-center  transition-all duration-300 cursor-pointer w-1/3"
@@ -941,7 +945,6 @@ export default function Index() {
                   </span>
                 </div>
 
-                {/* Dropdown List */}
                 {isOpenSafetyFactor && (
                   <ul className="absolute mt-2 w-full bg-white border rounded shadow-md max-h-[200px] overflow-y-auto">
                     {safetyFactorData.map((room, index) => (
@@ -1000,7 +1003,7 @@ export default function Index() {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <button
             onClick={onSubmit}

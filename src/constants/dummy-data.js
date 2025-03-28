@@ -161,9 +161,9 @@ export const safetyFactorData = [
 ];
 
 export const themesUz = [
-  { id: "round", name: "Dumaloq" },
-  { id: "square", name: "To'rtburchak" },
-  { id: "linear", name: "Chiziqli" },
+  { id: "round", name: "Думалоқ" },
+  { id: "square", name: "Тўртбурчак" },
+  { id: "linear", name: "Чизиқли" },
 ];
 
 export const themesRu = [

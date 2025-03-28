@@ -26,27 +26,6 @@ const Index = () => {
     return <p>Loading...</p>;
   }
 
-  // useEffect(() => {
-  //   // Get the string from localStorage
-  //   const storedResponse = localStorage.getItem("calculationResponse");
-  //   if (storedResponse) {
-  //     // Parse it into an object
-  //     const parsedResponse = JSON.parse(storedResponse);
-  //     setData(parsedResponse); // Save it to state
-  //   }
-  // }, []);
-  // console.log(data);
-
-  // if (!data) {
-  //   return <div>No data available</div>;
-  // }
-
-  // const handleNewCalculation = () => {
-  //   localStorage.removeItem("calculationResponse");
-
-  //   router.push("/light-calculator");
-  // };
-
   return (
     <div className="container my-[50px]">
       <Title>калькулятор освещенности</Title>
@@ -243,9 +222,7 @@ const Index = () => {
 
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">рабочая поверхность</h4>
-                <p className="font-medium">
-                  {get(data, "data.working_surface_height")}
-                </p>
+                <p className="font-medium">{get(data, "data.table_height")}</p>
               </li>
 
               <li className="col-span-1">
