@@ -293,6 +293,7 @@ export default function Index() {
               distanceFromCeiling,
               ripple,
               colorRendering,
+              table_height: get(roomInfo, "data[0].table_height"),
             },
           });
           // localStorage.setItem("calculationResponse", JSON.stringify(response));

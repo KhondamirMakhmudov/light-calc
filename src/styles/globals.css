@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 /* width */
 ::-webkit-scrollbar {
@@ -12,6 +13,10 @@
 /* Track */
 ::-webkit-scrollbar-track {
   background: #ececec;
+}
+
+body {
+  font-family: "PT sans", sans-serif;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
@@ -26,4 +31,16 @@ body {
 [data-theme="dark"] body {
   background: black;
   color: white;
+}
+
+.light-glow {
+  position: absolute;
+  top: 100%; /* Positioned right below the lamp */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 40px;
+  background: rgba(255, 255, 200, 0.8); /* Soft yellowish light */
+  border-radius: 50%;
+  box-shadow: 0 0 40px 30px rgba(255, 255, 200, 0.6); /* Soft glow */
 }

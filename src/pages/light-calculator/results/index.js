@@ -13,6 +13,10 @@ const Index = () => {
 
   const { result } = useContext(LightCalculatorContext);
 
+  const lampsCount = get(data, "data.tavsiya_qilinadi.number_of_lamps", 1);
+  const lampWidth = 100; // Har bir lampaning eni (o'zgartirish mumkin)
+  const gap = 20;
+
   console.log(result, "response state management");
   useEffect(() => {
     if (result) {
@@ -26,6 +30,34 @@ const Index = () => {
     return <p>Loading...</p>;
   }
 
+  const exportToExcel = (data) => {
+    if (!data || data.length === 0) {
+      alert("Yuklab olish uchun ma'lumot mavjud emas!");
+      return;
+    }
+
+    const formattedData = data.map((item, index) => ({
+      "№": index + 1,
+      Hudud: item.material_region_name,
+      "Korxona nomi": item.company_name,
+      "Resurs kodi": item.material_name_id,
+      "Resurs nomi": item.material_name,
+      "O‘lchov birligi": item.material_measure,
+      "Narxi (QQSsiz)": item.material_price,
+      "Narxi (QQS)": (item.material_price * 1.12).toFixed(2),
+      "Oxirgi o‘zgarish": dayjs(item.material_updated_date).format(
+        "DD.MM.YYYY HH:mm"
+      ),
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Materials");
+
+    XLSX.writeFile(workbook, "materials.xlsx");
+  };
+
+  const area = get(data, "data.room_width") * get(data, "data.room_length");
   return (
     <div className="container my-[50px]">
       <Title>калькулятор освещенности</Title>
@@ -38,6 +70,14 @@ const Index = () => {
         светильников, которые обеспечат необходимый уровень освещения и
         энергоэффективность.
       </p>
+
+      <button
+        onClick={() => exportToExcel(data)}
+        className="bg-[#00733BFF] py-[10px] flex gap-2 text-white px-[30px] rounded-[10px]"
+      >
+        <Image src={"/icons/excel.svg"} alt="excel" width={24} height={24} />
+        <p>Excel</p>
+      </button>
 
       {/* <div className="font-gilroy bg-white  border border-[#E0E2F0] rounded-[12px] mt-[12px]">
         <table className="w-full border-collapse border-[#D7D9E7]">
@@ -104,7 +144,7 @@ const Index = () => {
         </table>
       </div> */}
 
-      <div className="grid grid-cols-12 mt-[50px]">
+      <div className="grid grid-cols-12 gap-x-[20px] mt-[50px]">
         <div className="col-span-7">
           {/* <h4 className="font-semibold text-lg mb-[15px]">светильник</h4> */}
 
@@ -156,10 +196,7 @@ const Index = () => {
 
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">общая площадь</h4>
-                <p className="font-medium">
-                  {get(data, "data.room_width") * get(data, "data.room_length")}{" "}
-                  м²
-                </p>
+                <p className="font-medium">{area.toFixed(2)} м²</p>
               </li>
 
               <li className="col-span-1">
@@ -200,18 +237,18 @@ const Index = () => {
                   Расстояние светильника от потолка
                 </h4>
                 <p className="font-medium">
-                  {get(inputValue, "distanceFromCeiling")}
+                  {get(inputValue, "distanceFromCeiling")} см
                 </p>
               </li>
 
-              <li className="col-span-1">
+              {/* <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">коэффициенты отражения</h4>
                 <p className="font-medium">
                   {get(data, "data.reflection_factors[0]")}{" "}
                   {get(data, "data.reflection_factors[1]")}{" "}
                   {get(data, "data.reflection_factors[2]")}{" "}
                 </p>
-              </li>
+              </li> */}
 
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">освещенность</h4>
@@ -225,12 +262,12 @@ const Index = () => {
                 <p className="font-medium">{get(data, "data.table_height")}</p>
               </li>
 
-              <li className="col-span-1">
+              {/* <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">коэффициент запаса</h4>
                 <p className="font-medium">
                   {get(data, "data.reserve_factor")} лк
                 </p>
-              </li>
+              </li> */}
             </ul>
 
             <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
@@ -267,8 +304,26 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="col-span-5">
-          <div className="">
+        <div className="col-span-5 border bg-[#324539FF] rounded-lg flex flex-col ">
+          <div className="relative flex-grow">
+            {Array.from({ length: lampsCount }).map((_, index) => (
+              <div>
+                <Image
+                  key={index}
+                  src={"/images/lamp.png"}
+                  alt="lamp"
+                  width={lampWidth}
+                  height={150}
+                  className="absolute"
+                  style={{
+                    top: 0, // Shiftning yuqorisida joylashadi
+                    left: `${index * 30}px`, // Chapdan o‘ngga ketma-ket joylashish
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="text-white p-[20px]">
             <h3 className="text-[70px] font-bold">
               {get(data, "data.tavsiya_qilinadi.number_of_lamps")} шт
             </h3>
@@ -278,7 +333,7 @@ const Index = () => {
             <button
               onClick={() => router.push("/light-calculator")}
               className={
-                "py-[10px] w-1/2 px-[50px] border border-black hover:bg-black hover:text-white rounded-full my-[15px]  transition-all duration-300"
+                "py-[10px] w-1/2 px-[50px] border border-whie hover:bg-[#506E5BFF] hover:text-white rounded-full my-[15px]  transition-all duration-300"
               }
             >
               новый расчет

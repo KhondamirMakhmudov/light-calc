@@ -29,6 +29,7 @@
     "react-i18next": "^15.4.1",
     "three": "^0.172.0",
     "three-mesh-bvh": "^0.8.0",
+    "xlsx": "^0.18.5",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
