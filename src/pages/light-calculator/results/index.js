@@ -17,7 +17,11 @@ const Index = () => {
 
   const { result } = useContext(LightCalculatorContext);
 
-  const lampsCount = get(data, "data.tavsiya_qilinadi.number_of_lamps", 1);
+  const lampsCount = get(
+    inputValue,
+    "response.data.tavsiya_qilinadi.number_of_lamps",
+    1
+  );
   const lampWidth = 100; // Har bir lampaning eni (o'zgartirish mumkin)
   const gap = 20;
 
@@ -206,33 +210,33 @@ const Index = () => {
                 )}
               </li>
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">длина помещения</h4>
+                <h4 className="text-[#a7a7a7]">{t("Room length")}</h4>
                 <p className="font-medium">
                   {get(inputValue, "response.data.room_length")} м
                 </p>
               </li>
 
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">ширина помещения</h4>
+                <h4 className="text-[#a7a7a7]">{t("Room width")}</h4>
                 <p className="font-medium">
                   {get(inputValue, "response.data.room_width")} м
                 </p>
               </li>
 
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">высота потолка</h4>
+                <h4 className="text-[#a7a7a7]">{t("ceiling height")}</h4>
                 <p className="font-medium">
                   {get(inputValue, "response.data.room_height")} м
                 </p>
               </li>
 
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">общая площадь</h4>
+                <h4 className="text-[#a7a7a7]">{t("total area")}</h4>
                 <p className="font-medium">{area.toFixed(2)} м²</p>
               </li>
 
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">световой поток</h4>
+                <h4 className="text-[#a7a7a7]">{t("Luminous flux")}</h4>
                 <p className="font-medium">
                   {get(inputValue, "response.data.tavsiya_qilinadi.lumen")}{" "}
                   лумен
@@ -240,7 +244,7 @@ const Index = () => {
               </li>
 
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">эффективность</h4>
+                <h4 className="text-[#a7a7a7]">{t("Efficiency")}</h4>
                 <p className="font-medium">
                   {get(inputValue, "response.data.tavsiya_qilinadi.watt")} w
                 </p>
@@ -284,14 +288,14 @@ const Index = () => {
               </li> */}
 
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">освещенность</h4>
+                <h4 className="text-[#a7a7a7]">{t("illumination")}</h4>
                 <p className="font-medium">
                   {get(inputValue, "response.data.illumination")} лк
                 </p>
               </li>
 
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">рабочая поверхность</h4>
+                <h4 className="text-[#a7a7a7]">{t("Work surface_2")}</h4>
                 <p className="font-medium">
                   {get(inputValue, "response.data.table_height")}
                 </p>
