@@ -373,7 +373,7 @@ const Index = () => {
               шт
             </h3>
 
-            <p className="text-[#a7a7a7]">требуемое количество светильников</p>
+            <p className="text-[#a7a7a7]">{t("required number of lamps")}</p>
 
             <button
               onClick={() => router.push("/light-calculator")}
@@ -381,7 +381,7 @@ const Index = () => {
                 "py-[10px] w-1/2 px-[50px] border border-whie hover:bg-[#506E5BFF] hover:text-white rounded-full my-[15px]  transition-all duration-300"
               }
             >
-              новый расчет
+              {t("new calculation")}
             </button>
           </div>
         </div>

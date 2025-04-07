@@ -68,5 +68,7 @@
   "select_shape": "Select shape",
   "select": "Select",
   "calculationResults": "calculation results",
-  "request_success_message": "Your request has been successfully processed! To meet the specified lighting requirements, it is recommended to use an optimal number of fixtures that ensure the required level of illumination and energy efficiency."
+  "request_success_message": "Your request has been successfully processed! To meet the specified lighting requirements, it is recommended to use an optimal number of fixtures that ensure the required level of illumination and energy efficiency.",
+  "new calculation": "new calculation",
+  "required number of lamps": "required number of lamps"
 }
