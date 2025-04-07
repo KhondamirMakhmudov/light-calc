@@ -282,8 +282,8 @@ export default function Index() {
             formFactorValues = { length: distanceFromCeilingLength };
           }
           setResult({
-            response,
             inputValues: {
+              response,
               formFactor: formFactor?.name,
               diameter,
               rectLength, // Selected form factor
@@ -908,6 +908,9 @@ export default function Index() {
                     placeholder="введите"
                     value={distanceFromCeiling}
                     onChange={(e) => setDistanceFromCeiling(e.target.value)}
+                    onInput={(e) =>
+                      (e.target.value = Math.max(0, e.target.value))
+                    } // Prevent negative numbers
                   />
                   <p>{t("sm")}</p>
                 </div>

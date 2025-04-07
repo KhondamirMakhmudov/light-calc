@@ -5,6 +5,7 @@ import { get } from "lodash";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { LightCalculatorContext } from "@/context/responseProvider";
+import * as XLSX from "xlsx";
 
 const Index = () => {
   const [data, setData] = useState(null);
@@ -30,34 +31,58 @@ const Index = () => {
     return <p>Loading...</p>;
   }
 
-  const exportToExcel = (data) => {
-    if (!data || data.length === 0) {
-      alert("Yuklab olish uchun ma'lumot mavjud emas!");
-      return;
+  const downloadExcel = () => {
+    const rowData = {
+      "Xona uzunligi (m)": get(inputValue, "response.data.room_length", ""),
+      "Xona kengligi (m)": get(inputValue, "response.data.room_width", ""),
+      "Xona balandligi (m)": get(inputValue, "response.data.room_height", ""),
+      Formasi: get(inputValue, "formFactor", ""),
+      "Diametr (sm)": get(inputValue, "diameter", ""),
+      "To‘rtburchak eni (sm)": get(inputValue, "rectWidth", ""),
+      "To‘rtburchak bo‘yi (sm)": get(inputValue, "rectLength", ""),
+      "Yoritish burchagi": get(inputValue, "selectedAngle", ""),
+      Pulsatsiya: get(inputValue, "ripple", ""),
+      "CRI (rang uzatish indeksi)": get(inputValue, "colorRendering", ""),
+      "Shiftdan masofa (sm)": get(inputValue, "distanceFromCeiling", ""),
+      "Yoritish (lx)": get(inputValue, "response.data.illumination", ""),
+      "Stol balandligi": get(inputValue, "response.data.table_height", ""),
+      "Tavsiya etilgan lumen": get(
+        inputValue,
+        "response.data.tavsiya_qilinadi.lumen",
+        ""
+      ),
+      "Tavsiya etilgan watt": get(
+        inputValue,
+        "response.data.tavsiya_qilinadi.watt",
+        ""
+      ),
+    };
+
+    const worksheet = XLSX.utils.json_to_sheet([rowData]);
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Ma'lumotlar");
+
+    // Jadval sarlavhalarini qalin qilish
+    const range = XLSX.utils.decode_range(worksheet["!ref"]);
+    for (let C = range.s.c; C <= range.e.c; C++) {
+      const cellRef = XLSX.utils.encode_cell({ r: 0, c: C });
+      if (!worksheet[cellRef]) continue;
+      worksheet[cellRef].s = {
+        font: { bold: true },
+        alignment: { horizontal: "center", vertical: "center" },
+      };
     }
 
-    const formattedData = data.map((item, index) => ({
-      "№": index + 1,
-      Hudud: item.material_region_name,
-      "Korxona nomi": item.company_name,
-      "Resurs kodi": item.material_name_id,
-      "Resurs nomi": item.material_name,
-      "O‘lchov birligi": item.material_measure,
-      "Narxi (QQSsiz)": item.material_price,
-      "Narxi (QQS)": (item.material_price * 1.12).toFixed(2),
-      "Oxirgi o‘zgarish": dayjs(item.material_updated_date).format(
-        "DD.MM.YYYY HH:mm"
-      ),
-    }));
+    // Ustun kengliklari
+    worksheet["!cols"] = Object.keys(rowData).map(() => ({ wch: 25 }));
 
-    const worksheet = XLSX.utils.json_to_sheet(formattedData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Materials");
-
-    XLSX.writeFile(workbook, "materials.xlsx");
+    XLSX.writeFile(workbook, "light-calc-result.xlsx");
   };
 
-  const area = get(data, "data.room_width") * get(data, "data.room_length");
+  const area =
+    get(inputValue, "response.data.room_width") *
+    get(inputValue, "response.data.room_length");
   return (
     <div className="container my-[50px]">
       <Title>калькулятор освещенности</Title>
@@ -72,7 +97,7 @@ const Index = () => {
       </p>
 
       <button
-        onClick={() => exportToExcel(data)}
+        onClick={downloadExcel}
         className="bg-[#00733BFF] py-[10px] flex gap-2 text-white px-[30px] rounded-[10px]"
       >
         <Image src={"/icons/excel.svg"} alt="excel" width={24} height={24} />
@@ -181,17 +206,23 @@ const Index = () => {
               </li>
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">длина помещения</h4>
-                <p className="font-medium">{get(data, "data.room_length")} м</p>
+                <p className="font-medium">
+                  {get(inputValue, "response.data.room_length")} м
+                </p>
               </li>
 
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">ширина помещения</h4>
-                <p className="font-medium">{get(data, "data.room_width")} м</p>
+                <p className="font-medium">
+                  {get(inputValue, "response.data.room_width")} м
+                </p>
               </li>
 
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">высота потолка</h4>
-                <p className="font-medium">{get(data, "data.room_height")} м</p>
+                <p className="font-medium">
+                  {get(inputValue, "response.data.room_height")} м
+                </p>
               </li>
 
               <li className="col-span-1">
@@ -202,14 +233,15 @@ const Index = () => {
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">световой поток</h4>
                 <p className="font-medium">
-                  {get(data, "data.tavsiya_qilinadi.lumen")} лумен
+                  {get(inputValue, "response.data.tavsiya_qilinadi.lumen")}{" "}
+                  лумен
                 </p>
               </li>
 
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">эффективность</h4>
                 <p className="font-medium">
-                  {get(data, "data.tavsiya_qilinadi.watt")} w
+                  {get(inputValue, "response.data.tavsiya_qilinadi.watt")} w
                 </p>
               </li>
 
@@ -253,13 +285,15 @@ const Index = () => {
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">освещенность</h4>
                 <p className="font-medium">
-                  {get(data, "data.illumination")} лк
+                  {get(inputValue, "response.data.illumination")} лк
                 </p>
               </li>
 
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">рабочая поверхность</h4>
-                <p className="font-medium">{get(data, "data.table_height")}</p>
+                <p className="font-medium">
+                  {get(inputValue, "response.data.table_height")}
+                </p>
               </li>
 
               {/* <li className="col-span-1">
@@ -307,7 +341,7 @@ const Index = () => {
         <div className="col-span-5 border bg-[#324539FF] rounded-lg flex flex-col ">
           <div className="relative flex-grow">
             {Array.from({ length: lampsCount }).map((_, index) => (
-              <div>
+              <div key={index}>
                 <Image
                   key={index}
                   src={"/images/lamp.png"}
