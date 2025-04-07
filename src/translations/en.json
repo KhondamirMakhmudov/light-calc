@@ -66,5 +66,7 @@
   "select_room_type": "Select room type",
   "select_category": "Select category",
   "select_shape": "Select shape",
-  "select": "Select"
+  "select": "Select",
+  "calculationResults": "calculation results",
+  "request_success_message": "Your request has been successfully processed! To meet the specified lighting requirements, it is recommended to use an optimal number of fixtures that ensure the required level of illumination and energy efficiency."
 }

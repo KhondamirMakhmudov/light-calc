@@ -6,8 +6,11 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 import { LightCalculatorContext } from "@/context/responseProvider";
 import * as XLSX from "xlsx";
+import LanguageDropdown from "@/components/language";
+import { useTranslation } from "react-i18next";
 
 const Index = () => {
+  const { t } = useTranslation();
   const [data, setData] = useState(null);
   const [inputValue, setInputValue] = useState(null);
   const router = useRouter();
@@ -85,16 +88,14 @@ const Index = () => {
     get(inputValue, "response.data.room_length");
   return (
     <div className="container my-[50px]">
-      <Title>калькулятор освещенности</Title>
+      <div className="flex justify-between">
+        <Title>{t("lighting calculator")}</Title>
+        <LanguageDropdown />
+      </div>
 
-      <p className="text-lg font-medium">результаты расчета</p>
+      <p className="text-lg font-medium">{t("calculationResults")}</p>
 
-      <p className="text-xl my-[15px]">
-        Ваш запрос успешно обработан! Для выполнения заданных требований по
-        освещенности рекомендовано использовать оптимальное количество
-        светильников, которые обеспечат необходимый уровень освещения и
-        энергоэффективность.
-      </p>
+      <p className="text-xl my-[15px]">{t("request_success_message")}</p>
 
       <button
         onClick={downloadExcel}
@@ -359,7 +360,11 @@ const Index = () => {
           </div>
           <div className="text-white p-[20px]">
             <h3 className="text-[70px] font-bold">
-              {get(data, "data.tavsiya_qilinadi.number_of_lamps")} шт
+              {get(
+                inputValue,
+                "response.data.tavsiya_qilinadi.number_of_lamps"
+              )}{" "}
+              шт
             </h3>
 
             <p className="text-[#a7a7a7]">требуемое количество светильников</p>
