@@ -179,7 +179,9 @@ const Index = () => {
           {/* <h4 className="font-semibold text-lg mb-[15px]">светильник</h4> */}
 
           <div className="mt-[30px]">
-            <h4 className="font-semibold text-lg mb-[15px]">характеристики</h4>
+            <h4 className="font-semibold text-lg mb-[15px]">
+              {t("Characteristics")}
+            </h4>
 
             <ul className=" grid grid-cols-3 gap-[20px] text-xl">
               <li className="col-span-3">
@@ -251,19 +253,19 @@ const Index = () => {
               </li>
 
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">пульсация</h4>
+                <h4 className="text-[#a7a7a7]">{t("Flicker")}</h4>
                 <p className="font-medium">{get(inputValue, "ripple")}</p>
               </li>
 
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">Индекс цветопередачи</h4>
+                <h4 className="text-[#a7a7a7]">{t("Color rendering index")}</h4>
                 <p className="font-medium">
                   {get(inputValue, "colorRendering")}
                 </p>
               </li>
 
               <li className="col-span-1">
-                <h4 className="text-[#a7a7a7]">Угол рассеивания</h4>
+                <h4 className="text-[#a7a7a7]">{t("Beam angle")}</h4>
                 <p className="font-medium">
                   {get(inputValue, "selectedAngle")}
                 </p>
@@ -271,7 +273,7 @@ const Index = () => {
 
               <li className="col-span-1">
                 <h4 className="text-[#a7a7a7]">
-                  Расстояние светильника от потолка
+                  {t("Distance of the lamp from the ceiling")}
                 </h4>
                 <p className="font-medium">
                   {get(inputValue, "distanceFromCeiling")} см
