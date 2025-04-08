@@ -71,5 +71,6 @@
   "request_success_message": "Your request has been successfully processed! To meet the specified lighting requirements, it is recommended to use an optimal number of fixtures that ensure the required level of illumination and energy efficiency.",
   "warning": "The online calculator does not take into account many factors affecting lighting results. The obtained results are preliminary.",
   "new calculation": "new calculation",
-  "required number of lamps": "required number of lamps"
+  "required number of lamps": "required number of lamps",
+  "bulbParameters": "Parameters of the selected bulb"
 }

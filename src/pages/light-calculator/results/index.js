@@ -185,9 +185,7 @@ const Index = () => {
 
             <ul className=" grid grid-cols-3 gap-[20px] text-xl">
               <li className="col-span-3">
-                <h4 className="text-[#a7a7a7]">
-                  Параметры выбранной вами лампочки
-                </h4>
+                <h4 className="text-[#a7a7a7]">{t("bulbParameters")}</h4>
                 <p className="font-medium">{get(inputValue, "formFactor")}</p>
 
                 {get(inputValue, "formFactor") === "Круглый" ? (
