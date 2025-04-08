@@ -249,6 +249,19 @@ export default function Index() {
     // Use the selected numbers as needed
   };
 
+  const handleKeyDown = (e, value, setValue) => {
+    const step = 0.1;
+    const current = parseFloat(value) || 0;
+
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      setValue((current - step).toFixed(1));
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      setValue((current + step).toFixed(1));
+    }
+  };
+
   const { mutate: calculateTheLightBulb, isLoading: isLoadingLightBulb } =
     usePostQuery({
       listKeyId: KEYS.calculateLight,
@@ -357,6 +370,7 @@ export default function Index() {
                       step="0.1"
                       value={width}
                       onChange={handleInputChangeWidth}
+                      onKeyDown={(e) => handleKeyDown(e, width, setWidth)}
                       onBlur={handleBlurWidth}
                       className="text-center w-[30px]  rounded bg-transparent p-1"
                     />
@@ -393,6 +407,7 @@ export default function Index() {
                       step="0.1"
                       value={length}
                       onChange={handleInputChangeLength}
+                      onKeyDown={(e) => handleKeyDown(e, length, setLength)}
                       onBlur={handleBlurLength}
                       className="text-center w-[30px]  rounded bg-transparent "
                     />
@@ -428,6 +443,7 @@ export default function Index() {
                       type="text"
                       value={height}
                       onChange={handleInputChangeHeight}
+                      onKeyDown={(e) => handleKeyDown(e, height, setHeight)}
                       onBlur={handleBlurHeight}
                       className="text-center w-[30px]  rounded bg-transparent p-1"
                     />
@@ -1017,11 +1033,7 @@ export default function Index() {
           >
             {t("Calculate")}
           </button>
-          <p className="text-sm w-1/2 text-[#C4C4C4]">
-            Онлайн-калькулятор не учитывает многих факторов, влияющих на
-            результаты освещенности. Полученные результаты являются
-            предварительными
-          </p>
+          <p className="text-sm w-1/2 text-[#C4C4C4]">{t("warning")}</p>
         </div>
       </div>
 
