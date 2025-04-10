@@ -22,8 +22,11 @@ const Index = () => {
     "response.data.tavsiya_qilinadi.number_of_lamps",
     1
   );
-  const lampWidth = 100; // Har bir lampaning eni (o'zgartirish mumkin)
-  const gap = 20;
+
+  // Lampalarni joylashtirish uchun kerakli satr/ustun hisoblash:
+  const columns = Math.ceil(Math.sqrt(lampsCount));
+  const rows = Math.ceil(lampsCount / columns);
+  const lampWidth = 80;
 
   console.log(result, "response state management");
   useEffect(() => {
@@ -343,26 +346,32 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="col-span-5 border bg-[#324539FF] rounded-lg flex flex-col ">
-          <div className="relative flex-grow">
-            {Array.from({ length: lampsCount }).map((_, index) => (
-              <div key={index}>
+        <div className="col-span-5 border  rounded-lg flex flex-col ">
+          <div className="relative flex-grow p-5">
+            <div
+              className="relative  border rounded-[12px] "
+              style={{
+                width: `${columns * (lampWidth + 20)}px`, // padding bilan
+                height: `${rows * (lampWidth + 20)}px`,
+                display: "grid",
+                gridTemplateColumns: `repeat(${columns}, 1fr)`,
+                gap: "20px",
+                padding: "20px",
+              }}
+            >
+              {Array.from({ length: lampsCount }).map((_, index) => (
                 <Image
                   key={index}
-                  src={"/images/lamp.png"}
+                  src="/images/lamps.png"
                   alt="lamp"
                   width={lampWidth}
-                  height={150}
-                  className="absolute"
-                  style={{
-                    top: 0, // Shiftning yuqorisida joylashadi
-                    left: `${index * 30}px`, // Chapdan o‘ngga ketma-ket joylashish
-                  }}
+                  height={lampWidth}
+                  className="mx-auto my-auto"
                 />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          <div className="text-white p-[20px]">
+          <div className="text-black p-[20px]">
             <h3 className="text-[70px] font-bold">
               {get(
                 inputValue,
@@ -383,6 +392,8 @@ const Index = () => {
             </button>
           </div>
         </div>
+
+        <div className="col-span-12"></div>
       </div>
     </div>
   );
