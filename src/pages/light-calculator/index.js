@@ -331,7 +331,9 @@ export default function Index() {
       </button>
       <Title>{t("lighting calculator")}</Title>
 
-      <div className={"grid grid-cols-12 gap-x-[70px] mt-[30px] px-[10px]"}>
+      <div
+        className={"grid grid-cols-12 gap-x-[70px] mt-[30px] px-[10px] gap-2"}
+      >
         <div className="col-span-12 lg:col-span-5">
           {/* <div className={"flex justify-between items-start"}>
             <div>
@@ -349,7 +351,7 @@ export default function Index() {
           </div> */}
           <div>
             <h5 className={"text-lg font-semibold"}>{t("room parameters")}</h5>
-            <div className={"flex justify-between"}>
+            <div className={"flex justify-between gap-4"}>
               {/* uzunligi */}
               <div className={"mt-[15px]"}>
                 <h5 className="text-lg font-normal">{t("width")}</h5>
@@ -364,7 +366,7 @@ export default function Index() {
                     <MinusIcon color={"white"} />
                   </button>
 
-                  <label>
+                  <div className="flex items-center focus:outline-none focus:ring-0">
                     <input
                       type="text"
                       step="0.1"
@@ -372,10 +374,10 @@ export default function Index() {
                       onChange={handleInputChangeWidth}
                       onKeyDown={(e) => handleKeyDown(e, width, setWidth)}
                       onBlur={handleBlurWidth}
-                      className="text-center w-[30px]  rounded bg-transparent p-1"
+                      className="text-center w-[80px]  rounded bg-transparent p-1"
                     />
-                    м
-                  </label>
+                    <p>м</p>
+                  </div>
 
                   <button
                     onClick={incrementWidth}
@@ -401,7 +403,7 @@ export default function Index() {
                     <MinusIcon color={"white"} />
                   </button>
 
-                  <label>
+                  <div className="flex items-center focus:outline-none focus:ring-0">
                     <input
                       type="text"
                       step="0.1"
@@ -409,10 +411,10 @@ export default function Index() {
                       onChange={handleInputChangeLength}
                       onKeyDown={(e) => handleKeyDown(e, length, setLength)}
                       onBlur={handleBlurLength}
-                      className="text-center w-[30px]  rounded bg-transparent "
+                      className="text-center w-[80px]  rounded bg-transparent "
                     />
-                    м
-                  </label>
+                    <p>м</p>
+                  </div>
 
                   <button
                     onClick={incrementLength}
@@ -438,17 +440,17 @@ export default function Index() {
                     <MinusIcon color={"white"} />
                   </button>
 
-                  <label>
+                  <div className="flex items-center focus:outline-none focus:ring-0">
                     <input
                       type="text"
                       value={height}
                       onChange={handleInputChangeHeight}
                       onKeyDown={(e) => handleKeyDown(e, height, setHeight)}
                       onBlur={handleBlurHeight}
-                      className="text-center w-[30px]  rounded bg-transparent p-1"
+                      className="text-center w-[80px]  rounded bg-transparent p-1"
                     />
-                    м
-                  </label>
+                    <p>м</p>
+                  </div>
 
                   <button
                     onClick={incrementHeight}
@@ -479,7 +481,13 @@ export default function Index() {
             </div>
           </div>
         </div> */}
-        <div className="col-span-12 lg:col-span-7 flex justify-between max-w-lg md:max-w-full">
+        <div className="col-span-12 lg:col-span-7 flex justify-between">
+          <div className=" self-start p-8">
+            <h3 className={"text-[42px]"}>{area} м²</h3>
+
+            <p className={"text-sm"}>{t("total area")}</p>
+          </div>
+
           <div className="relative">
             <Image
               src={"/images/calculator.webp"}
@@ -487,24 +495,19 @@ export default function Index() {
               width={485}
               height={485}
             />
-            <p className="absolute left-[70px] bottom-[50px] text-lg font-medium">
+            <p className="absolute left-[40px] bottom-[50px] text-lg font-medium">
               {width} м
             </p>
-            <p className="absolute right-[50px] bottom-[50px] text-lg font-medium">
+            <p className="absolute right-[10px] bottom-[50px] text-lg font-medium">
               {length} м
             </p>
-            <p className="absolute -left-[40px] top-[200px] text-lg font-medium">
+            <p className="absolute -left-[60px] top-[200px] text-lg font-medium">
               {height} м
             </p>
 
             <p className="absolute text-white left-[90px] top-[300px] text-lg font-medium">
               {get(roomInfo, "data[0].table_height")} м
             </p>
-          </div>
-          <div className="">
-            <h3 className={"text-[42px]"}>{area} м²</h3>
-
-            <p className={"text-sm"}>{t("total area")}</p>
           </div>
         </div>
 
