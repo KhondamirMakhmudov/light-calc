@@ -60,6 +60,7 @@ export default function Index() {
   const { roomLK } = useRoomContext();
   const [ripple, setRipple] = useState("");
   const [colorRendering, setColorRendering] = useState("");
+  const [lk, setLk] = useState(0);
 
   const { setResult } = useContext(LightCalculatorContext);
 
@@ -240,6 +241,8 @@ export default function Index() {
     if (roomInfo) {
       setRipple(get(roomInfo, "data[0].k", ""));
       setColorRendering(get(roomInfo, "data[0].ra")); // Default bo'sh string
+      const newLk = get(roomInfo, "data[0].lk", 0);
+      setLk(newLk);
     }
   }, [roomInfo]);
 
@@ -261,6 +264,17 @@ export default function Index() {
       setValue((current + step).toFixed(1));
     }
   };
+  const initialLk = get(roomInfo, "data[0].lk", 0);
+
+  const handleIncrease = () => {
+    setLk((prev) => prev + 1);
+  };
+
+  const handleDecrease = () => {
+    if (lk > 0) {
+      setLk((prev) => prev - 1);
+    }
+  };
 
   const { mutate: calculateTheLightBulb, isLoading: isLoadingLightBulb } =
     usePostQuery({
@@ -276,7 +290,7 @@ export default function Index() {
           room_length: length,
           room_width: width,
           room_height: height,
-          illumination: get(roomInfo, "data[0].lk"),
+          illumination: lk,
           table_height: get(roomInfo, "data[0].table_height"),
           lamp_height: distanceFromCeiling,
         },
@@ -656,24 +670,23 @@ export default function Index() {
                 <div className={"flex"}>
                   <div className={"mt-[15px] "}>
                     <h5>{t("illumination")}</h5>
+                    <div className="my-[15px] flex gap-x-[20px] items-center">
+                      {lk < 400 && (
+                        <button
+                          className="text-xl border rounded-full p-1 bg-[#272623]"
+                          onClick={handleDecrease}
+                        >
+                          <MinusIcon color="white" />
+                        </button>
+                      )}
 
-                    <div className={"my-[15px] flex gap-x-[20px] items-center"}>
+                      <p>{lk} лк</p>
+
                       <button
-                        className={
-                          "text-xl border rounded-full p-1 bg-[#272623]"
-                        }
+                        className="text-xl border rounded-full p-1 bg-[#272623]"
+                        onClick={handleIncrease}
                       >
-                        <MinusIcon color={"white"} />
-                      </button>
-
-                      <p>{get(roomInfo, "data[0].lk")} лк</p>
-
-                      <button
-                        className={
-                          "text-xl border rounded-full p-1 bg-[#272623]"
-                        }
-                      >
-                        <PlusIcon color={"white"} />
+                        <PlusIcon color="white" />
                       </button>
                     </div>
                   </div>
