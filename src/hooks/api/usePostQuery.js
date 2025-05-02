@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { request } from "../../services/api";
 import { toast } from "react-hot-toast";
 import { isArray, get, forEach, isObject, values } from "lodash";
+import { useTranslation } from "react-i18next";
 
 const postRequest = (url, attributes, config = {}) =>
   request.post(url, attributes, config);
@@ -13,6 +14,7 @@ const usePostQuery = ({
   hideErrorToast = false,
 }) => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const { mutate, isLoading, isError, error, isFetching } = useMutation(
     ({ url, attributes, config = {} }) => postRequest(url, attributes, config),

@@ -4,4 +4,5 @@ export const KEYS = {
   roomCategories: "roomCategories",
   roomCategoriesGroup: "roomCategoriesGroup",
   roomCategoryGroup: "roomCategoryGroup",
+  calculateLightNew: "calculateLightNew",
 };

@@ -5,4 +5,5 @@ export const URLS = {
   roomCategoriesGroup: "lightbulb/room_categories/parent/",
   roomInfo: "lightbulb/rooms/",
   roomCategoryGroup: "/lightbulb/api/room-categories/",
+  calculateLightNew: "lightbulb/calculate-aa/",
 };

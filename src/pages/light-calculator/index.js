@@ -59,6 +59,7 @@ export default function Index() {
   const [isOpen, setIsOpen] = useState(false);
   const { roomLK } = useRoomContext();
   const [ripple, setRipple] = useState("");
+  const [showAdviced, setShowAdviced] = useState(false);
   const [colorRendering, setColorRendering] = useState("");
   const [lk, setLk] = useState(0);
 
@@ -327,6 +328,31 @@ export default function Index() {
           toast.success("success", {
             position: "top-right",
           });
+        },
+      }
+    );
+  };
+
+  const { mutate: showAdvicedCharacteristics } = usePostQuery({
+    listKeyId: KEYS.calculateLightNew,
+  });
+
+  const handleShowAdvicedCharacteristics = () => {
+    showAdvicedCharacteristics(
+      {
+        url: URLS.calculateLightNew,
+        attributes: {
+          length: length,
+          width: width,
+          height: height,
+          lk_id: selectedGroup?.id,
+          luks: lk,
+        },
+      },
+      {
+        onSuccess: (response) => {
+          setShowAdviced(response);
+          console.log(response);
         },
       }
     );
@@ -757,6 +783,83 @@ export default function Index() {
             </div>
 
             {/* <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div> */}
+            {selectedGroup?.id && (
+              <>
+                {" "}
+                <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
+                <div
+                  className="w-full
+                "
+                >
+                  <div className="flex justify-end">
+                    <button
+                      onClick={handleShowAdvicedCharacteristics}
+                      className="bg-gray-200 hover:bg-gray-300 px-[20px] py-[10px] rounded-[8px] transition-all duration-200 "
+                    >
+                      Keyingisi
+                    </button>
+                  </div>
+
+                  {showAdviced && (
+                    <div className="flex justfify-between gap-[24px]">
+                      <div>
+                        <h5 className="text-lg font-semibold">Lyuks</h5>
+
+                        <div
+                          className={
+                            "my-[15px]  bg-black text-white py-[10px] px-[20px] rounded-md inline-block"
+                          }
+                        >
+                          <p>{get(showAdviced, "data.Luks")}</p>
+                        </div>
+                      </div>
+
+                      <div className="w-[1px] h-[100px] bg-gray-200"></div>
+
+                      <div>
+                        <h5 className="text-lg font-semibold">UGR</h5>
+
+                        <div
+                          className={
+                            "my-[15px]  bg-black text-white py-[10px] px-[20px] rounded-md inline-block"
+                          }
+                        >
+                          <p>{get(showAdviced, "data.UGR")}</p>
+                        </div>
+                      </div>
+
+                      <div className="w-[1px] h-[100px] bg-gray-200"></div>
+
+                      <div>
+                        <h5 className="text-lg font-semibold">Quvvat</h5>
+
+                        <div
+                          className={
+                            "my-[15px]  bg-black text-white py-[10px] px-[20px] rounded-md inline-block"
+                          }
+                        >
+                          <p>{get(showAdviced, "data.quvvat")}</p>
+                        </div>
+                      </div>
+
+                      <div className="w-[1px] h-[100px] bg-gray-200"></div>
+
+                      <div>
+                        <h5 className="text-lg font-semibold">Umumiy lyumin</h5>
+
+                        <div
+                          className={
+                            "my-[15px]  bg-black text-white py-[10px] px-[20px] rounded-md inline-block"
+                          }
+                        >
+                          <p>{get(showAdviced, "data.umumiy_lk")}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
 
             <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
 
