@@ -62,7 +62,7 @@ export default function Index() {
   const [showAdviced, setShowAdviced] = useState(false);
   const [colorRendering, setColorRendering] = useState("");
   const [lk, setLk] = useState(0);
-
+  const [defaultLk, setDefaultLk] = useState(0);
   const { setResult } = useContext(LightCalculatorContext);
 
   /////// SAFETY FACTOR /////////////////
@@ -242,6 +242,7 @@ export default function Index() {
       setColorRendering(get(roomInfo, "data[0].ra")); // Default bo'sh string
       const newLk = get(roomInfo, "data[0].lk", 0);
       setLk(newLk);
+      setDefaultLk(newLk);
     }
   }, [roomInfo]);
 
@@ -270,7 +271,7 @@ export default function Index() {
   };
 
   const handleDecrease = () => {
-    if (lk > 400) {
+    if (lk > defaultLk) {
       setLk((prev) => prev - 10);
     }
   };
@@ -684,7 +685,7 @@ export default function Index() {
                       <button
                         className="text-xl border rounded-full p-1 bg-[#272623] disabled:bg-opacity-50"
                         onClick={handleDecrease}
-                        disabled={lk <= 400}
+                        disabled={lk <= defaultLk}
                       >
                         <MinusIcon color="white" />
                       </button>
