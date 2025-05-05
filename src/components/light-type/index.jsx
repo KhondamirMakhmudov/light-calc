@@ -102,7 +102,7 @@ const LightType = () => {
                 <Image
                   src={items[0]?.image}
                   alt={name}
-                  loader={() => items[0]?.image}
+                  // loader={() => items[0]?.image}
                   fill
                   className="object-contain rounded"
                 />
