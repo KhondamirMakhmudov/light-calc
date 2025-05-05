@@ -33,7 +33,7 @@ export default function Index() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const [isOpenRoom, setIsOpenRoom] = useState(false);
-
+  const [selectedHeight, setSelectedHeight] = useState(null);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [isOpenGroup, setIsOpenGroup] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
@@ -118,6 +118,15 @@ export default function Index() {
     enabled: !!thirdGroupId,
   });
 
+  useEffect(() => {
+    const apiHeight = get(roomInfo, "data[0].table_height");
+    setSelectedHeight(apiHeight ?? 0); // agar null bo‘lsa, 0 ni qo‘yadi
+  }, [roomInfo]);
+
+  const handleHeightChange = (height) => {
+    setSelectedHeight(height);
+    // kerak bo‘lsa, shu yerda height ni serverga yuborish yoki boshqa ish qilish mumkin
+  };
   const toggleDropdownRoom = () => setIsOpenRoom(!isOpenRoom);
 
   const handleSelectRoom = (room) => {
@@ -724,26 +733,22 @@ export default function Index() {
               <div className={""}>
                 <h5 className={"text-lg font-semibold"}>{t("Work surface")}</h5>
 
-                <div className={"my-[15px] flex gap-x-[20px] items-center"}>
-                  <button
-                    className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
-                      get(roomInfo, "data[0].table_height") === 0
-                        ? "bg-black text-white"
-                        : "bg-white text-black"
-                    } `}
-                  >
-                    <p>0 {t("sm")}</p>
-                  </button>
-
-                  <button
-                    className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
-                      get(roomInfo, "data[0].table_height") === 0.8
-                        ? "bg-black text-white"
-                        : "bg-white text-black"
-                    } `}
-                  >
-                    <p>80 {t("sm")}</p>
-                  </button>
+                <div className="my-[15px] flex gap-x-[20px] items-center">
+                  {[0, 0.8].map((height) => (
+                    <button
+                      key={height}
+                      onClick={() => handleHeightChange(height)}
+                      className={`text-xl border rounded py-1 px-2 active:scale-75 scale-100 transition-all duration-150 ${
+                        selectedHeight === height
+                          ? "bg-black text-white"
+                          : "bg-white text-black"
+                      }`}
+                    >
+                      <p>
+                        {height === 0 ? "0" : "80"} {t("sm")}
+                      </p>
+                    </button>
+                  ))}
                 </div>
               </div>
 
