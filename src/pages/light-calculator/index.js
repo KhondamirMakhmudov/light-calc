@@ -268,7 +268,7 @@ export default function Index() {
   const initialLk = get(roomInfo, "data[0].lk", 0);
 
   const handleIncrease = () => {
-    setLk((prev) => prev + 1);
+    setLk((prev) => prev + 10);
   };
 
   const handleDecrease = () => {
