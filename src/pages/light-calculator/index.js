@@ -95,17 +95,6 @@ export default function Index() {
     enabled: !!secondGroupId,
   });
 
-  // console.log(roomCategoryGroup);
-
-  // // Fetch second dropdown data (depends on first selection)
-  // const { data: roomCategoriesGroup, isLoading: isLoadingGroup } = useGetQuery({
-  //   key: [KEYS.roomCategoriesGroup, treeId],
-  //   url: treeId ? `${URLS.roomCategoriesGroup}${treeId}/` : null,
-  //   enabled: !!treeId,
-  // });
-
-  // third api
-
   const thirdGroupId =
     selectedMicroGroup?.id ||
     selectedMiniGroup?.id ||
@@ -384,20 +373,20 @@ export default function Index() {
         className={"grid grid-cols-12 gap-x-[70px] mt-[30px] px-[10px] gap-2"}
       >
         <div className="col-span-12 lg:col-span-5">
-          {/* <div className={"flex justify-between items-start"}>
+          <div className={"flex justify-between items-start"}>
             <div>
               <h5 className={"text-lg font-semibold"}>светильник</h5>
 
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={
-                  "py-[10px] px-[50px] border border-black hover:bg-black hover:text-white rounded my-[15px]  transition-all duration-300"
+                  "py-[10px] px-[50px] border border-black hover:bg-black hover:text-white rounded-[12px] my-[15px]  transition-all duration-300"
                 }
               >
                 выбрать светильник
               </button>
             </div>
-          </div> */}
+          </div>
           <div>
             <h5 className={"text-lg font-semibold"}>{t("room parameters")}</h5>
             <div className={"flex justify-between gap-4"}>
