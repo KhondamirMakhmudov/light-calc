@@ -270,8 +270,8 @@ export default function Index() {
   };
 
   const handleDecrease = () => {
-    if (lk > 0) {
-      setLk((prev) => prev - 1);
+    if (lk > 400) {
+      setLk((prev) => prev - 10);
     }
   };
 
@@ -373,20 +373,6 @@ export default function Index() {
         className={"grid grid-cols-12 gap-x-[70px] mt-[30px] px-[10px] gap-2"}
       >
         <div className="col-span-12 lg:col-span-5">
-          <div className={"flex justify-between items-start"}>
-            <div>
-              <h5 className={"text-lg font-semibold"}>светильник</h5>
-
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className={
-                  "py-[10px] px-[50px] border border-black hover:bg-black hover:text-white rounded-[12px] my-[15px]  transition-all duration-300"
-                }
-              >
-                выбрать светильник
-              </button>
-            </div>
-          </div>
           <div>
             <h5 className={"text-lg font-semibold"}>{t("room parameters")}</h5>
             <div className={"flex justify-between gap-4"}>
@@ -695,14 +681,13 @@ export default function Index() {
                   <div className={"mt-[15px] "}>
                     <h5>{t("illumination")}</h5>
                     <div className="my-[15px] flex gap-x-[20px] items-center">
-                      {lk < 400 && (
-                        <button
-                          className="text-xl border rounded-full p-1 bg-[#272623]"
-                          onClick={handleDecrease}
-                        >
-                          <MinusIcon color="white" />
-                        </button>
-                      )}
+                      <button
+                        className="text-xl border rounded-full p-1 bg-[#272623] disabled:bg-opacity-50"
+                        onClick={handleDecrease}
+                        disabled={lk <= 400}
+                      >
+                        <MinusIcon color="white" />
+                      </button>
 
                       <p>{lk} лк</p>
 
@@ -1057,7 +1042,21 @@ export default function Index() {
           </div>
         </div> */}
 
-        <div className="col-span-4 my-[50px]"></div>
+        <div className="col-span-12 my-[50px]">
+          <div>
+            <h5 className={"text-lg font-semibold"}>светильник</h5>
+
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className={
+                "py-[10px] px-[50px] border border-black hover:bg-black hover:text-white rounded-[12px] my-[15px]  transition-all duration-300"
+              }
+            >
+              выбрать светильник
+            </button>
+          </div>
+        </div>
+
         <div className={"col-span-12"}>
           {/* <div className={"mb-[30px] text-lg"}>
             <div className={"mt-[15px]"}>
