@@ -853,7 +853,7 @@ export default function Index() {
 
             <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div>
 
-            <div className="flex justify-between gap-x-[20px]">
+            {/* <div className="flex justify-between gap-x-[20px]">
               <div className="relative  flex flex-col">
                 <h5 className={"text-lg flex-grow-1 font-semibold mb-[20px]"}>
                   {t("Enter lamp parameters depending on its shape.")}
@@ -1040,7 +1040,7 @@ export default function Index() {
                   <p>{t("sm")}</p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         {/* <div className="col-span-8">
