@@ -355,23 +355,8 @@ export default function Index() {
     );
   };
   const handleDoAllParamsDefault = () => {
-    setHeight(3.0);
-    setWidth(3.0);
-    setLength(3.0);
-    setDiameter("");
-    setRectLength("");
-    setRectWidth("");
-    setDistanceFromCeilingLength("");
-    setDistanceFromCeiling(0);
-    setSelectedRoom(null);
-    setSelectedGroup(null);
-    setSelectedMiniGroup(null);
-    setSelectedMicroGroup(null);
-    setSelectedAngle("Д120");
-    setSelectedHeight(0);
-    setRipple("");
-    setColorRendering("");
-    setLk(0);
+    setSelectedHeight(get(roomInfo, "data[0].table_height"));
+    setLk(initialLk);
   };
   return (
     <div className="container px-[20px] my-[50px]">
@@ -779,6 +764,14 @@ export default function Index() {
               </div>
             </div>
 
+            <div className="flex justify-end">
+              <button
+                onClick={handleDoAllParamsDefault}
+                className="bg-gray-200 hover:bg-gray-300 px-[20px] py-[10px] rounded-[8px] transition-all duration-200 f"
+              >
+                Norma talablar bo&apos;yicha
+              </button>
+            </div>
             {/* <div className="w-full bg-gray-200 h-[1px] my-[30px]"></div> */}
             {selectedGroup?.id && (
               <>
@@ -789,12 +782,6 @@ export default function Index() {
                 "
                 >
                   <div className="flex justify-end gap-2">
-                    <button
-                      onClick={handleDoAllParamsDefault}
-                      className="bg-gray-200 hover:bg-gray-300 px-[20px] py-[10px] rounded-[8px] transition-all duration-200 "
-                    >
-                      Norma talablar bo&apos;yicha
-                    </button>
                     <button
                       onClick={handleShowAdvicedCharacteristics}
                       className="bg-gray-200 hover:bg-gray-300 px-[20px] py-[10px] rounded-[8px] transition-all duration-200 "
