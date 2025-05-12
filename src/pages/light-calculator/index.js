@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import DarkModeButton from "@/components/darkmode-button";
 import Image from "next/image";
 import LightType from "@/components/light-type";
-
+import clsx from "clsx";
 import ReflectionCoefficient from "@/components/light-type/reflection-coefficient";
 import { useRouter } from "next/router";
 import House3D from "@/components/light-type/room";
@@ -1206,9 +1206,21 @@ export default function Index() {
 
           <button
             onClick={() => setShowCalculate(!showCalculate)}
-            className={
-              "py-[15px] px-[50px] text-lg w-1/3 bg-black text-white  border rounded-[10px]    transition-all duration-300"
+            disabled={
+              !get(showAdviced, "data.umumiy_lk") ||
+              !selectedItem?.luminous_flux_min
             }
+            className={clsx(
+              "py-[15px] px-[50px] text-lg w-1/3 border rounded-[10px] transition-all duration-300",
+              {
+                "bg-black text-white cursor-pointer":
+                  get(showAdviced, "data.umumiy_lk") &&
+                  selectedItem?.luminous_flux_min,
+                "bg-gray-400 text-gray-700 cursor-not-allowed":
+                  !get(showAdviced, "data.umumiy_lk") ||
+                  !selectedItem?.luminous_flux_min,
+              }
+            )}
           >
             {t("Calculate")}
           </button>
