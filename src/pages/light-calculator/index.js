@@ -1236,11 +1236,12 @@ export default function Index() {
 
                 if (umumiyLk && luminousFluxMin) {
                   const result = umumiyLk / luminousFluxMin;
-                  return result.toFixed(2);
+                  return Math.ceil(result); // Yaxlitlab yuqoriga qarab olish
                 }
 
-                return "0.00";
-              })()}
+                return 0;
+              })()}{" "}
+              ta zarur lampalar soni
             </p>
           </div>
         )}
