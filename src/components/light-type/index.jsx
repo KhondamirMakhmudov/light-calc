@@ -75,10 +75,10 @@ const LightType = () => {
                 {groupedByName[selectedName].map((item, index) => (
                   <tr
                     key={index}
-                    className="text-center hover:bg-gray-100 cursor-pointer"
+                    className="text-center bg-white hover:bg-gray-100 cursor-pointer"
                     onClick={() => handleItemClick(item)}
                   >
-                    <td className="sticky left-0  border px-4 py-2 z-10 text-left">
+                    <td className="sticky left-0  border px-4 py-2 z-10 text-left w-[200px]">
                       {item.name}
                     </td>
                     <td className="border px-4 py-2">{item.power}</td>

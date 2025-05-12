@@ -30,6 +30,7 @@ export default function Index() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const selectedItem = useSelectedItemStore((state) => state.selectedItem);
+  const [showCalculate, setShowCalculate] = useState(false);
   const [isOpenRoom, setIsOpenRoom] = useState(false);
   const [selectedHeight, setSelectedHeight] = useState(null);
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -1204,7 +1205,7 @@ export default function Index() {
           </div> */}
 
           <button
-            onClick={onSubmit}
+            onClick={() => setShowCalculate(!showCalculate)}
             className={
               "py-[15px] px-[50px] text-lg w-1/3 bg-black text-white  border rounded-[10px]    transition-all duration-300"
             }
@@ -1213,6 +1214,24 @@ export default function Index() {
           </button>
           <p className="text-sm w-1/2 text-[#C4C4C4]">{t("warning")}</p>
         </div>
+
+        {showCalculate && (
+          <div className="col-span-12 mt-4 p-4 bg-green-100 text-green-800 rounded-md">
+            <p className="text-lg font-semibold">
+              {(() => {
+                const umumiyLk = get(showAdviced, "data.umumiy_lk");
+                const luminousFluxMin = selectedItem?.luminous_flux_min;
+
+                if (umumiyLk && luminousFluxMin) {
+                  const result = umumiyLk / luminousFluxMin;
+                  return result.toFixed(2);
+                }
+
+                return "0.00";
+              })()}
+            </p>
+          </div>
+        )}
       </div>
 
       {isOpen && (
