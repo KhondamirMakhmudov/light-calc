@@ -56,7 +56,7 @@ const LightType = () => {
             <table className="min-w-[1000px] w-full border-separate border-spacing-0">
               <thead>
                 <tr className="bg-gray-100">
-                  <th className="sticky left-0 bg-gray-100 border px-4 py-2 z-10">
+                  <th className="sticky left-0 bg-gray-100 border px-4 py-2 z-10 w-[200px]">
                     Model
                   </th>
                   <th className="border px-4 py-2">Quvvat (W)</th>
@@ -75,10 +75,10 @@ const LightType = () => {
                 {groupedByName[selectedName].map((item, index) => (
                   <tr
                     key={index}
-                    className="text-center"
+                    className="text-center hover:bg-gray-100 cursor-pointer"
                     onClick={() => handleItemClick(item)}
                   >
-                    <td className="sticky left-0 bg-white border px-4 py-2 z-10 text-left">
+                    <td className="sticky left-0  border px-4 py-2 z-10 text-left">
                       {item.name}
                     </td>
                     <td className="border px-4 py-2">{item.power}</td>

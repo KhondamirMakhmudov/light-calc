@@ -1064,11 +1064,18 @@ export default function Index() {
                 // loader={() => items[0]?.image}
                 width={108}
                 height={115}
-                className="object-contain rounded"
+                className="object-contain rounded border"
               />
 
               <div>
                 <p>{selectedItem.name}</p>
+                <p>Quvvati (W): {selectedItem.power}</p>
+                <p>Rang harorati: {selectedItem.color_temperature}</p>
+                <p>Yorug'lik oqimi: {selectedItem.luminous_flux}</p>
+                <p>Effektivligi: {selectedItem.efficiency}</p>
+                <p>CRI: {selectedItem.color_rendering_index}</p>
+                <p>O‘lchamlari: {selectedItem.dimensions}</p>
+                <p>Nur burchagi: {selectedItem.beam_angle}</p>
                 <div>
                   <button
                     onClick={() => setIsOpen(!isOpen)}
