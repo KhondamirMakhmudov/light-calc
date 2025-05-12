@@ -822,7 +822,7 @@ export default function Index() {
                       <div className="w-[1px] h-[100px] bg-gray-200"></div>
 
                       <div>
-                        <h5 className="text-lg font-semibold">Quvvat</h5>
+                        <h5 className="text-lg font-semibold">Umumiy quvvat</h5>
 
                         <div
                           className={
