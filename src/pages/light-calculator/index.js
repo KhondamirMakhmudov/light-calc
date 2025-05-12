@@ -13,25 +13,23 @@ import usePostQuery from "@/hooks/api/usePostQuery";
 import { KEYS } from "@/constants/key";
 import { URLS } from "@/constants/url";
 import toast from "react-hot-toast";
-
 import { useRoomContext } from "@/context/roomTypeProvider";
-
-import { safetyFactorData } from "@/constants/dummy-data";
 import { useContext } from "react";
 import { LightCalculatorContext } from "@/context/responseProvider";
 import useGetQuery from "@/hooks/api/useGetQuery";
 import { get } from "lodash";
-import { themes } from "@/constants/dummy-data";
 import { themesUz } from "@/constants/dummy-data";
 import { themesRu } from "@/constants/dummy-data";
 import { themesEn } from "@/constants/dummy-data";
 import LanguageDropdown from "@/components/language";
 import { useTranslation } from "react-i18next";
+import { useSelectedItemStore } from "@/store";
 const angles = ["К30", "Г60", "Д120", "Л140", "Ш160", "М180"];
 
 export default function Index() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
+  const selectedItem = useSelectedItemStore((state) => state.selectedItem);
   const [isOpenRoom, setIsOpenRoom] = useState(false);
   const [selectedHeight, setSelectedHeight] = useState(null);
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -1043,20 +1041,68 @@ export default function Index() {
           </div>
         </div> */}
 
-        <div className="col-span-12 my-[50px]">
-          <div>
+        {selectedItem ? (
+          <>
+            {" "}
             <h5 className={"text-lg font-semibold"}>светильник</h5>
+            <div className="col-span-12 flex items-start gap-2 my-[30px]">
+              <Image
+                src={selectedItem?.image}
+                alt={selectedItem.name}
+                // loader={() => items[0]?.image}
+                width={108}
+                height={115}
+                className="object-contain rounded"
+              />
 
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className={
-                "py-[10px] px-[50px] border border-black hover:bg-black hover:text-white rounded-[12px] my-[15px]  transition-all duration-300"
-              }
-            >
-              выбрать светильник
-            </button>
+              <div>
+                <p>{selectedItem.name}</p>
+                <div>
+                  <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className={
+                      " flex items-center gap-2 text-gray-400   hover:text-gray-500 rounded-[12px]  transition-all duration-300"
+                    }
+                  >
+                    <p>выбрать другой</p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 48 48"
+                    >
+                      <g
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="4"
+                      >
+                        <path d="m13 8l-7 6l7 7" />
+                        <path d="M6 14h22.994c6.883 0 12.728 5.62 12.996 12.5c.284 7.27-5.723 13.5-12.996 13.5H11.998" />
+                      </g>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="col-span-12 my-[50px]">
+            <div>
+              <h5 className={"text-lg font-semibold"}>светильник</h5>
+
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={
+                  "py-[10px] px-[50px] border border-black hover:bg-black hover:text-white rounded-[12px] my-[15px]  transition-all duration-300"
+                }
+              >
+                выбрать светильник
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className={"col-span-12"}>
           {/* <div className={"mb-[30px] text-lg"}>
@@ -1162,9 +1208,19 @@ export default function Index() {
             >
               <button
                 onClick={() => setIsOpen(false)}
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 w-10 h-10"
               >
-                &times;
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"
+                  />
+                </svg>
               </button>
               <h2 className="text-[28px] font-bold mb-[30px]">
                 Mahsulotni tanlang

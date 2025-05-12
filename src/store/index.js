@@ -24,6 +24,11 @@ export const useLangStore = create((set) => ({
   setLang: (lang) => set({ lang }),
 }));
 
+export const useSelectedItemStore = create((set) => ({
+  selectedItem: null,
+  setSelectedItem: (item) => set({ selectedItem: item }),
+}));
+
 store = devtools(store);
 settingsStore = devtools(settingsStore);
 settingsStore = persist(settingsStore, { name: "settings" });

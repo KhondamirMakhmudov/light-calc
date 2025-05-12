@@ -5,8 +5,18 @@ import { URLS } from "@/constants/url";
 import { get, groupBy } from "lodash";
 import { useState } from "react";
 import Image from "next/image";
+import { useSelectedItemStore } from "@/store";
 
 const LightType = () => {
+  const setSelectedItem = useSelectedItemStore(
+    (state) => state.setSelectedItem
+  );
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+    setSelectedName(null);
+  };
+
   const [selectedName, setSelectedName] = useState(null);
   const { data } = useGetQuery({
     key: KEYS.lightPanels,
@@ -25,8 +35,8 @@ const LightType = () => {
       <div className="mt-[30px]">
         <input
           type="text"
-          placeholder="Qidiruv"
-          className="w-full py-[14px] border-b"
+          placeholder="Qidiruv..."
+          className="w-full py-[14px] px-[16px] border-b"
         />
       </div>
 
@@ -63,7 +73,11 @@ const LightType = () => {
               </thead>
               <tbody>
                 {groupedByName[selectedName].map((item, index) => (
-                  <tr key={index} className="text-center">
+                  <tr
+                    key={index}
+                    className="text-center"
+                    onClick={() => handleItemClick(item)}
+                  >
                     <td className="sticky left-0 bg-white border px-4 py-2 z-10 text-left">
                       {item.name}
                     </td>
