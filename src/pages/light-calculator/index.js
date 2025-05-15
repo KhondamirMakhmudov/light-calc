@@ -359,6 +359,7 @@ export default function Index() {
     setSelectedHeight(get(roomInfo, "data[0].table_height"));
     setLk(initialLk);
   };
+
   return (
     <div className="container px-[20px] my-[50px]">
       <div className="flex items-center justify-end">
@@ -1227,24 +1228,79 @@ export default function Index() {
           <p className="text-sm w-1/2 text-[#C4C4C4]">{t("warning")}</p>
         </div>
 
-        {showCalculate && (
-          <div className="col-span-12 mt-4 p-4 bg-green-100 text-green-800 rounded-md">
-            <p className="text-lg font-semibold">
-              {(() => {
-                const umumiyLk = get(showAdviced, "data.umumiy_lk");
-                const luminousFluxMin = selectedItem?.luminous_flux_min;
+        {showCalculate &&
+          (() => {
+            const umumiyLk = get(showAdviced, "data.umumiy_lk");
+            const luminousFluxMin = selectedItem?.luminous_flux_min;
 
-                if (umumiyLk && luminousFluxMin) {
-                  const result = umumiyLk / luminousFluxMin;
-                  return Math.ceil(result); // Yaxlitlab yuqoriga qarab olish
-                }
+            const rawResult =
+              umumiyLk && luminousFluxMin
+                ? Math.ceil(umumiyLk / luminousFluxMin)
+                : 0;
 
-                return 0;
-              })()}{" "}
-              ta zarur lampalar soni
-            </p>
-          </div>
-        )}
+            // Har doim juft son bo'lishi uchun
+            const result = rawResult % 2 === 0 ? rawResult : rawResult + 1;
+
+            // Foydalanuvchi tomonidan kiritilgan container width/height
+            const containerWidth = +width; // masalan, 600
+            const containerHeight = +height; // masalan, 400
+            const gap = 20;
+
+            let lampWidth = 80;
+
+            // Ustunlar soni - containerga nechta lampa sig‘adi
+            let columns = Math.floor(containerWidth / (lampWidth + gap));
+
+            // Lampalarni sig‘dirish uchun ustunlar sonini kamaytirib boramiz agar sig‘masa
+            while (columns > 0) {
+              const rows = Math.ceil(result / columns);
+              const totalHeight = rows * (lampWidth + gap);
+              if (totalHeight <= containerHeight) break;
+              columns--;
+            }
+
+            const rows = Math.ceil(result / columns);
+
+            return (
+              <div className="col-span-12 mt-4 p-4 bg-green-100 text-green-800 rounded-md">
+                <p className="text-lg font-semibold">
+                  {result} ta zarur lampalar soni
+                </p>
+
+                <div className="relative flex-grow p-5">
+                  <div
+                    className="relative border rounded-[12px] bg-white"
+                    style={{
+                      width:
+                        width >= 100
+                          ? `${containerWidth}px`
+                          : `${containerWidth}00px`,
+                      height:
+                        height >= 100
+                          ? `${containerHeight}px`
+                          : `${containerHeight}00px`,
+                      display: "grid",
+                      gridTemplateColumns: `repeat(${columns}, 1fr)`,
+                      gap: `${gap}px`,
+                      padding: "20px",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {Array.from({ length: result }).map((_, index) => (
+                      <Image
+                        key={index}
+                        src="/images/lamps.png"
+                        alt="lamp"
+                        width={lampWidth}
+                        height={lampWidth}
+                        className="mx-auto my-auto"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
       </div>
 
       {isOpen && (
