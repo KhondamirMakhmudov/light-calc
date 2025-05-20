@@ -1278,21 +1278,20 @@ export default function Index() {
             const containerHeight = Number(String(length).padEnd(3, "0"));
 
             const gap = 20;
+            const lampWidth = 20;
 
-            let lampWidth = 20;
+            // Ideal ustun va qator sonini topamiz (yaqin kvadrat shaklga)
+            let columns = Math.floor(Math.sqrt(result));
+            let rows = Math.ceil(result / columns);
 
-            // Ustunlar soni - containerga nechta lampa sig‘adi
-            let columns = Math.floor(containerWidth / (lampWidth + gap));
-
-            // Lampalarni sig‘dirish uchun ustunlar sonini kamaytirib boramiz agar sig‘masa
-            while (columns > 0) {
-              const rows = Math.ceil(result / columns);
-              const totalHeight = rows * (lampWidth + gap);
-              if (totalHeight <= containerHeight) break;
+            // containerga sig‘masa ustun va qatorni moslaymiz
+            while (
+              columns * (lampWidth + gap) - gap > containerWidth ||
+              rows * (lampWidth + gap) - gap > containerHeight
+            ) {
               columns--;
+              rows = Math.ceil(result / columns);
             }
-
-            const rows = Math.ceil(result / columns);
 
             return (
               <div className="col-span-12">
@@ -1308,22 +1307,25 @@ export default function Index() {
                   />
                   <p>Excel</p>
                 </button>
-                <div className=" mt-4 p-4 bg-green-100 text-green-800 rounded-md">
+
+                <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-md">
                   <p className="text-lg font-semibold">
                     {result} ta zarur lampalar soni
                   </p>
 
                   <div className="relative flex-grow p-5">
                     <div
-                      className="relative border rounded-[12px] bg-white"
+                      className="relative border rounded-[12px] bg-white mx-auto"
                       style={{
                         width: `${containerWidth}px`,
                         height: `${containerHeight}px`,
-                        display: "grid",
-                        gridTemplateColumns: `repeat(${columns}, 1fr)`,
-                        gap: `${gap}px`,
                         padding: "20px",
                         overflow: "hidden",
+                        display: "grid",
+                        gridTemplateColumns: `repeat(${columns}, ${lampWidth}px)`,
+                        justifyContent: "center",
+                        alignContent: "center",
+                        gap: `${gap}px`,
                       }}
                     >
                       {Array.from({ length: result }).map((_, index) => (
@@ -1333,7 +1335,7 @@ export default function Index() {
                           alt="lamp"
                           width={lampWidth}
                           height={lampWidth}
-                          className="mx-auto my-auto"
+                          className="mx-auto"
                         />
                       ))}
                     </div>
