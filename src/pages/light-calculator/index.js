@@ -24,6 +24,8 @@ import { themesEn } from "@/constants/dummy-data";
 import LanguageDropdown from "@/components/language";
 import { useTranslation } from "react-i18next";
 import { useSelectedItemStore } from "@/store";
+import * as XLSX from "xlsx";
+
 const angles = ["К30", "Г60", "Д120", "Л140", "Ш160", "М180"];
 
 export default function Index() {
@@ -275,62 +277,6 @@ export default function Index() {
     }
   };
 
-  const { mutate: calculateTheLightBulb, isLoading: isLoadingLightBulb } =
-    usePostQuery({
-      listKeyId: KEYS.calculateLight,
-      hideSuccessToast: true,
-    });
-
-  const onSubmit = () => {
-    calculateTheLightBulb(
-      {
-        url: URLS.calculateLight,
-        attributes: {
-          room_length: length,
-          room_width: width,
-          room_height: height,
-          illumination: lk,
-          table_height: get(roomInfo, "data[0].table_height"),
-          lamp_height: distanceFromCeiling,
-        },
-      },
-      {
-        onSuccess: (response) => {
-          console.log(response);
-          router.push("/light-calculator/results");
-
-          let formFactorValues = {};
-          if (formFactor?.name === "Круглый") {
-            formFactorValues = { diameter };
-          } else if (formFactor?.name === "Четырёхугольник") {
-            formFactorValues = { length: rectLength, width: rectWidth };
-          } else if (formFactor?.name === "Линейный") {
-            formFactorValues = { length: distanceFromCeilingLength };
-          }
-          setResult({
-            inputValues: {
-              response,
-              formFactor: formFactor?.name,
-              diameter,
-              rectLength, // Selected form factor
-              rectWidth,
-              distanceFromCeilingLength,
-              selectedAngle,
-              distanceFromCeiling,
-              ripple,
-              colorRendering,
-              table_height: get(roomInfo, "data[0].table_height"),
-            },
-          });
-          // localStorage.setItem("calculationResponse", JSON.stringify(response));
-          toast.success("success", {
-            position: "top-right",
-          });
-        },
-      }
-    );
-  };
-
   const { mutate: showAdvicedCharacteristics } = usePostQuery({
     listKeyId: KEYS.calculateLightNew,
   });
@@ -358,6 +304,82 @@ export default function Index() {
   const handleDoAllParamsDefault = () => {
     setSelectedHeight(get(roomInfo, "data[0].table_height"));
     setLk(initialLk);
+  };
+
+  const downloadExcel = () => {
+    const rows = [
+      { Kategoriya: "Хона параметрлари - Кенглик", Qiymat: width || "—" },
+      {
+        Kategoriya: "Хона параметрлари- Шифт баландлиги",
+        Qiymat: height || "—",
+      },
+      { Kategoriya: "Хона параметрлари - Узунлик", Qiymat: length || "—" },
+      { Kategoriya: "Бино тоифаси", Qiymat: selectedRoom.name || "—" },
+      { Kategoriya: "Хона тури", Qiymat: selectedGroup.name || "—" },
+      { Kategoriya: "Ёритиш параметрлари", Qiymat: lk || "—" },
+      {
+        Kategoriya: "Ra (Ранг узатиш индекси), камида",
+        Qiymat: colorRendering || "—",
+      },
+      {
+        Kategoriya: "K (Пульсация) <= %, кўпи билан",
+        Qiymat: ripple || "—",
+      },
+
+      { Kategoriya: "Маҳсулот номи", Qiymat: selectedItem.name || "—" },
+      { Kategoriya: "Қуввати (W)", Qiymat: selectedItem.power || "—" },
+      {
+        Kategoriya: "Ранг ҳарорати",
+        Qiymat: selectedItem.color_temperature || "—",
+      },
+      {
+        Kategoriya: "Ёруғлик оқими",
+        Qiymat: selectedItem.luminous_flux || "—",
+      },
+      { Kategoriya: "Эффективлиги", Qiymat: selectedItem.efficiency || "—" },
+      { Kategoriya: "CRI", Qiymat: selectedItem.color_rendering_index || "—" },
+      { Kategoriya: "Нур бурчаги", Qiymat: selectedItem.beam_angle || "—" },
+
+      {
+        Kategoriya: "Люкс",
+        Qiymat: get(showAdviced, "data.Luks", "—"),
+      },
+
+      {
+        Kategoriya: "УГР",
+        Qiymat: get(showAdviced, "data.UGR"),
+      },
+      {
+        Kategoriya: "Умумий қувват",
+        Qiymat: get(showAdviced, "data.quvvat"),
+      },
+      {
+        Kategoriya: " Умумий люмин",
+        Qiymat: get(showAdviced, "data.umumiy_lk"),
+      },
+    ];
+
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Ma'lumotlar");
+
+    // Jadval sarlavhalarini qalin qilish
+    const range = XLSX.utils.decode_range(worksheet["!ref"]);
+    for (let C = range.s.c; C <= range.e.c; C++) {
+      const cellRef = XLSX.utils.encode_cell({ r: 0, c: C });
+      if (!worksheet[cellRef]) continue;
+      worksheet[cellRef].s = {
+        font: { bold: true },
+        alignment: { horizontal: "center", vertical: "center" },
+      };
+    }
+
+    worksheet["!cols"] = [
+      { wch: 30 }, // Kategoriya ustuni
+      { wch: 40 }, // Qiymat ustuni
+    ];
+
+    XLSX.writeFile(workbook, "light-calc-result.xlsx");
   };
 
   return (
@@ -1263,34 +1285,48 @@ export default function Index() {
             const rows = Math.ceil(result / columns);
 
             return (
-              <div className="col-span-12 mt-4 p-4 bg-green-100 text-green-800 rounded-md">
-                <p className="text-lg font-semibold">
-                  {result} ta zarur lampalar soni
-                </p>
+              <div className="col-span-12">
+                <button
+                  onClick={downloadExcel}
+                  className="bg-[#00733BFF] py-[10px] flex gap-2 text-white px-[30px] rounded-[10px]"
+                >
+                  <Image
+                    src={"/icons/excel.svg"}
+                    alt="excel"
+                    width={24}
+                    height={24}
+                  />
+                  <p>Excel</p>
+                </button>
+                <div className=" mt-4 p-4 bg-green-100 text-green-800 rounded-md">
+                  <p className="text-lg font-semibold">
+                    {result} ta zarur lampalar soni
+                  </p>
 
-                <div className="relative flex-grow p-5">
-                  <div
-                    className="relative border rounded-[12px] bg-white"
-                    style={{
-                      width: `${containerWidth}px`,
-                      height: `${containerHeight}px`,
-                      display: "grid",
-                      gridTemplateColumns: `repeat(${columns}, 1fr)`,
-                      gap: `${gap}px`,
-                      padding: "20px",
-                      overflow: "hidden",
-                    }}
-                  >
-                    {Array.from({ length: result }).map((_, index) => (
-                      <Image
-                        key={index}
-                        src="/images/lamps.png"
-                        alt="lamp"
-                        width={lampWidth}
-                        height={lampWidth}
-                        className="mx-auto my-auto"
-                      />
-                    ))}
+                  <div className="relative flex-grow p-5">
+                    <div
+                      className="relative border rounded-[12px] bg-white"
+                      style={{
+                        width: `${containerWidth}px`,
+                        height: `${containerHeight}px`,
+                        display: "grid",
+                        gridTemplateColumns: `repeat(${columns}, 1fr)`,
+                        gap: `${gap}px`,
+                        padding: "20px",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {Array.from({ length: result }).map((_, index) => (
+                        <Image
+                          key={index}
+                          src="/images/lamps.png"
+                          alt="lamp"
+                          width={lampWidth}
+                          height={lampWidth}
+                          className="mx-auto my-auto"
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
