@@ -42,6 +42,7 @@ export default function Index() {
   const [selectedMiniGroup, setSelectedMiniGroup] = useState(null);
   const [selectedMicroGroup, setSelectedMicroGroup] = useState(null);
   const [isOpenMicroGroup, setIsOpenMicroGroup] = useState(false);
+
   const [treeId, setTreeId] = useState(null);
   const [formFactor, setFormFactor] = useState(null);
   const [isOpenFormFactor, setIsOpenFormFactor] = useState(false);
@@ -65,6 +66,15 @@ export default function Index() {
   const [lk, setLk] = useState(0);
   const [defaultLk, setDefaultLk] = useState(0);
   const { setResult } = useContext(LightCalculatorContext);
+
+  const [selectedLamp, setSelectedLamp] = useState(null);
+  const [selectedName, setSelectedName] = useState(null);
+
+  const handleItemClick = (item) => {
+    setSelectedLamp(item);
+    setSelectedName(null);
+    setIsOpen(false);
+  };
 
   /////// SAFETY FACTOR /////////////////
 
@@ -1363,7 +1373,11 @@ export default function Index() {
               <h2 className="text-[28px] font-bold mb-[30px]">
                 Mahsulotni tanlang
               </h2>
-              <LightType />
+              <LightType
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                handleItemClick={handleItemClick}
+              />
             </div>
           </div>
         </div>

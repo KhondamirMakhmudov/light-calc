@@ -7,7 +7,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useSelectedItemStore } from "@/store";
 
-const LightType = () => {
+const LightType = ({ isOpen, setIsOpen }) => {
   const setSelectedItem = useSelectedItemStore(
     (state) => state.setSelectedItem
   );
@@ -15,6 +15,7 @@ const LightType = () => {
   const handleItemClick = (item) => {
     setSelectedItem(item);
     setSelectedName(null);
+    setIsOpen(false);
   };
 
   const [selectedName, setSelectedName] = useState(null);
