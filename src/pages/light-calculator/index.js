@@ -1242,8 +1242,9 @@ export default function Index() {
             const result = rawResult % 2 === 0 ? rawResult : rawResult + 1;
 
             // Foydalanuvchi tomonidan kiritilgan container width/height
-            const containerWidth = +width; // masalan, 600
-            const containerHeight = +length; // masalan, 400
+            const containerWidth = Number(String(width).padEnd(3, "0"));
+            const containerHeight = Number(String(length).padEnd(3, "0"));
+
             const gap = 20;
 
             let lampWidth = 20;
