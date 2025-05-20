@@ -1243,10 +1243,10 @@ export default function Index() {
 
             // Foydalanuvchi tomonidan kiritilgan container width/height
             const containerWidth = +width; // masalan, 600
-            const containerHeight = +height; // masalan, 400
+            const containerHeight = +length; // masalan, 400
             const gap = 20;
 
-            let lampWidth = 80;
+            let lampWidth = 20;
 
             // Ustunlar soni - containerga nechta lampa sig‘adi
             let columns = Math.floor(containerWidth / (lampWidth + gap));
@@ -1271,14 +1271,8 @@ export default function Index() {
                   <div
                     className="relative border rounded-[12px] bg-white"
                     style={{
-                      width:
-                        width >= 100
-                          ? `${containerWidth}px`
-                          : `${containerWidth}00px`,
-                      height:
-                        height >= 100
-                          ? `${containerHeight}px`
-                          : `${containerHeight}00px`,
+                      width: `${containerWidth}px`,
+                      height: `${containerHeight}px`,
                       display: "grid",
                       gridTemplateColumns: `repeat(${columns}, 1fr)`,
                       gap: `${gap}px`,
